@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T22:24:37.703Z",
+  "generatedAt": "2026-06-26T22:36:18.919Z",
   "tracks": [
     {
       "id": "dsa",
@@ -86,6 +86,19 @@
       ]
     },
     {
+      "id": "cs-core",
+      "title": "CS Core Subjects",
+      "order": -2,
+      "kind": "fundamentals",
+      "blurb": "The fresher gate — OOP fundamentals (the four pillars and the classic confusions) plus DBMS, OS, and Networking quick-reference Q&A, at the define-and-explain level interviews expect.",
+      "topicIds": [
+        "cs-core-oop",
+        "cs-core-dbms",
+        "cs-core-os",
+        "cs-core-cn"
+      ]
+    },
+    {
       "id": "practice",
       "title": "Coding Practice (applied)",
       "order": 7,
@@ -106,6 +119,19 @@
         "sql-data-modeling",
         "sql-schema-exercises",
         "sql-query-exercises"
+      ]
+    },
+    {
+      "id": "start-here",
+      "title": "Start Here & Foundations",
+      "order": -3,
+      "kind": "fundamentals",
+      "blurb": "Read first. The Indian interview landscape by company tier, the rounds explained, how to approach a coding problem, complexity from scratch, and how to use this app.",
+      "topicIds": [
+        "start-here-how-to-use",
+        "start-here-landscape",
+        "start-here-approach",
+        "start-here-complexity"
       ]
     },
     {
@@ -1041,6 +1067,77 @@
       ],
       "storyIds": []
     },
+    "cs-core-oop": {
+      "id": "cs-core-oop",
+      "trackId": "cs-core",
+      "order": 0,
+      "title": "OOP fundamentals",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [
+        "cs-core-oop-shapes-abstraction-polymorphism-5"
+      ],
+      "conceptIds": [
+        "cs-core-oop-the-four-pillars-of-oop-0",
+        "cs-core-oop-abstraction-vs-encapsulation-the-classic-confusion-1",
+        "cs-core-oop-overloading-vs-overriding-compile-time-vs-runtime-polymorphism-2",
+        "cs-core-oop-interface-vs-abstract-class-3",
+        "cs-core-oop-association-aggregation-composition-the-has-a-spectrum-4"
+      ],
+      "storyIds": []
+    },
+    "cs-core-dbms": {
+      "id": "cs-core-dbms",
+      "trackId": "cs-core",
+      "order": 0,
+      "title": "DBMS quick reference",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "cs-core-dbms-normalization-1nf-bcnf-0",
+        "cs-core-dbms-acid-properties-1",
+        "cs-core-dbms-keys-and-sql-joins-2",
+        "cs-core-dbms-indexing-clustered-vs-non-clustered-3"
+      ],
+      "storyIds": []
+    },
+    "cs-core-os": {
+      "id": "cs-core-os",
+      "trackId": "cs-core",
+      "order": 0,
+      "title": "Operating Systems quick reference",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "cs-core-os-process-vs-thread-0",
+        "cs-core-os-deadlock-and-the-four-coffman-conditions-1",
+        "cs-core-os-cpu-scheduling-basics-2",
+        "cs-core-os-virtual-memory-and-paging-3"
+      ],
+      "storyIds": []
+    },
+    "cs-core-cn": {
+      "id": "cs-core-cn",
+      "trackId": "cs-core",
+      "order": 0,
+      "title": "Networking quick reference",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "cs-core-cn-osi-and-tcp-ip-models-0",
+        "cs-core-cn-tcp-vs-udp-1",
+        "cs-core-cn-what-happens-when-you-type-a-url-and-press-enter-2",
+        "cs-core-cn-http-methods-and-status-codes-3"
+      ],
+      "storyIds": []
+    },
     "practice-concurrency": {
       "id": "practice-concurrency",
       "trackId": "practice",
@@ -1126,6 +1223,69 @@
         "sql-query-exercises-make-a-slow-query-sargable-prune-able-6"
       ],
       "conceptIds": [],
+      "storyIds": []
+    },
+    "start-here-how-to-use": {
+      "id": "start-here-how-to-use",
+      "trackId": "start-here",
+      "order": 0,
+      "title": "How to use this app",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "start-here-how-to-use-the-path-through-this-material-0",
+        "start-here-how-to-use-a-realistic-timeline-1"
+      ],
+      "storyIds": []
+    },
+    "start-here-landscape": {
+      "id": "start-here-landscape",
+      "trackId": "start-here",
+      "order": 0,
+      "title": "The interview landscape (India)",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "start-here-landscape-service-vs-product-vs-faang-three-different-games-0",
+        "start-here-landscape-the-rounds-explained-1"
+      ],
+      "storyIds": []
+    },
+    "start-here-approach": {
+      "id": "start-here-approach",
+      "trackId": "start-here",
+      "order": 0,
+      "title": "How to approach a coding problem",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "start-here-approach-the-brute-force-optimize-loop-0",
+        "start-here-approach-communicate-while-you-solve-1",
+        "start-here-approach-which-language-should-you-use-2"
+      ],
+      "storyIds": []
+    },
+    "start-here-complexity": {
+      "id": "start-here-complexity",
+      "trackId": "start-here",
+      "order": 0,
+      "title": "Big-O from scratch",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [
+        "start-here-complexity-state-the-complexity-2"
+      ],
+      "conceptIds": [
+        "start-here-complexity-what-big-o-actually-means-0",
+        "start-here-complexity-how-to-find-the-big-o-of-your-code-1"
+      ],
       "storyIds": []
     },
     "tech-rabbitmq": {
@@ -3256,6 +3416,19 @@
       "solution": "```csharp\n// Maintain four shrinking boundaries; re-check before the bottom and left passes to avoid\n// double-visiting on non-square grids.\npublic IList<int> SpiralOrder(int[][] matrix) {\n    var res = new List<int>();\n    int top = 0, bottom = matrix.Length - 1, left = 0, right = matrix[0].Length - 1;\n    while (top <= bottom && left <= right) {\n        for (int c = left; c <= right; c++) res.Add(matrix[top][c]);\n        top++;\n        for (int r = top; r <= bottom; r++) res.Add(matrix[r][right]);\n        right--;\n        if (top <= bottom) { for (int c = right; c >= left; c--) res.Add(matrix[bottom][c]); bottom--; }\n        if (left <= right) { for (int r = bottom; r >= top; r--) res.Add(matrix[r][left]); left++; }\n    }\n    return res;\n}\n```\n**Complexity:** O(m·n).",
       "needsReview": true
     },
+    "cs-core-oop-shapes-abstraction-polymorphism-5": {
+      "id": "cs-core-oop-shapes-abstraction-polymorphism-5",
+      "trackId": "cs-core",
+      "topicId": "cs-core-oop",
+      "title": "Shapes — abstraction + polymorphism",
+      "difficulty": "Easy",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Design a small class hierarchy so that code can compute the area of any shape uniformly (`Circle`, `Rectangle`), and adding a new shape requires no changes to existing code. Write the C# and name the OOP principles used.",
+      "solution": "```csharp\npublic abstract class Shape {           // abstraction: the essential operation only\n    public abstract double Area();      // each shape MUST define how\n}\npublic class Circle : Shape {\n    public double R { get; init; }\n    public override double Area() => Math.PI * R * R;   // overriding (runtime polymorphism)\n}\npublic class Rectangle : Shape {\n    public double W { get; init; }\n    public double H { get; init; }\n    public override double Area() => W * H;\n}\n\n// Caller is polymorphic — works for any Shape, including ones added later:\ndouble TotalArea(IEnumerable<Shape> shapes) => shapes.Sum(s => s.Area());\n```\n**Principles:** **Abstraction** (`Shape` exposes only `Area()`), **Inheritance** (`Circle`/`Rectangle` are-a `Shape`), **Polymorphism** (the caller calls `Area()` without knowing the concrete type; the right override runs). This also satisfies **Open/Closed** — a new `Triangle : Shape` plugs in with zero edits to `TotalArea`. Contrast with a `switch` on a shape-type enum, which you'd have to edit for every new shape."
+    },
     "practice-concurrency-thread-safe-counter-and-why-races-0": {
       "id": "practice-concurrency-thread-safe-counter-and-why-races-0",
       "trackId": "practice",
@@ -3489,6 +3662,19 @@
       "needsReview": true,
       "prompt": "On a 50M-row, monthly-partitioned table this is slow: `SELECT * FROM events WHERE date_trunc('day', created_at) = '2026-06-27';`. Explain why and fix it.",
       "solution": "```sql\n-- Why: wrapping created_at in date_trunc() makes the predicate NON-SARGABLE — the planner\n-- can't use a B-tree index on created_at and can't prune partitions, so it seq-scans all\n-- of them. Rewrite as a half-open RANGE on the raw column:\nSELECT *\nFROM events\nWHERE created_at >= '2026-06-27'\n  AND created_at <  '2026-06-28';\n\n-- Now an index on created_at seeks the range, and partition pruning eliminates every\n-- month except the relevant one — the 45s-to-sub-second pattern.\n-- (An expression index CREATE INDEX ON events ((date_trunc('day', created_at))) also works,\n--  but the range rewrite is preferred because it ALSO enables partition pruning.)\n```\n**Note:** the rule — never apply a function/cast to an indexed (or partition-key) column in the `WHERE` clause if you want the index/pruning to fire. Transform the *constant* side instead."
+    },
+    "start-here-complexity-state-the-complexity-2": {
+      "id": "start-here-complexity-state-the-complexity-2",
+      "trackId": "start-here",
+      "topicId": "start-here-complexity",
+      "title": "State the complexity",
+      "difficulty": "Easy",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "For each snippet, state the time complexity (assume `n = arr.Length`). 1) a single `for` loop summing `arr`. 2) two separate (not nested) loops over `arr`. 3) a nested loop comparing every pair `arr[i], arr[j]`. 4) a `while` loop that does `i *= 2` from 1 until `i >= n`. 5) `Array.Sort(arr)` then one pass.",
+      "solution": "```text\n1) O(n)        — one pass over n elements.\n2) O(n)        — n + n = 2n, drop the constant.\n3) O(n²)       — for each of n elements, an inner loop of n (≈ n*n/2 pairs).\n4) O(log n)    — i doubles each step: 1,2,4,… reaches n in log2(n) steps.\n5) O(n log n)  — the sort dominates; the extra O(n) pass is lower-order and dropped.\n```\n**Note:** the rule of thumb — **nested loops multiply, sequential loops add, halving/doubling is logarithmic, and the largest term wins.** Sorting is the most common hidden O(n log n); reach for it when \"if only this were sorted\" would simplify the problem."
     }
   },
   "concepts": {
@@ -4793,6 +4979,295 @@
       "followups": [],
       "source": "original"
     },
+    "cs-core-oop-the-four-pillars-of-oop-0": {
+      "id": "cs-core-oop-the-four-pillars-of-oop-0",
+      "trackId": "cs-core",
+      "topicId": "cs-core-oop",
+      "section": "",
+      "title": "The four pillars of OOP",
+      "body": "**Encapsulation** — bundle data and the methods that operate on it into one unit (a class), and hide the internal state behind a controlled interface (private fields, public methods) so it can't be put into an invalid state. **Abstraction** — expose *what* an object does and hide *how* (model only the relevant details; e.g. you call `car.Drive()` without knowing the engine internals). **Inheritance** — a class derives from another, reusing and extending its behavior (\"is-a\"). **Polymorphism** — one interface, many implementations: the same call (`shape.Area()`) behaves correctly for each concrete type.",
+      "probes": [
+        {
+          "question": "What are the four pillars of OOP?",
+          "answer": "Encapsulation (bundle data + behavior, hide internal state behind an interface), Abstraction (expose what, hide how), Inheritance (reuse/extend via an \"is-a\" relationship), and Polymorphism (one interface, many forms — the right implementation runs based on the actual object type). A strong answer gives a one-line example of each and notes that the *judgment* skill on top is knowing when to favor **composition over inheritance** — deep inheritance hierarchies are fragile."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-oop-abstraction-vs-encapsulation-the-classic-confusion-1": {
+      "id": "cs-core-oop-abstraction-vs-encapsulation-the-classic-confusion-1",
+      "trackId": "cs-core",
+      "topicId": "cs-core-oop",
+      "section": "",
+      "title": "Abstraction vs Encapsulation (the classic confusion)",
+      "body": "They're related but distinct. **Abstraction** is about **design** — deciding *what* to expose and hiding complexity behind a simple interface (an `abstract class` or `interface` showing only essential operations). **Encapsulation** is about **implementation** — *how* you protect an object's state, by making fields private and exposing controlled accessors so invariants hold. Put differently: abstraction hides **complexity**; encapsulation hides **data**. Abstraction is solved at the interface/design level; encapsulation at the access-modifier level.",
+      "probes": [
+        {
+          "question": "What's the difference between abstraction and encapsulation?",
+          "answer": "Abstraction hides *complexity* — it's a design-level decision about which essential operations to expose and which details to omit (interfaces, abstract classes). Encapsulation hides *data* — it's an implementation-level mechanism that wraps state and behavior together and restricts direct access (private fields + public methods) to keep the object valid. They often appear together: an interface gives abstraction, private fields behind it give encapsulation. The trap is treating them as synonyms; name the \"complexity vs data\" / \"design vs implementation\" distinction."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-oop-overloading-vs-overriding-compile-time-vs-runtime-polymorphism-2": {
+      "id": "cs-core-oop-overloading-vs-overriding-compile-time-vs-runtime-polymorphism-2",
+      "trackId": "cs-core",
+      "topicId": "cs-core-oop",
+      "section": "",
+      "title": "Overloading vs overriding (compile-time vs runtime polymorphism)",
+      "body": "**Overloading** = same method name, **different parameters**, in the same class — resolved by the compiler at **compile time** based on the argument types (a.k.a. *static* / compile-time polymorphism). **Overriding** = a subclass provides a **new implementation** of a `virtual` method from its base with the **same signature** — resolved at **runtime** based on the actual object type (a.k.a. *dynamic* / runtime polymorphism). Overloading is convenience; overriding is the mechanism behind real polymorphism.",
+      "probes": [
+        {
+          "question": "Overloading vs overriding — explain with the polymorphism type.",
+          "answer": "Overloading is **compile-time (static) polymorphism**: multiple methods share a name but differ in parameter list, and the compiler picks the match from the call's arguments — no inheritance needed. Overriding is **runtime (dynamic) polymorphism**: a subclass redefines a `virtual`/`abstract` base method with the identical signature, and the runtime dispatches to the subclass version based on the object's actual type (via the vtable). So overloading is resolved by *signature at compile time*; overriding by *object type at run time*."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-oop-interface-vs-abstract-class-3": {
+      "id": "cs-core-oop-interface-vs-abstract-class-3",
+      "trackId": "cs-core",
+      "topicId": "cs-core-oop",
+      "section": "",
+      "title": "Interface vs abstract class",
+      "body": "An **interface** is a pure contract — method/property signatures with no state (and, in modern C#/Java, optional default methods); a class can implement **many** interfaces. An **abstract class** can have **state (fields), constructors, and partial implementation** (some concrete, some abstract methods), but a class can extend only **one**. Rule of thumb: use an **interface** for a capability that unrelated types can share (\"can be compared\", \"can be disposed\"); use an **abstract class** when related types share common state/behavior and you want to provide a partial base implementation.",
+      "probes": [
+        {
+          "question": "When would you use an interface vs an abstract class?",
+          "answer": "Use an **interface** when you're defining a *capability* that otherwise-unrelated classes can implement, when you need **multiple inheritance** of type, or when you only need a contract with no shared code. Use an **abstract class** when several **related** types share common **state or implementation** and you want to provide that base plus a few `abstract` holes for subclasses to fill, or when you need constructors/fields/access modifiers. Short version: interface = \"what it can do\" across unrelated types (many allowed); abstract class = \"what it is\" with shared code (one allowed)."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-oop-association-aggregation-composition-the-has-a-spectrum-4": {
+      "id": "cs-core-oop-association-aggregation-composition-the-has-a-spectrum-4",
+      "trackId": "cs-core",
+      "topicId": "cs-core-oop",
+      "section": "",
+      "title": "Association, aggregation, composition (the \"has-a\" spectrum)",
+      "body": "All three are \"has-a\" relationships of increasing strength. **Association** — objects simply use/know each other, independent lifetimes (a `Teacher` and a `Student`). **Aggregation** — a whole \"has\" parts, but parts can **outlive** the whole and be shared (a `Team` has `Player`s; players exist without the team). **Composition** — the strongest: parts are **owned** by the whole and die with it (a `House` has `Room`s; destroy the house and the rooms cease to exist). The distinction is **ownership and lifetime**, and it guides whether you share references or own/dispose the parts.",
+      "probes": [
+        {
+          "question": "Difference between aggregation and composition?",
+          "answer": "Both are \"has-a\", but they differ in **ownership and lifetime**. **Aggregation** is a weak ownership where the part can exist independently and may be shared — a `Department` aggregates `Professor`s, but a professor survives the department's deletion. **Composition** is strong ownership where the part's lifetime is bound to the whole — a `House` is composed of `Room`s; destroy the house and its rooms go with it, and they aren't shared elsewhere. In code, composition usually means the whole *creates and owns* (and disposes) the parts, while aggregation receives references to parts created elsewhere."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-dbms-normalization-1nf-bcnf-0": {
+      "id": "cs-core-dbms-normalization-1nf-bcnf-0",
+      "trackId": "cs-core",
+      "topicId": "cs-core-dbms",
+      "section": "",
+      "title": "Normalization (1NF → BCNF)",
+      "body": "Normalization organizes columns/tables to reduce **redundancy** and **update anomalies**. **1NF**: every column atomic, no repeating groups. **2NF**: 1NF + no **partial** dependency (no non-key column depends on only *part* of a composite key). **3NF**: 2NF + no **transitive** dependency (non-key columns depend on the key, not on other non-key columns). **BCNF**: a stricter 3NF where every determinant is a candidate key. You normalize for integrity; you **denormalize** deliberately for read performance once measured. (Hands-on practice in the **SQL & Data Modeling** track.)",
+      "probes": [
+        {
+          "question": "Explain 1NF, 2NF, 3NF with the anomaly each removes.",
+          "answer": "**1NF** removes repeating groups/multi-valued columns — every cell holds one atomic value. **2NF** removes **partial dependencies** — relevant only with a composite key; every non-key attribute must depend on the *whole* key (else split it out), eliminating redundancy tied to part of the key. **3NF** removes **transitive dependencies** — a non-key attribute must not depend on another non-key attribute (e.g. `zip → city` stored on an orders table; move it out), eliminating update anomalies where changing one fact forces many row updates. Each level builds on the last."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-dbms-acid-properties-1": {
+      "id": "cs-core-dbms-acid-properties-1",
+      "trackId": "cs-core",
+      "topicId": "cs-core-dbms",
+      "section": "",
+      "title": "ACID properties",
+      "body": "The guarantees a transaction provides. **Atomicity** — all-or-nothing; either every operation commits or none do (rollback on failure). **Consistency** — a transaction moves the DB from one valid state to another, preserving all constraints/invariants. **Isolation** — concurrent transactions don't corrupt each other; the result is as if they ran in some serial order (tunable via isolation levels). **Durability** — once committed, data survives crashes (via the write-ahead log). The WAL underpins both atomicity (undo) and durability (redo).",
+      "probes": [
+        {
+          "question": "What does ACID stand for, and which property handles concurrency?",
+          "answer": "Atomicity (all-or-nothing), Consistency (constraints/invariants always hold), Isolation (concurrent transactions don't interfere), Durability (committed data survives crashes). **Isolation** is the concurrency one — and it's a spectrum: Read Uncommitted → Read Committed → Repeatable Read → Serializable, each preventing more anomalies (dirty read, non-repeatable read, phantom, write skew). Higher isolation = more correctness but more locking/coordination cost. (Depth in CS Fundamentals → Databases.)"
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-dbms-keys-and-sql-joins-2": {
+      "id": "cs-core-dbms-keys-and-sql-joins-2",
+      "trackId": "cs-core",
+      "topicId": "cs-core-dbms",
+      "section": "",
+      "title": "Keys and SQL joins",
+      "body": "**Keys:** a **super key** uniquely identifies a row; a **candidate key** is a minimal super key; the **primary key** is the chosen candidate (unique + not null); a **foreign key** references another table's primary key (enforces referential integrity); a **composite key** spans multiple columns. **Joins:** **INNER** (rows matching in both), **LEFT/RIGHT OUTER** (all rows of one side + matches, NULLs where none), **FULL OUTER** (all rows of both), **CROSS** (Cartesian product), **SELF** (a table joined to itself, e.g. employee→manager).",
+      "probes": [
+        {
+          "question": "Difference between an INNER JOIN and a LEFT JOIN?",
+          "answer": "An **INNER JOIN** returns only rows that have a match on **both** sides — unmatched rows from either table are dropped. A **LEFT (OUTER) JOIN** returns **all** rows from the left table, plus matching right-table columns where they exist and **NULLs** where they don't — so it preserves left rows that have no match. The classic use of LEFT JOIN is the **anti-join**: `LEFT JOIN ... WHERE right.id IS NULL` to find left rows with *no* related right rows (e.g. customers with no orders)."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-dbms-indexing-clustered-vs-non-clustered-3": {
+      "id": "cs-core-dbms-indexing-clustered-vs-non-clustered-3",
+      "trackId": "cs-core",
+      "topicId": "cs-core-dbms",
+      "section": "",
+      "title": "Indexing — clustered vs non-clustered",
+      "body": "An **index** is a sorted structure (usually a **B-tree**) that lets the DB find rows without scanning the whole table — turning O(n) lookups into O(log n). A **clustered index** *is* the table's physical row order (one per table; the primary key by default in many DBs), so range scans on it are very fast. A **non-clustered index** is a separate structure holding the key + a pointer back to the row (you can have many). Indexes speed reads but **slow writes** and cost storage — index the columns you filter/join/sort on, not everything.",
+      "probes": [
+        {
+          "question": "When would you NOT add an index?",
+          "answer": "On **write-heavy** tables where index maintenance costs more than the read benefit; on **low-cardinality** columns (a boolean/gender column — the index doesn't narrow enough, the planner scans anyway); on **small** tables (a full scan is cheaper than index overhead); on columns **rarely used** in WHERE/JOIN/ORDER BY; and when the column is already covered by an existing composite index's leftmost prefix. Every index also slows INSERT/UPDATE/DELETE and consumes space — they're added to serve specific, measured query patterns, not by default."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-os-process-vs-thread-0": {
+      "id": "cs-core-os-process-vs-thread-0",
+      "trackId": "cs-core",
+      "topicId": "cs-core-os",
+      "section": "",
+      "title": "Process vs thread",
+      "body": "A **process** is a running program with its **own** address space (memory), file handles, and resources — isolated from other processes (a crash in one doesn't corrupt another); they communicate via heavier **IPC** (pipes, sockets, shared memory). A **thread** is a unit of execution **within** a process; threads of the same process **share** the address space (heap, globals) but each has its **own stack and registers**. Threads are cheaper to create and communicate (shared memory) but must **synchronize** to avoid races. (Depth in CS Fundamentals → OS.)",
+      "probes": [
+        {
+          "question": "What's shared between threads of the same process, and what isn't?",
+          "answer": "**Shared:** the address space — heap, global/static variables, code, and open file descriptors. **Not shared (per-thread):** the stack, registers, and program counter. That's why threads can communicate just by reading/writing shared memory (cheap) but must use locks/atomics to avoid **race conditions** on that shared state, whereas processes are isolated and need explicit IPC. It's also why a thread crash can take down the whole process (shared memory) while a process crash is contained."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-os-deadlock-and-the-four-coffman-conditions-1": {
+      "id": "cs-core-os-deadlock-and-the-four-coffman-conditions-1",
+      "trackId": "cs-core",
+      "topicId": "cs-core-os",
+      "section": "",
+      "title": "Deadlock and the four Coffman conditions",
+      "body": "A **deadlock** is a cycle of threads each holding a resource and waiting for one another, so none proceeds. It requires **all four** Coffman conditions simultaneously: **mutual exclusion** (a resource is non-shareable), **hold and wait** (a thread holds one resource while waiting for another), **no preemption** (resources can't be forcibly taken), and **circular wait** (a cycle of waiting threads). Break **any one** to prevent it — the most practical being a **global lock ordering** (always acquire locks in the same order) to kill circular wait.",
+      "probes": [
+        {
+          "question": "How do you prevent deadlock?",
+          "answer": "Break one of the four Coffman conditions. The most practical is eliminating **circular wait** by imposing a **global lock-acquisition order** — every thread takes locks in the same defined sequence, so no cycle can form. Others: avoid **hold-and-wait** (acquire all needed locks at once, or none), allow **preemption** via try-lock with timeout and back off, or reduce **mutual exclusion** with lock-free/immutable structures. In practice: keep critical sections small, order your locks, and use timeouts."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-os-cpu-scheduling-basics-2": {
+      "id": "cs-core-os-cpu-scheduling-basics-2",
+      "trackId": "cs-core",
+      "topicId": "cs-core-os",
+      "section": "",
+      "title": "CPU scheduling basics",
+      "body": "The scheduler picks which ready process/thread runs next. **FCFS** (first-come-first-served) — simple, but a long job blocks short ones (convoy effect). **SJF** (shortest job first) — optimal average wait, but needs to know burst times and can starve long jobs. **Round Robin** — each gets a fixed time slice; fair and responsive, good for time-sharing; slice size trades context-switch overhead vs responsiveness. **Priority** — highest priority first; risks **starvation**, fixed by **aging** (slowly raising a waiting job's priority). **Preemptive** scheduling can interrupt a running job; non-preemptive runs it to completion/block.",
+      "probes": [
+        {
+          "question": "Round Robin vs FCFS — when does RR help?",
+          "answer": "**FCFS** runs jobs to completion in arrival order, so a single long job makes everyone behind it wait (poor responsiveness, the convoy effect). **Round Robin** gives each job a fixed **time quantum** then preempts to the next, cycling around — so short interactive jobs get served quickly even when long jobs are present, which is exactly what a time-sharing/interactive system needs. The cost is **context-switch overhead**: too small a quantum spends all the time switching; too large and RR degrades toward FCFS."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-os-virtual-memory-and-paging-3": {
+      "id": "cs-core-os-virtual-memory-and-paging-3",
+      "trackId": "cs-core",
+      "topicId": "cs-core-os",
+      "section": "",
+      "title": "Virtual memory and paging",
+      "body": "**Virtual memory** gives each process a private, contiguous **virtual address space**, larger than physical RAM; the **MMU** translates virtual→physical addresses via **page tables** in fixed-size **pages** (~4 KB). Unused pages live on disk (swap) and are loaded on demand. A **page fault** occurs when an accessed page isn't in RAM — the OS loads it from disk (slow) and updates the page table. The **TLB** caches recent translations to avoid walking the page table each access. This gives isolation and the illusion of more memory than physically exists.",
+      "probes": [
+        {
+          "question": "What is a page fault?",
+          "answer": "When a process accesses a virtual page that isn't currently in physical memory, the MMU raises a **page fault** — a trap to the OS. The handler checks the access is legal, finds a free physical frame (evicting another page via the replacement policy if memory is full, writing it to disk first if dirty), reads the needed page from disk/swap into the frame, updates the page table and TLB, and restarts the instruction. A **minor** fault is satisfied from RAM (cheap); a **major** fault needs a disk read (slow). Excessive major faults = **thrashing**. (Depth in CS Fundamentals → OS.)"
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-cn-osi-and-tcp-ip-models-0": {
+      "id": "cs-core-cn-osi-and-tcp-ip-models-0",
+      "trackId": "cs-core",
+      "topicId": "cs-core-cn",
+      "section": "",
+      "title": "OSI and TCP/IP models",
+      "body": "The **OSI** model has 7 layers — Physical, Data Link, Network, Transport, Session, Presentation, Application — a teaching reference. The practical **TCP/IP** model collapses these into 4–5: **Link** (Ethernet/Wi-Fi), **Internet/Network** (IP — routes packets between hosts), **Transport** (TCP/UDP — delivers to the right process via ports), **Application** (HTTP, DNS, etc.). What matters in interviews is understanding **L3 (IP, addressing/routing)**, **L4 (TCP/UDP, ports, reliability)**, and **L7 (application protocols)** — and that load balancers operate at L4 (fast, opaque) or L7 (content-aware).",
+      "probes": [
+        {
+          "question": "Which OSI layer does IP operate at, and which does TCP?",
+          "answer": "**IP** is the **Network layer (L3)** — it addresses and routes packets between hosts across networks. **TCP** (and UDP) is the **Transport layer (L4)** — it delivers data to the correct *process* on a host via port numbers, and TCP adds reliability/ordering on top of IP's best-effort delivery. A handy mental model: L3 gets a packet to the right *machine*; L4 gets it to the right *application*; L7 is the application protocol (HTTP) itself."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-cn-tcp-vs-udp-1": {
+      "id": "cs-core-cn-tcp-vs-udp-1",
+      "trackId": "cs-core",
+      "topicId": "cs-core-cn",
+      "section": "",
+      "title": "TCP vs UDP",
+      "body": "**TCP** is connection-oriented and reliable: a **3-way handshake** (SYN → SYN-ACK → ACK) sets up the connection; data arrives **in order, without loss or duplication** via sequence numbers, acknowledgements, and retransmission; it has flow control and congestion control. **UDP** is connectionless and unreliable: no handshake, no ordering, no retransmission — just fire datagrams, with lower latency and overhead. Use TCP when correctness matters (web, APIs, file transfer); use UDP when speed beats reliability (live video/voice, gaming, DNS).",
+      "probes": [
+        {
+          "question": "When would you choose UDP over TCP?",
+          "answer": "When low latency matters more than guaranteed delivery and the application can tolerate (or handle) loss: **live video/voice** (a dropped frame is better than a stall while TCP retransmits), **online gaming** (stale position data is useless — send the next update instead), **DNS** (a tiny single-round-trip request, retried at the app level if needed), and broadcast/multicast. TCP's handshake, ordering, and retransmission add latency and overhead that these workloads don't want. (HTTP/3 even rebuilds reliability on top of UDP to escape TCP's head-of-line blocking.)"
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-cn-what-happens-when-you-type-a-url-and-press-enter-2": {
+      "id": "cs-core-cn-what-happens-when-you-type-a-url-and-press-enter-2",
+      "trackId": "cs-core",
+      "topicId": "cs-core-cn",
+      "section": "",
+      "title": "What happens when you type a URL and press Enter",
+      "body": "(1) **DNS resolution** — browser/OS cache, then a resolver queries root → TLD → authoritative nameserver to get the IP (cached per TTL). (2) **TCP connection** — a 3-way handshake to that IP on port 443. (3) **TLS handshake** — for HTTPS, negotiate a cipher, validate the server's certificate up a CA chain, and agree a symmetric session key. (4) **HTTP request** — the browser sends `GET /`, possibly via a CDN/load balancer. (5) **Server processing** — app logic, DB/cache. (6) **Response & render** — parse HTML, build the DOM, fetch CSS/JS/images, run JS, paint. (Full depth in CS Fundamentals → Networking.)",
+      "probes": [
+        {
+          "question": "Walk through what happens after you hit Enter on a URL.",
+          "answer": "DNS resolves the hostname to an IP (checking caches, else recursing root → TLD → authoritative). The browser opens a **TCP** connection (3-way handshake) to that IP on port 443, then runs the **TLS** handshake (cert validation + symmetric key agreement). It sends the **HTTP** request, which may traverse a CDN/edge and a load balancer to an app server; the server runs its logic (DB/cache calls) and returns HTML. The browser **parses** it, builds the DOM, fetches subresources (often over multiplexed HTTP/2 from a CDN), executes JS, and **paints**. A strong answer names the DNS cache layers, the TCP+TLS handshakes, and the render pipeline — and can go deeper on any step."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "cs-core-cn-http-methods-and-status-codes-3": {
+      "id": "cs-core-cn-http-methods-and-status-codes-3",
+      "trackId": "cs-core",
+      "topicId": "cs-core-cn",
+      "section": "",
+      "title": "HTTP methods and status codes",
+      "body": "**Methods:** GET (read, safe + idempotent), POST (create, **not** idempotent — why retried payments need an idempotency key), PUT (replace, idempotent), PATCH (partial update), DELETE (idempotent). **Status codes that signal understanding:** 200 OK, 201 Created, 204 No Content, 301/302 (redirect), 304 Not Modified (caching), 400 Bad Request, 401 Unauthorized (not authenticated) vs 403 Forbidden (authenticated, not allowed), 404 Not Found, 409 Conflict, 429 Too Many Requests (rate limited), 500 Internal Server Error, 502/503/504 (gateway/unavailable/timeout).",
+      "probes": [
+        {
+          "question": "Difference between 401 and 403? And which methods are idempotent?",
+          "answer": "**401 Unauthorized** means \"I don't know who you are\" — authentication is missing or invalid (log in). **403 Forbidden** means \"I know who you are, but you're not allowed\" — authenticated but lacking permission. **Idempotent** methods produce the same result however many times you repeat them: **GET, PUT, DELETE, HEAD** (and safe ones). **POST is not idempotent** — repeating it can create duplicates, which is why retrying a failed payment POST requires an **idempotency key** to dedupe."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
     "design-4-fully-worked-designs-uber-ride-matching-geospatial-0": {
       "id": "design-4-fully-worked-designs-uber-ride-matching-geospatial-0",
       "trackId": "design",
@@ -4940,6 +5415,159 @@
         {
           "question": "How do you decide which columns to index?",
           "answer": "Start from the actual queries: index columns in `WHERE`/`JOIN`/`ORDER BY` that are **selective** (narrow the result a lot). Use composite indexes ordered by equality-then-range to match query shapes, and consider covering (`INCLUDE`) columns for hot read-only queries. Skip low-cardinality columns (a boolean index rarely helps — the planner seq-scans anyway), small tables, and write-heavy tables where the maintenance cost outweighs the read benefit. Always verify with `EXPLAIN ANALYZE`, don't guess."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "start-here-how-to-use-the-path-through-this-material-0": {
+      "id": "start-here-how-to-use-the-path-through-this-material-0",
+      "trackId": "start-here",
+      "topicId": "start-here-how-to-use",
+      "section": "",
+      "title": "The path through this material",
+      "body": "If you're early-career, go in this order: **Aptitude → CS Core Subjects → Start Here (this) → DSA → SQL** — those clear service-company and campus loops. Then add **System Design, LLD, Behavioral, Tech Deep-Dives, Coding Practice** for product companies and senior roles. If you're experienced, start at DSA and the depth tracks; skim the basics. The honest metric is not \"did I read it\" — it's **can I solve it cold and explain it out loud**. Use the status buttons (Read → Solved → **Cold**) and the \"Can I explain this out loud?\" toggles ruthlessly; only \"Cold\" counts.",
+      "probes": [
+        {
+          "question": "What's the single most important habit while using this?",
+          "answer": "Reps, tracked honestly. Reading an explanation builds *recognition*; solving from a blank editor builds *recall* — and interviews test recall under pressure. So for every DSA problem, bring it to **Cold** (re-solved with no references, in interview time) and let the spaced-repetition \"Due today\" queue resurface it. For every concept/probe, force yourself to say the answer aloud before revealing it. Twenty problems brought to Cold beat eighty merely read."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "start-here-how-to-use-a-realistic-timeline-1": {
+      "id": "start-here-how-to-use-a-realistic-timeline-1",
+      "trackId": "start-here",
+      "topicId": "start-here-how-to-use",
+      "section": "",
+      "title": "A realistic timeline",
+      "body": "There's no fixed number, but a workable shape: **4–8 weeks** to become \"switch-ready\" for service/startup/GCC roles if you're consistent (~2 hrs/weekday, more on weekends), and **4–6 months** to be FAANG/product-ready. The bottleneck is never the plan — it's showing up daily. Track a weekly count of problems solved and concepts brought to Cold; if that number is moving, you're winning, regardless of how much syllabus remains.",
+      "probes": [
+        {
+          "question": "How much time on each area?",
+          "answer": "It depends on the target. **Freshers / service companies:** ~50% DSA + coding basics, ~25% CS-core subjects, ~15% aptitude, ~10% projects/HR. **Mid-level / product companies:** ~50% DSA, ~30% system design + LLD, ~20% behavioral. **FAANG:** DSA and system design dominate, behavioral tightened to the company's bar. Front-load DSA always — it's the slowest skill to build (it's muscle, not knowledge) and it gates everything."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "start-here-landscape-service-vs-product-vs-faang-three-different-games-0": {
+      "id": "start-here-landscape-service-vs-product-vs-faang-three-different-games-0",
+      "trackId": "start-here",
+      "topicId": "start-here-landscape",
+      "section": "",
+      "title": "Service vs product vs FAANG — three different games",
+      "body": "The Indian market is tiered, and the interview is a *different game* per tier. **Service companies** (TCS, Infosys, Wipro, Accenture, Capgemini) hire tens of thousands via standardized **online tests** (aptitude + basic coding) followed by a technical interview on **CS-core subjects** and one language, then HR. **Product companies / unicorns** (Flipkart, PhonePe, Swiggy, CRED, Razorpay) run **FAANG-style** loops: an online coding assessment, multiple DSA rounds, a **machine-coding** round, system design, and a hiring-manager round. **FAANG/MAANG** is the same shape at the highest difficulty. Know your target — preparing for the wrong game wastes months.",
+      "probes": [
+        {
+          "question": "How does prep differ for a service company vs a product company?",
+          "answer": "For a **service company**, the gates are **aptitude** and **CS-core fundamentals** (OOP, DBMS, OS, CN) plus basic coding — depth of DSA matters less than breadth of fundamentals and clearing the aptitude cutoff. For a **product company**, aptitude barely matters; it's **DSA depth** (mediums fluently, some hards), a **machine-coding** round (write a working app in 90–120 min), and **system design**. Same candidate, very different study mix — that's why \"what's my target tier\" is the first question to answer."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "start-here-landscape-the-rounds-explained-1": {
+      "id": "start-here-landscape-the-rounds-explained-1",
+      "trackId": "start-here",
+      "topicId": "start-here-landscape",
+      "section": "",
+      "title": "The rounds, explained",
+      "body": "- **Online Assessment (OA):** timed, auto-graded. Aptitude + 1–3 coding problems (service), or 2–4 DSA problems (product).\n- **DSA / coding rounds:** solve problems live, explaining your approach; optimize; handle edge cases; clean code.\n- **Machine coding / LLD:** build a small **working** application (parking lot, Splitwise) in 90–120 min — clean classes, right patterns, a runnable demo.\n- **System design (HLD):** for mid/senior — design a scalable system, driving the tradeoffs.\n- **CS fundamentals:** OOP/DBMS/OS/CN questions, especially for freshers and service companies.\n- **Behavioral / HR:** projects, teamwork, \"tell me about yourself,\" why this company.",
+      "probes": [
+        {
+          "question": "What is a machine-coding round and how is it different from LLD?",
+          "answer": "A **machine-coding** round gives you a design-y problem (e.g. \"build Splitwise\") and expects a **fully working, well-structured application in 90–120 minutes** — runnable, with a demo/driver. A pure **LLD** round usually wants only the **class design / skeleton** and your reasoning about responsibilities and patterns, not working code. So machine coding = LLD *plus* you must actually make it run, fast. The winning move in both: spend the first 10–15 minutes designing classes (on paper/comments), get the happy path working end-to-end, and only then touch edge cases."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "start-here-approach-the-brute-force-optimize-loop-0": {
+      "id": "start-here-approach-the-brute-force-optimize-loop-0",
+      "trackId": "start-here",
+      "topicId": "start-here-approach",
+      "section": "",
+      "title": "The brute-force → optimize loop",
+      "body": "Never jump to the clever solution. The reliable method: (1) **restate** the problem and clarify inputs/edge cases; (2) walk a **small example** by hand; (3) state the **brute force** out loud with its complexity — this proves you understand the problem and gives a fallback; (4) find the **bottleneck** and ask \"what repeated work can I cache, sort away, or skip?\" — that question is where most optimizations live (a hash map, sorting, two pointers, a heap); (5) code the optimized version; (6) **dry-run** it on your example and an edge case. Interviewers grade the *process*, not just the final answer.",
+      "probes": [
+        {
+          "question": "You're stuck and can't see the optimal solution — what do you do?",
+          "answer": "Say the brute force out loud and code it if needed — a working O(n²) beats a broken O(n), and it keeps you in the game. Then attack the bottleneck with the standard levers: \"have I seen this before?\" → hash map/set; \"is it sorted / can I sort?\" → two pointers or binary search; \"do I need the k best / the running extreme?\" → heap; \"is it a sequence of overlapping subproblems?\" → DP. Think out loud the whole time — interviewers hire on *reasoning*, and a hint usually follows a visible, structured attempt."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "start-here-approach-communicate-while-you-solve-1": {
+      "id": "start-here-approach-communicate-while-you-solve-1",
+      "trackId": "start-here",
+      "topicId": "start-here-approach",
+      "section": "",
+      "title": "Communicate while you solve",
+      "body": "The interview tests communication as much as code. **Think out loud**: narrate your plan before coding, state assumptions, and explain *why* you're choosing a structure (\"I'll use a hash map to get O(1) lookups and avoid the nested loop\"). Ask clarifying questions early (input size, duplicates, sorted?, empty input?). Call out edge cases proactively. After coding, **dry-run** aloud and state the final time/space complexity. Silence is the enemy — an interviewer can't give you partial credit or a hint for thinking they can't hear.",
+      "probes": [
+        {
+          "question": "What edge cases should you always consider?",
+          "answer": "The usual suspects: **empty** input, a **single** element, **all-equal** elements, **duplicates**, **negative numbers / zero**, **overflow** on large inputs, already-**sorted** or reverse-sorted input, and for strings, **empty string / case / non-alphanumeric**. For pointers/trees/lists: null, one node, and cycles. Naming these unprompted signals maturity even before you handle them in code."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "start-here-approach-which-language-should-you-use-2": {
+      "id": "start-here-approach-which-language-should-you-use-2",
+      "trackId": "start-here",
+      "topicId": "start-here-approach",
+      "section": "",
+      "title": "Which language should you use?",
+      "body": "Use **one** language you know cold — fluency beats prestige. For Indian service companies, **Java** is the most common and safest default; **Python** is excellent for interviews (concise, fast to write); **C++** is strong for competitive/DSA; **C#** is fine and is what this app's solutions use. The *patterns* (two pointers, sliding window, DP) are identical across languages — this app teaches them in C#, but they translate directly. Pick your language, learn its core library (lists, maps, sets, sorting, a priority queue/heap), and don't switch mid-prep.",
+      "probes": [
+        {
+          "question": "Does the choice of language affect your chances?",
+          "answer": "Rarely, for the algorithm itself — interviewers care that you pick the right *approach* and can implement it cleanly. It matters at the margins: know your language's built-ins (a `Dictionary`/`HashMap`, a heap/`PriorityQueue`, sorting with a comparator) so you don't waste time re-implementing them, and know its gotchas (integer overflow in Java/C#, default recursion limits in Python). For service companies that ask \"your preferred language,\" be ready for syntax and OOP questions in it. Pick one, go deep, stay consistent."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "start-here-complexity-what-big-o-actually-means-0": {
+      "id": "start-here-complexity-what-big-o-actually-means-0",
+      "trackId": "start-here",
+      "topicId": "start-here-complexity",
+      "section": "",
+      "title": "What Big-O actually means",
+      "body": "Big-O describes how an algorithm's running time (or memory) **grows as the input n gets large** — it's the *shape of the curve*, not the actual seconds. We drop constants and lower-order terms because they don't matter as n→∞: `3n + 5` is `O(n)`, `2n² + n` is `O(n²)`. The common ladder, fastest to slowest: **O(1)** constant → **O(log n)** (halving each step, e.g. binary search) → **O(n)** (one pass) → **O(n log n)** (good sorts) → **O(n²)** (nested loops) → **O(2ⁿ)** / **O(n!)** (brute-force combinatorics). Moving up this ladder is what \"optimizing\" usually means.",
+      "probes": [
+        {
+          "question": "Why do we drop constants and say O(2n) = O(n)?",
+          "answer": "Because Big-O measures *growth rate*, not exact cost. For large n, a constant multiplier doesn't change the *shape* of how the work scales — an O(2n) algorithm and an O(n) algorithm both grow linearly, and on big inputs the difference between them is dwarfed by the difference between linear and quadratic. We care about which *class* the curve is in (linear vs quadratic vs exponential), because that's what decides whether the algorithm survives at scale. Constants matter in the real world for tuning, but not for classifying the algorithm."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "start-here-complexity-how-to-find-the-big-o-of-your-code-1": {
+      "id": "start-here-complexity-how-to-find-the-big-o-of-your-code-1",
+      "trackId": "start-here",
+      "topicId": "start-here-complexity",
+      "section": "",
+      "title": "How to find the Big-O of your code",
+      "body": "Count the work as a function of n. **Sequential** statements add (and the biggest term wins). A single **loop** over n is O(n); a loop **nested** in another is O(n²). A loop that **halves** the range each step is O(log n). A loop doing O(n) work inside an O(log n) loop is O(n log n). **Recursion**: multiply the number of calls by the work per call — and remember the call stack costs **space** equal to the recursion depth. Always state **both** time and space, and the **worst-case input** that triggers them.",
+      "probes": [
+        {
+          "question": "A loop runs from n down to 1, halving i each time — what's its complexity?",
+          "answer": "**O(log n)**. Each iteration multiplies the progress by a constant factor (halving), so the number of steps to go from n to 1 is log₂(n). This is the signature of binary search and of balanced-tree operations. Contrast it with a loop that *decrements* by 1 (n steps → O(n)) — the difference between subtracting a constant and dividing by a constant is the difference between linear and logarithmic, and recognizing it on sight is a core skill."
         }
       ],
       "followups": [],
@@ -5662,8 +6290,8 @@
     }
   ],
   "stats": {
-    "problems": 147,
-    "concepts": 134,
+    "problems": 149,
+    "concepts": 160,
     "stories": 9
   }
 }

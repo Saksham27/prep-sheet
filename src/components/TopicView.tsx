@@ -122,15 +122,20 @@ function ProblemTopic({ topic }: { topic: Topic }) {
 // ── Concept topics (depth tracks) ────────────────────────────────────────────
 function ConceptTopic({ topic }: { topic: Topic }) {
   const concepts = conceptsForTopic(topic.id);
+  const exercises = problemsForTopic(topic.id); // a concept topic may carry trailing exercises
   const items = useProgress((s) => s.items);
   const explained = concepts.filter((c) => items[c.id]?.canExplain).length;
+  const exSub = exercises.length ? ` · ${exercises.length} exercise${exercises.length > 1 ? 's' : ''}` : '';
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-6">
-      <Header title={topic.title} sub={`${explained}/${concepts.length} can explain out loud`} />
+      <Header title={topic.title} sub={`${explained}/${concepts.length} can explain out loud${exSub}`} />
       <div className="mt-4 space-y-3">
         {concepts.map((c) => (
           <ConceptCard key={c.id} concept={c} anchor />
+        ))}
+        {exercises.map((p) => (
+          <ProblemCard key={p.id} problem={p} />
         ))}
       </div>
     </div>
