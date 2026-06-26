@@ -5,3 +5,7 @@ declare module 'react-syntax-highlighter/dist/esm/styles/prism' {
   export const oneDark: any;
   export default styles;
 }
+declare module 'react-syntax-highlighter/dist/esm/languages/prism/*' {
+  const lang: any;
+  export default lang;
+}

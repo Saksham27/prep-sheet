@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T20:30:48.584Z",
+  "generatedAt": "2026-06-26T20:56:51.280Z",
   "tracks": [
     {
       "id": "dsa",
@@ -30,6 +30,60 @@
         "advanced-structures-faang-hard-awareness-implement-once",
         "math-and-geometry-occasional-awareness"
       ]
+    },
+    {
+      "id": "design",
+      "title": "System Design (HLD)",
+      "order": 1,
+      "kind": "design",
+      "blurb": "Estimation, the building blocks in depth, the interview framework, and fully worked designs.",
+      "topicIds": [
+        "design-0-what-a-system-design-interview-actually-tests",
+        "design-1-the-estimation-toolkit",
+        "design-2-the-building-blocks-in-depth",
+        "design-3-the-interview-framework-run-this-every-time",
+        "design-4-fully-worked-designs",
+        "design-5-senior-signals-and-the-mistakes-that-sink-candidates"
+      ]
+    },
+    {
+      "id": "lld",
+      "title": "LLD / OOD",
+      "order": 2,
+      "kind": "lld",
+      "blurb": "OOP judgment, SOLID as spot-the-violation drills, the patterns that actually appear, worked designs.",
+      "topicIds": [
+        "lld-1-oop-at-depth-beyond-the-four-pillars",
+        "lld-2-solid-spot-the-violation-then-refactor",
+        "lld-3-design-patterns-that-actually-appear-with-code-your-anchors",
+        "lld-4-how-to-drive-an-lld-interview",
+        "lld-5-worked-designs"
+      ]
+    },
+    {
+      "id": "fundamentals",
+      "title": "CS Fundamentals",
+      "order": 3,
+      "kind": "fundamentals",
+      "blurb": "OS/concurrency, networking, DB internals, distributed systems, .NET/CLR — every PROBE answered.",
+      "topicIds": [
+        "fundamentals-1-operating-systems-and-concurrency",
+        "fundamentals-2-networking",
+        "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight",
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+        "fundamentals-5-net-clr-runtime-depth-own-your-own-stack"
+      ]
+    },
+    {
+      "id": "behavioral",
+      "title": "Behavioral & Seniority",
+      "order": 4,
+      "kind": "behavioral",
+      "blurb": "STAR story bank (fill the [brackets] with your real numbers) + the framework and delivery mechanics.",
+      "topicIds": [
+        "behavioral-story-bank",
+        "behavioral-framework"
+      ]
     }
   ],
   "topics": {
@@ -38,6 +92,7 @@
       "trackId": "dsa",
       "order": 0,
       "title": "Foundations",
+      "itemKind": "problem",
       "recognitionSignals": [],
       "templates": [
         {
@@ -56,13 +111,16 @@
         "foundations-number-of-1-bits",
         "foundations-counting-bits",
         "foundations-single-number-ii"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "arrays-and-hashing": {
       "id": "arrays-and-hashing",
       "trackId": "dsa",
       "order": 1,
       "title": "Arrays & Hashing",
+      "itemKind": "problem",
       "coreIdea": "A hash map buys O(1) average lookup, converting \"for each element, search the rest\" (O(n²)) into \"for each element, check what I've already seen\" (O(n)). The trade is O(n) space.",
       "recognitionSignals": [
         "\"Have I seen X?\", \"how many of X?\", \"is there a pair/group with property P?\", \"find the duplicate/missing.\" Any of these → map or set"
@@ -84,13 +142,16 @@
         "arrays-and-hashing-valid-sudoku",
         "arrays-and-hashing-longest-consecutive-sequence",
         "arrays-and-hashing-first-missing-positive"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "two-pointers": {
       "id": "two-pointers",
       "trackId": "dsa",
       "order": 2,
       "title": "Two Pointers",
+      "itemKind": "problem",
       "coreIdea": "Two indices moving with intent over a (usually sorted) array, so each does O(1) work and together they cover O(n) instead of O(n²).",
       "recognitionSignals": [
         "Sorted array + \"find a pair/triple,\" palindrome checks, in-place dedup/partition, \"remove/move elements in place.\""
@@ -110,13 +171,16 @@
         "two-pointers-container-with-most-water",
         "two-pointers-sort-colors-dutch-flag",
         "two-pointers-trapping-rain-water"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "sliding-window": {
       "id": "sliding-window",
       "trackId": "dsa",
       "order": 3,
       "title": "Sliding Window",
+      "itemKind": "problem",
       "coreIdea": "Maintain a contiguous range and a running summary; **expand right** to include more, **shrink left** when an invariant breaks. Each index enters and leaves the window once → O(n) instead of O(n²) over all subarrays.",
       "recognitionSignals": [
         "\"Longest/shortest/count of substrings or subarrays satisfying condition C\" where C is monotonic-ish (adding elements only makes it more/less valid)"
@@ -136,13 +200,16 @@
         "sliding-window-best-time-to-buy-sell-stock",
         "sliding-window-permutation-in-string",
         "sliding-window-sliding-window-maximum"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "prefix-sum-and-difference-arrays": {
       "id": "prefix-sum-and-difference-arrays",
       "trackId": "dsa",
       "order": 4,
       "title": "Prefix Sum & Difference Arrays",
+      "itemKind": "problem",
       "coreIdea": "Precompute cumulative sums so any range sum is `pre[r+1] − pre[l]` in O(1). The mirror trick — a **difference array** — makes range *updates* O(1), applied lazily with one final pass.",
       "recognitionSignals": [],
       "templates": [
@@ -156,13 +223,16 @@
         "prefix-sum-and-difference-arrays-subarray-sum-equals-k",
         "prefix-sum-and-difference-arrays-range-sum-query-2d-immutable",
         "prefix-sum-and-difference-arrays-corporate-flight-bookings-car-pooling"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "binary-search": {
       "id": "binary-search",
       "trackId": "dsa",
       "order": 5,
       "title": "Binary Search",
+      "itemKind": "problem",
       "coreIdea": "Each step halves a **monotonic** search space. The space is often the array, but the real power is binary-searching the **answer**: when a predicate `feasible(x)` is monotonic (false…false, true…true), find the boundary.",
       "recognitionSignals": [],
       "masteryBar": "You can write a bug-free `lower_bound` from scratch and you recognize \"monotonic predicate\" disguised as an optimization problem.",
@@ -186,13 +256,16 @@
         "binary-search-find-minimum-in-rotated-sorted-array",
         "binary-search-split-array-largest-sum",
         "binary-search-median-of-two-sorted-arrays"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "stacks-and-monotonic-stack": {
       "id": "stacks-and-monotonic-stack",
       "trackId": "dsa",
       "order": 6,
       "title": "Stacks & Monotonic Stack",
+      "itemKind": "problem",
       "coreIdea": "LIFO matches \"the most recent unmatched thing.\" A **monotonic stack** (kept increasing or decreasing) answers \"next/previous greater/smaller element\" for every index in one O(n) pass.",
       "recognitionSignals": [],
       "masteryBar": "When you see \"next greater,\" \"previous smaller,\" or \"largest rectangle,\" your hand reaches for a monotonic stack automatically.",
@@ -210,13 +283,16 @@
         "stacks-and-monotonic-stack-evaluate-reverse-polish-notation",
         "stacks-and-monotonic-stack-generate-parentheses",
         "stacks-and-monotonic-stack-largest-rectangle-in-histogram"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "queues-and-deque": {
       "id": "queues-and-deque",
       "trackId": "dsa",
       "order": 7,
       "title": "Queues & Deque",
+      "itemKind": "problem",
       "coreIdea": "FIFO drives level-order/BFS. A deque (O(1) both ends) enables monotonic-queue tricks (window extremes) and circular buffers.",
       "recognitionSignals": [],
       "templates": [],
@@ -224,13 +300,16 @@
         "queues-and-deque-implement-queue-using-stacks",
         "queues-and-deque-design-circular-deque",
         "queues-and-deque-sliding-window-maximum"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "linked-lists": {
       "id": "linked-lists",
       "trackId": "dsa",
       "order": 8,
       "title": "Linked Lists",
+      "itemKind": "problem",
       "coreIdea": "Pure pointer surgery. The recurring hazards: losing your `next` before you rewire, and forgetting the head can change (so use a **dummy/sentinel** node). The two power moves: **fast/slow pointers** and **in-place reversal**.",
       "recognitionSignals": [],
       "masteryBar": "You can reverse a list, detect+locate a cycle, and find the middle without re-deriving any of it.",
@@ -256,13 +335,16 @@
         "linked-lists-lru-cache",
         "linked-lists-merge-k-sorted-lists",
         "linked-lists-reverse-nodes-in-k-group"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "recursion-and-backtracking": {
       "id": "recursion-and-backtracking",
       "trackId": "dsa",
       "order": 9,
       "title": "Recursion & Backtracking",
+      "itemKind": "problem",
       "coreIdea": "Walk a decision tree: **choose → explore (recurse) → un-choose (backtrack)**. Prune branches that cannot succeed. Complexity = number of nodes in the explored tree.",
       "recognitionSignals": [],
       "masteryBar": "You can write the subset/permutation templates from memory and explain the time complexity as the size of the search tree.",
@@ -287,13 +369,16 @@
         "recursion-and-backtracking-palindrome-partitioning",
         "recursion-and-backtracking-n-queens",
         "recursion-and-backtracking-sudoku-solver"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "trees-binary-trees": {
       "id": "trees-binary-trees",
       "trackId": "dsa",
       "order": 10,
       "title": "Trees (Binary Trees)",
+      "itemKind": "problem",
       "coreIdea": "Recursion's home. Frame almost everything as: **\"what do I return up from each node, given the results from my left and right children?\"** Decide top-down (pass context down via parameters) vs bottom-up (return aggregates up).",
       "recognitionSignals": [],
       "masteryBar": "You can write all traversals iteratively *and* recursively, and you instinctively frame tree problems as \"what do I return up from each node?\"",
@@ -313,13 +398,16 @@
         "trees-binary-trees-construct-from-preorder-inorder",
         "trees-binary-trees-binary-tree-maximum-path-sum",
         "trees-binary-trees-serialize-deserialize"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "binary-search-trees": {
       "id": "binary-search-trees",
       "trackId": "dsa",
       "order": 11,
       "title": "Binary Search Trees",
+      "itemKind": "problem",
       "coreIdea": "The BST invariant (left < node < right *for the whole subtree*) means an **in-order traversal is sorted**. Exploit that; protect it on insert/delete.",
       "recognitionSignals": [],
       "templates": [],
@@ -328,13 +416,16 @@
         "binary-search-trees-kth-smallest-in-bst",
         "binary-search-trees-lca-of-bst",
         "binary-search-trees-insert-delete-in-bst"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "tries-prefix-trees": {
       "id": "tries-prefix-trees",
       "trackId": "dsa",
       "order": 12,
       "title": "Tries (Prefix Trees)",
+      "itemKind": "problem",
       "coreIdea": "A tree where each root-to-node path spells a prefix; shared prefixes share nodes. Prefix/word queries become O(length), independent of how many words are stored.",
       "recognitionSignals": [],
       "templates": [
@@ -348,13 +439,16 @@
         "tries-prefix-trees-implement-trie",
         "tries-prefix-trees-add-and-search-words-with-wildcard",
         "tries-prefix-trees-word-search-ii"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "heaps-priority-queues": {
       "id": "heaps-priority-queues",
       "trackId": "dsa",
       "order": 13,
       "title": "Heaps / Priority Queues",
+      "itemKind": "problem",
       "coreIdea": "A binary heap gives O(1) peek at the extreme and O(log n) insert/extract. Reach for it on \"k largest/smallest\" or \"repeatedly take the current best.\" `PriorityQueue<TElement,TPriority>` ships in .NET 6+.",
       "recognitionSignals": [],
       "masteryBar": "You can explain heapify, why build-heap is O(n) not O(n log n), and pick heap-vs-sort by the constraint.",
@@ -372,13 +466,16 @@
         "heaps-priority-queues-k-closest-points-to-origin",
         "heaps-priority-queues-find-median-from-data-stream",
         "heaps-priority-queues-merge-k-sorted-lists"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "greedy": {
       "id": "greedy",
       "trackId": "dsa",
       "order": 14,
       "title": "Greedy",
+      "itemKind": "problem",
       "coreIdea": "Make the locally optimal choice *when you can prove it's globally safe* (an exchange argument: swapping in the greedy choice never worsens an optimal solution). The proof is the hard part — and the reason DP exists is for when greedy *can't* be proven.",
       "recognitionSignals": [],
       "masteryBar": "You can state *why* the greedy choice is safe, and you know greedy's failure mode (when you actually need DP).",
@@ -389,13 +486,16 @@
         "greedy-gas-station",
         "greedy-hand-of-straights",
         "greedy-candy"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "intervals": {
       "id": "intervals",
       "trackId": "dsa",
       "order": 15,
       "title": "Intervals",
+      "itemKind": "problem",
       "coreIdea": "Sort by start (sometimes end), then sweep. Nearly every interval problem reduces to \"sort, then one pass deciding merge / skip / count overlaps.\"",
       "recognitionSignals": [],
       "masteryBar": "You reach for \"sort by start, compare to previous end\" reflexively.",
@@ -412,13 +512,16 @@
         "intervals-non-overlapping-intervals",
         "intervals-meeting-rooms-ii",
         "intervals-employee-free-time"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "graphs": {
       "id": "graphs",
       "trackId": "dsa",
       "order": 16,
       "title": "Graphs",
+      "itemKind": "problem",
       "coreIdea": "Nodes + edges. Most \"hard\" problems are graphs wearing a costume (grids, dependencies, word ladders). Master the representation + BFS/DFS, then each algorithm below is a labeled variation. **Pick the algorithm by the edge property:** unweighted shortest path → BFS; weighted non-negative → Dijkstra; negative edges → Bellman-Ford; all-pairs → Floyd-Warshall; connectivity/cycle (undirected) → Union-Find; ordering with dependencies → topological sort; cheapest spanning tree → MST.",
       "recognitionSignals": [],
       "masteryBar": "Given a word problem, you can model it as a graph (what are nodes? edges? weighted?) and pick the right algorithm with its complexity, in under a minute.",
@@ -456,13 +559,16 @@
         "graphs-cheapest-flights-within-k-stops",
         "graphs-alien-dictionary",
         "graphs-min-cost-to-connect-all-points"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "dynamic-programming": {
       "id": "dynamic-programming",
       "trackId": "dsa",
       "order": 17,
       "title": "Dynamic Programming",
+      "itemKind": "problem",
       "coreIdea": "Two conditions: **optimal substructure** (the answer builds from answers to subproblems) and **overlapping subproblems** (the same subproblem recurs). The entire skill is **(1) define the state** — what does `dp[i]` / `dp[i][j]` *mean*? — and **(2) the transition** — how does it build from smaller states? Always: write the brute-force recursion first, add a cache (top-down memo), then optionally convert to bottom-up tabulation and squeeze space.",
       "recognitionSignals": [],
       "masteryBar": "You can name the *state* and the *transition* before writing any code, and you can convert top-down ↔ bottom-up and optimize space (rolling array). You stop seeing DP as scary and start seeing it as \"smart recursion with a cache.\"",
@@ -498,13 +604,16 @@
         "dynamic-programming-regular-expression-matching",
         "dynamic-programming-best-time-to-buy-sell-stock-iii-and-iv",
         "dynamic-programming-house-robber-iii"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "strings-specialized-pattern-matching": {
       "id": "strings-specialized-pattern-matching",
       "trackId": "dsa",
       "order": 18,
       "title": "Strings (specialized pattern matching)",
+      "itemKind": "problem",
       "coreIdea": "Beyond window/two-pointer string work, substring *search* has a dedicated toolkit. You'll rarely implement these from scratch, but understanding them is expected and they occasionally appear directly.",
       "recognitionSignals": [],
       "templates": [],
@@ -512,32 +621,378 @@
         "strings-specialized-pattern-matching-implement-strstr",
         "strings-specialized-pattern-matching-repeated-substring-pattern",
         "strings-specialized-pattern-matching-shortest-palindrome"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "advanced-structures-faang-hard-awareness-implement-once": {
       "id": "advanced-structures-faang-hard-awareness-implement-once",
       "trackId": "dsa",
       "order": 19,
       "title": "Advanced structures (FAANG-hard; awareness → implement once)",
+      "itemKind": "problem",
       "recognitionSignals": [],
       "templates": [],
       "problemIds": [
         "advanced-structures-faang-hard-awareness-implement-once-range-sum-query-mutable",
         "advanced-structures-faang-hard-awareness-implement-once-count-of-smaller-numbers-after-self"
-      ]
+      ],
+      "conceptIds": [],
+      "storyIds": []
     },
     "math-and-geometry-occasional-awareness": {
       "id": "math-and-geometry-occasional-awareness",
       "trackId": "dsa",
       "order": 20,
       "title": "Math & Geometry (occasional / awareness)",
+      "itemKind": "problem",
       "recognitionSignals": [],
       "templates": [],
       "problemIds": [
         "math-and-geometry-occasional-awareness-happy-number",
         "math-and-geometry-occasional-awareness-rotate-image",
         "math-and-geometry-occasional-awareness-spiral-matrix"
+      ],
+      "conceptIds": [],
+      "storyIds": []
+    },
+    "design-0-what-a-system-design-interview-actually-tests": {
+      "id": "design-0-what-a-system-design-interview-actually-tests",
+      "trackId": "design",
+      "order": 0,
+      "title": "What a system design interview actually tests",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "design-0-what-a-system-design-interview-actually-tests-0-0"
+      ],
+      "storyIds": []
+    },
+    "design-1-the-estimation-toolkit": {
+      "id": "design-1-the-estimation-toolkit",
+      "trackId": "design",
+      "order": 1,
+      "title": "The estimation toolkit",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "design-1-the-estimation-toolkit-1-1",
+        "design-1-the-estimation-toolkit-latency-numbers-orders-of-magnitude-say-roughly-2",
+        "design-1-the-estimation-toolkit-powers-of-two-and-data-sizes-3",
+        "design-1-the-estimation-toolkit-the-qps-shortcut-4",
+        "design-1-the-estimation-toolkit-worked-example-do-this-out-loud-in-interviews-5"
+      ],
+      "storyIds": []
+    },
+    "design-2-the-building-blocks-in-depth": {
+      "id": "design-2-the-building-blocks-in-depth",
+      "trackId": "design",
+      "order": 2,
+      "title": "The building blocks (in depth)",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "design-2-the-building-blocks-in-depth-2-1-6",
+        "design-2-the-building-blocks-in-depth-2-2-7",
+        "design-2-the-building-blocks-in-depth-2-3-8",
+        "design-2-the-building-blocks-in-depth-2-4-9",
+        "design-2-the-building-blocks-in-depth-2-5-10",
+        "design-2-the-building-blocks-in-depth-2-6-11",
+        "design-2-the-building-blocks-in-depth-2-7-12",
+        "design-2-the-building-blocks-in-depth-2-8-13",
+        "design-2-the-building-blocks-in-depth-2-9-14",
+        "design-2-the-building-blocks-in-depth-2-10-15",
+        "design-2-the-building-blocks-in-depth-2-11-16",
+        "design-2-the-building-blocks-in-depth-2-12-17"
+      ],
+      "storyIds": []
+    },
+    "design-3-the-interview-framework-run-this-every-time": {
+      "id": "design-3-the-interview-framework-run-this-every-time",
+      "trackId": "design",
+      "order": 3,
+      "title": "The interview framework (run this every time)",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "design-3-the-interview-framework-run-this-every-time-3-18"
+      ],
+      "storyIds": []
+    },
+    "design-4-fully-worked-designs": {
+      "id": "design-4-fully-worked-designs",
+      "trackId": "design",
+      "order": 4,
+      "title": "Fully worked designs",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "design-4-fully-worked-designs-4-1-19",
+        "design-4-fully-worked-designs-4-2-20",
+        "design-4-fully-worked-designs-4-3-21",
+        "design-4-fully-worked-designs-4-4-22",
+        "design-4-fully-worked-designs-4-5-23",
+        "design-4-fully-worked-designs-4-6-24",
+        "design-4-fully-worked-designs-4-7-25"
+      ],
+      "storyIds": []
+    },
+    "design-5-senior-signals-and-the-mistakes-that-sink-candidates": {
+      "id": "design-5-senior-signals-and-the-mistakes-that-sink-candidates",
+      "trackId": "design",
+      "order": 5,
+      "title": "Senior signals & the mistakes that sink candidates",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "design-5-senior-signals-and-the-mistakes-that-sink-candidates-5-26"
+      ],
+      "storyIds": []
+    },
+    "lld-1-oop-at-depth-beyond-the-four-pillars": {
+      "id": "lld-1-oop-at-depth-beyond-the-four-pillars",
+      "trackId": "lld",
+      "order": 0,
+      "title": "OOP at depth (beyond the four pillars)",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "lld-1-oop-at-depth-beyond-the-four-pillars-1-0"
+      ],
+      "storyIds": []
+    },
+    "lld-2-solid-spot-the-violation-then-refactor": {
+      "id": "lld-2-solid-spot-the-violation-then-refactor",
+      "trackId": "lld",
+      "order": 1,
+      "title": "SOLID — spot the violation, then refactor",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "lld-2-solid-spot-the-violation-then-refactor-s-1",
+        "lld-2-solid-spot-the-violation-then-refactor-o-2",
+        "lld-2-solid-spot-the-violation-then-refactor-l-3",
+        "lld-2-solid-spot-the-violation-then-refactor-i-4",
+        "lld-2-solid-spot-the-violation-then-refactor-d-5"
+      ],
+      "storyIds": []
+    },
+    "lld-3-design-patterns-that-actually-appear-with-code-your-anchors": {
+      "id": "lld-3-design-patterns-that-actually-appear-with-code-your-anchors",
+      "trackId": "lld",
+      "order": 2,
+      "title": "Design patterns that actually appear (with code + your anchors)",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "lld-3-design-patterns-that-actually-appear-with-code-your-anchors-creational-6",
+        "lld-3-design-patterns-that-actually-appear-with-code-your-anchors-structural-7",
+        "lld-3-design-patterns-that-actually-appear-with-code-your-anchors-behavioral-8"
+      ],
+      "storyIds": []
+    },
+    "lld-4-how-to-drive-an-lld-interview": {
+      "id": "lld-4-how-to-drive-an-lld-interview",
+      "trackId": "lld",
+      "order": 3,
+      "title": "How to drive an LLD interview",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "lld-4-how-to-drive-an-lld-interview-4-9"
+      ],
+      "storyIds": []
+    },
+    "lld-5-worked-designs": {
+      "id": "lld-5-worked-designs",
+      "trackId": "lld",
+      "order": 4,
+      "title": "Worked designs",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "lld-5-worked-designs-5-1-10",
+        "lld-5-worked-designs-5-2-11",
+        "lld-5-worked-designs-5-3-12",
+        "lld-5-worked-designs-5-4-13",
+        "lld-5-worked-designs-5-5-14"
+      ],
+      "storyIds": []
+    },
+    "fundamentals-1-operating-systems-and-concurrency": {
+      "id": "fundamentals-1-operating-systems-and-concurrency",
+      "trackId": "fundamentals",
+      "order": 0,
+      "title": "Operating Systems & Concurrency",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "fundamentals-1-operating-systems-and-concurrency-1-1-0",
+        "fundamentals-1-operating-systems-and-concurrency-1-2-1",
+        "fundamentals-1-operating-systems-and-concurrency-1-3-2",
+        "fundamentals-1-operating-systems-and-concurrency-1-4-3",
+        "fundamentals-1-operating-systems-and-concurrency-1-5-4",
+        "fundamentals-1-operating-systems-and-concurrency-1-6-5",
+        "fundamentals-1-operating-systems-and-concurrency-1-7-6",
+        "fundamentals-1-operating-systems-and-concurrency-1-8-7",
+        "fundamentals-1-operating-systems-and-concurrency-1-9-8",
+        "fundamentals-1-operating-systems-and-concurrency-1-10-9",
+        "fundamentals-1-operating-systems-and-concurrency-1-11-10",
+        "fundamentals-1-operating-systems-and-concurrency-1-12-11"
+      ],
+      "storyIds": []
+    },
+    "fundamentals-2-networking": {
+      "id": "fundamentals-2-networking",
+      "trackId": "fundamentals",
+      "order": 1,
+      "title": "Networking",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "fundamentals-2-networking-2-1-12",
+        "fundamentals-2-networking-2-2-13",
+        "fundamentals-2-networking-2-3-14",
+        "fundamentals-2-networking-2-4-15",
+        "fundamentals-2-networking-2-5-16",
+        "fundamentals-2-networking-2-6-17",
+        "fundamentals-2-networking-2-7-18",
+        "fundamentals-2-networking-2-8-19",
+        "fundamentals-2-networking-2-9-20"
+      ],
+      "storyIds": []
+    },
+    "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight": {
+      "id": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight",
+      "trackId": "fundamentals",
+      "order": 2,
+      "title": "Databases (your strongest fundamental — make it airtight)",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-1-21",
+        "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-2-22",
+        "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-3-23",
+        "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-4-24",
+        "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-5-25",
+        "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-6-26",
+        "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-7-27"
+      ],
+      "storyIds": []
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "trackId": "fundamentals",
+      "order": 3,
+      "title": "Distributed Systems (the senior/staff differentiator)",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-1-28",
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-2-29",
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-3-30",
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-4-31",
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-5-32",
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-6-33",
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-7-34",
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-8-35",
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-9-36",
+        "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-10-37"
+      ],
+      "storyIds": []
+    },
+    "fundamentals-5-net-clr-runtime-depth-own-your-own-stack": {
+      "id": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack",
+      "trackId": "fundamentals",
+      "order": 4,
+      "title": "NET / CLR Runtime Depth (own your own stack)",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-38",
+        "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-1-39",
+        "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-2-40",
+        "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-3-41",
+        "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-4-42",
+        "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-5-43"
+      ],
+      "storyIds": []
+    },
+    "behavioral-story-bank": {
+      "id": "behavioral-story-bank",
+      "trackId": "behavioral",
+      "order": 0,
+      "title": "Story bank (STAR)",
+      "itemKind": "story",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [],
+      "storyIds": [
+        "story-1-the-cache-stampede-that-was-hammering-the-database",
+        "story-2-the-24mb-redis-key-crashing-pods-in-production",
+        "story-3-turning-a-45-second-report-into-sub-second",
+        "story-4-owning-a-high-risk-irreversible-data-purge-across-123-tenant-schemas",
+        "story-5-users-randomly-logged-out-after-we-scaled-horizontally",
+        "story-6-spreading-critical-knowledge-and-growing-the-juniors",
+        "story-7-building-observability-the-whole-platform-was-missing",
+        "story-8-conflict-disagreement-you-supply-the-moment",
+        "story-9-failure-you-supply-the-moment"
       ]
+    },
+    "behavioral-framework": {
+      "id": "behavioral-framework",
+      "trackId": "behavioral",
+      "order": 1,
+      "title": "Framework & delivery",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "fw-1-0",
+        "fw-2-1",
+        "fw-3-2",
+        "fw-5-3",
+        "fw-6-4",
+        "fw-7-5",
+        "fw-8-6",
+        "fw-9-7",
+        "fw-the-corpus-is-complete-how-to-use-all-five-parts-8"
+      ],
+      "storyIds": []
     }
   },
   "problems": {
@@ -2320,8 +2775,1324 @@
       "source": "original"
     }
   },
-  "concepts": {},
-  "stories": {},
+  "concepts": {
+    "design-0-what-a-system-design-interview-actually-tests-0-0": {
+      "id": "design-0-what-a-system-design-interview-actually-tests-0-0",
+      "trackId": "design",
+      "topicId": "design-0-what-a-system-design-interview-actually-tests",
+      "section": "0",
+      "title": "What a system design interview actually tests — overview",
+      "body": "Junior candidates list components. Senior candidates make **defensible tradeoffs under constraints**. The interviewer is grading five things:\n\n1. **Requirements & scoping** — do you nail down what to build before building it?\n2. **Estimation** — can you size the problem (QPS, storage, bandwidth) and let the numbers drive decisions?\n3. **High-level structure** — clean data flow, sensible component boundaries.\n4. **Deep dives** — when pushed on the hard part (the bottleneck), do you go deep with real mechanisms?\n5. **Tradeoff articulation** — every choice has a cost; do you name it and justify it? *This is where seniority is won or lost.*\n\nThe fatal mistake at your level: jumping to a diagram before clarifying requirements, or naming \"Kafka\" / \"Redis\" without saying *why* and *what it costs*. Drive with the numbers and the tradeoffs.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-1-the-estimation-toolkit-1-1": {
+      "id": "design-1-the-estimation-toolkit-1-1",
+      "trackId": "design",
+      "topicId": "design-1-the-estimation-toolkit",
+      "section": "1",
+      "title": "The estimation toolkit — overview",
+      "body": "You can't reason about scale you can't size. Memorize these.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-1-the-estimation-toolkit-latency-numbers-orders-of-magnitude-say-roughly-2": {
+      "id": "design-1-the-estimation-toolkit-latency-numbers-orders-of-magnitude-say-roughly-2",
+      "trackId": "design",
+      "topicId": "design-1-the-estimation-toolkit",
+      "section": "",
+      "title": "Latency numbers (orders of magnitude — say \"roughly\")",
+      "body": "| Operation | Time |\n|---|---|\n| L1 cache reference | ~1 ns |\n| Branch mispredict | ~3 ns |\n| Mutex lock/unlock | ~20 ns |\n| Main memory reference | ~100 ns |\n| Compress 1 KB (Snappy) | ~2 µs |\n| Send 1 KB over 1 Gbps network | ~10 µs |\n| SSD random read | ~100 µs |\n| Round trip within a datacenter | ~0.5 ms |\n| Read 1 MB sequentially from SSD | ~1 ms |\n| HDD seek | ~10 ms |\n| Round trip across the world (e.g. US↔EU) | ~150 ms |\n\n**The takeaways that drive design:** memory is ~1000× faster than SSD, SSD ~100× faster than spinning disk, and a cross-region round trip costs ~150 ms — which is why you cache aggressively, keep hot data in RAM, and put compute near data and users (CDN/edge).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-1-the-estimation-toolkit-powers-of-two-and-data-sizes-3": {
+      "id": "design-1-the-estimation-toolkit-powers-of-two-and-data-sizes-3",
+      "trackId": "design",
+      "topicId": "design-1-the-estimation-toolkit",
+      "section": "",
+      "title": "Powers of two & data sizes",
+      "body": "- 2¹⁰ ≈ 1 thousand (KB), 2²⁰ ≈ 1 million (MB), 2³⁰ ≈ 1 billion (GB), 2⁴⁰ ≈ 1 trillion (TB).\n- ASCII char = 1 byte; UTF-8 = 1–4; `long`/`double` = 8 bytes; a UUID = 16 bytes; a typical row with a few fields = ~hundreds of bytes.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-1-the-estimation-toolkit-the-qps-shortcut-4": {
+      "id": "design-1-the-estimation-toolkit-the-qps-shortcut-4",
+      "trackId": "design",
+      "topicId": "design-1-the-estimation-toolkit",
+      "section": "",
+      "title": "The QPS shortcut",
+      "body": "A day has ~86,400 seconds ≈ **10⁵**. So:\n- **1 million requests/day ≈ ~12 QPS** (1M / 10⁵).\n- **100 million/day ≈ ~1,200 QPS.**\n- **1 billion/day ≈ ~12,000 QPS.**\n- **Peak** is typically **2–3× average** — size for peak.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-1-the-estimation-toolkit-worked-example-do-this-out-loud-in-interviews-5": {
+      "id": "design-1-the-estimation-toolkit-worked-example-do-this-out-loud-in-interviews-5",
+      "trackId": "design",
+      "topicId": "design-1-the-estimation-toolkit",
+      "section": "",
+      "title": "Worked example (do this out loud in interviews)",
+      "body": "*\"Design a URL shortener handling 100M new URLs/month.\"*\n- Writes: 100M/month ÷ (30 × 10⁵ s) ≈ **~40 writes/s** average, ~120/s peak.\n- Reads: assume 100:1 read:write ratio → **~4,000 reads/s** average. *This tells you it's a read-heavy system → cache the redirects.*\n- Storage: 100M/month × 12 months × 5 years × ~500 bytes/record ≈ 6B records × 500 B ≈ **~3 TB over 5 years.** *Fits comfortably; not a storage-bound problem.*\n- The numbers just told you: read-heavy, cache-first, storage is trivial, the short-code generation + low-latency redirect is the real design problem.\n\nThat move — letting back-of-envelope numbers *select the hard problem* — is the senior signal.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-1-6": {
+      "id": "design-2-the-building-blocks-in-depth-2-1-6",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.1",
+      "title": "Scaling: vertical vs horizontal, and the stateless prerequisite",
+      "body": "- **Vertical** (bigger machine): simple, but a ceiling and a single point of failure.\n- **Horizontal** (more machines): the real answer for scale, but requires your services to be **stateless** — no per-request state stored in process memory — so any instance can serve any request behind a load balancer. Push state to a shared store (DB, Redis).\n- *Your anchor:* your multi-pod K8s session-sharing fix is exactly this — moving session state out of pod memory into distributed Redis so pods became stateless and horizontally scalable. That's the textbook lesson, lived.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-2-7": {
+      "id": "design-2-the-building-blocks-in-depth-2-2-7",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.2",
+      "title": "Load balancers",
+      "body": "- **L4 (transport):** routes by IP/port, doesn't inspect content. Fast, protocol-agnostic.\n- **L7 (application):** inspects HTTP — can route by path/header/cookie, do TLS termination, sticky sessions. More capable, slightly more overhead. *Your YARP proxy is an L7 reverse proxy* — own that distinction.\n- **Algorithms:** round-robin, weighted, least-connections, least-latency, and **consistent hashing** (critical when backends hold state/cache — minimizes reshuffling when a node joins/leaves).\n- **Health checks** remove dead backends; LBs are themselves made HA in pairs.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-3-8": {
+      "id": "design-2-the-building-blocks-in-depth-2-3-8",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.3",
+      "title": "Caching (know this cold — it's the most-asked block)",
+      "body": "**Why:** absorb read load and cut latency by keeping hot data close (RAM, edge).\n\n**Strategies:**\n- **Cache-aside (lazy):** app checks cache; on miss, reads DB and populates cache. Most common. Risk: stale data, and a cold cache thundering the DB.\n- **Read-through:** the cache layer itself loads from DB on miss (app only talks to cache).\n- **Write-through:** writes go to cache *and* DB synchronously — consistent but slower writes.\n- **Write-back (write-behind):** write to cache, flush to DB async — fast but risks data loss on crash.\n\n**Eviction:** LRU (most common), LFU, FIFO, TTL-based. Size + eviction policy determine hit rate.\n\n**The two hard problems:**\n- **Cache stampede / thundering herd:** a hot key expires and thousands of concurrent requests all miss and hammer the DB simultaneously. Fixes: a **lock/semaphore so only one request recomputes** while others wait or serve stale (*your exact fix — semaphore + IMemoryCache*), probabilistic early expiration, or request coalescing. This is a gold interview story for you — tell it.\n- **Cache invalidation:** \"the second hard thing in CS.\" Strategies: TTL (simple, eventual staleness), write-through (consistent, costly), explicit invalidation on write (precise, complex), versioned keys. Name the staleness tolerance the use case allows.\n\n**Where caches live:** client → CDN/edge → load balancer → application (in-process or Redis/Memcached) → database (buffer pool). Each layer absorbs load before the next.\n\n**Redis vs Memcached:** Memcached is a simple in-memory KV cache; Redis adds rich data structures (sorted sets, hashes, streams), persistence, pub/sub, Lua, and clustering. You run Redis — be ready to discuss the 24 MB-key memory blowup (large values fragment memory and cause eviction pressure / OOM in constrained pods) as a real operational lesson.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-4-9": {
+      "id": "design-2-the-building-blocks-in-depth-2-4-9",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.4",
+      "title": "CDN",
+      "body": "Geographically distributed edge servers cache static (and increasingly dynamic) content near users, cutting latency and origin load. Pull (lazy fill on first request) vs push (you upload). Use for images/video/JS/CSS and cacheable API responses. The win is the ~150 ms cross-region round trip you *avoid*.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-5-10": {
+      "id": "design-2-the-building-blocks-in-depth-2-5-10",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.5",
+      "title": "Databases — the heart of most designs",
+      "body": "**SQL vs NoSQL — choose on the real axes, not hype:**\n- **Relational (Postgres/MySQL):** structured schema, **ACID transactions**, joins, strong consistency. Best when relationships and integrity matter and you need ad-hoc queries. Scales vertically easily, horizontally with effort (sharding/read replicas). *Your DigitalReceipt is here.*\n- **NoSQL families:**\n  - **Key-value (Redis, DynamoDB):** O(1) lookups by key, massive scale, simple model.\n  - **Document (MongoDB):** flexible JSON docs, good when the access pattern is \"fetch this whole object.\"\n  - **Wide-column (Cassandra, HBase):** write-optimized, linear horizontal scale, tunable consistency — built for huge write throughput and time-series.\n  - **Graph (Neo4j):** relationship-heavy traversals (social graphs).\n- **The honest framing:** NoSQL trades joins/transactions/flexibility-of-query for horizontal scale and write throughput. Pick by *access pattern*: model the queries first, then the schema. \"We need ad-hoc reporting and integrity → relational. We need 100k writes/s of time-series with known access patterns → wide-column.\"\n\n**Indexing internals (a likely deep-dive):**\n- **B-tree / B+-tree** (the relational default): balanced, high fanout so the tree is shallow (3–4 levels for billions of rows), each node ≈ a disk page → few disk reads per lookup. Great for reads and range scans. Updates cost (rebalancing, write amplification). *Your partition pruning + index propagation work lives at this layer — pruning lets the planner skip whole partitions' B-trees.*\n- **LSM-tree** (Cassandra, RocksDB, modern write-heavy stores): buffers writes in memory (memtable), flushes sorted runs to disk (SSTables), merges them via compaction. **Write-optimized** (sequential writes) at the cost of read amplification (may check several SSTables; mitigated by bloom filters). The B-tree-vs-LSM tradeoff = read-optimized vs write-optimized; name it.\n- **Practical index rules:** composite-index column order matters (leftmost-prefix); covering indexes serve a query entirely from the index; over-indexing slows writes and bloats storage; an index on a low-cardinality column is often useless.\n\n**Replication:**\n- **Leader–follower (primary–replica):** writes to the leader, reads can fan out to followers (scales reads). **Replication lag** means followers can serve stale reads → **read-your-own-writes** problems. Sync replication = consistent but slower/availability-risk; async = fast but can lose recent writes on leader failure.\n- **Multi-leader / leaderless (Dynamo-style quorums):** higher availability, but write conflicts need resolution (last-write-wins, vector clocks, CRDTs).\n- **Quorum math:** with N replicas, if **W + R > N** (write quorum + read quorum), a read is guaranteed to see the latest write. Tune W/R for consistency-vs-latency.\n\n**Partitioning / sharding (you live this with 120+ tenant schemas):**\n- **Why:** when data or write throughput exceeds one machine, split it.\n- **Strategies:** **range** (by key range — good for range queries, risks hotspots), **hash** (even distribution, loses range queries), **directory/lookup** (a mapping service — flexible, adds a hop), and **by tenant** (your model — natural isolation, but uneven tenant sizes create hot shards).\n- **The hard parts:** rebalancing when adding shards (consistent hashing minimizes movement), cross-shard queries and joins (avoid or fan-out-and-merge), cross-shard transactions (avoid — they're slow and complex), and **hotspots** (a celebrity user / huge tenant). Discuss how you'd detect and split a hot shard.\n\n**Transactions & isolation (deep-dive bait — see Part 3 for full depth):** ACID, isolation levels (read committed → repeatable read → serializable) and the anomalies each prevents, and MVCC (how Postgres gives snapshot isolation without read locks — and the VACUUM cost you've felt). Know that distributed transactions across shards/services are the thing you *design around*, not toward.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-6-11": {
+      "id": "design-2-the-building-blocks-in-depth-2-6-11",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.6",
+      "title": "Consistency models & CAP",
+      "body": "- **CAP:** during a **network partition**, you must choose **Consistency** (reject/stall to avoid stale reads) or **Availability** (serve possibly-stale data). It's only a forced choice *during a partition*.\n- **PACELC** completes it: **else** (no partition), you still trade **Latency vs Consistency**. A more honest framing than CAP alone — say it and you sound senior.\n- **The consistency spectrum:** **strong/linearizable** (everyone sees the latest write immediately — expensive, needs coordination) → **sequential** → **causal** (causally-related ops seen in order) → **read-your-writes** → **eventual** (replicas converge eventually). Pick the *weakest* model the use case tolerates — strong consistency is a tax. A bank balance wants strong; a like-count tolerates eventual.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-7-12": {
+      "id": "design-2-the-building-blocks-in-depth-2-7-12",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.7",
+      "title": "Message queues, streaming & async (you run RabbitMQ — own this)",
+      "body": "**Why async:** decouple producers from consumers, absorb spikes (buffering/backpressure), smooth load, enable retries and fan-out. Turns a slow synchronous chain into a resilient pipeline.\n\n- **Queue (RabbitMQ, SQS):** work distribution — each message consumed by one worker. Good for task pipelines (your data-pipeline workers).\n- **Pub/Sub:** one message → many subscribers (fan-out).\n- **Log (Kafka):** an append-only, partitioned, *replayable* log; consumers track their own offset. Built for high-throughput streaming, event sourcing, and multiple independent consumers reading the same stream. **RabbitMQ vs Kafka:** RabbitMQ = flexible routing, per-message ack, good for task queues; Kafka = ordered partitions, retention/replay, massive throughput, good for event streams. Know when each fits.\n\n**Delivery semantics (must-know):**\n- **At-most-once:** may lose messages (fire and forget).\n- **At-least-once:** never lost, but may **duplicate** (redelivery on failed ack) — the common default.\n- **Exactly-once:** the holy grail, and *practically a lie* end-to-end. You achieve effective exactly-once with **at-least-once delivery + idempotent consumers** (dedupe by message ID / idempotency key). Say this — it's a senior tell.\n\n**Related patterns:**\n- **Idempotency:** processing the same message twice yields the same result. Implement with idempotency keys, dedupe tables, or naturally-idempotent operations (upserts).\n- **Dead-letter queue (DLQ):** messages that repeatedly fail go here for inspection instead of blocking the queue.\n- **Backpressure:** when consumers fall behind, signal producers to slow down (or the queue buffers/sheds).\n- **Ordering:** global ordering is expensive; partition-level ordering (Kafka per-partition) is the usual compromise — partition by a key (e.g. userId) to keep per-key order.\n- **The dual-write / outbox problem:** you can't atomically write to a DB *and* publish to a queue (two systems, no shared transaction). Solution: the **transactional outbox** — write the event into an `outbox` table in the *same* DB transaction, then a separate process (or CDC) publishes it. This guarantees the event fires iff the DB write committed. (Ties directly to your RabbitMQ pipelines.)",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-8-13": {
+      "id": "design-2-the-building-blocks-in-depth-2-8-13",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.8",
+      "title": "Consensus & coordination (awareness → Part 3 depth)",
+      "body": "When multiple nodes must agree (who's the leader, is this committed), you need **consensus**. **Raft** is the one to understand: a leader is elected by majority vote; the leader appends entries to a replicated log; an entry commits once a majority has it. Used by etcd, Consul, etc., for leader election and config. You rarely implement it — you *use* systems built on it (Kubernetes' control plane uses etcd/Raft). Know *why* it exists: to get agreement despite failures, without a single point of truth.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-9-14": {
+      "id": "design-2-the-building-blocks-in-depth-2-9-14",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.9",
+      "title": "Rate limiting (common standalone question and component)",
+      "body": "- **Token bucket:** tokens refill at a rate; each request consumes one; burst-friendly up to bucket size. The usual default.\n- **Leaky bucket:** processes at a fixed rate, smoothing bursts (a queue draining steadily).\n- **Fixed window counter:** count per time window — simple but allows 2× bursts at window edges.\n- **Sliding window log / counter:** smooths the edge problem; sliding-window-counter is the practical balance.\n- **Distributed rate limiting:** the counter must be shared → Redis (atomic INCR + TTL, or a Lua script for atomicity). *You've built rate limiting — design it cleanly with token bucket in Redis.*",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-10-15": {
+      "id": "design-2-the-building-blocks-in-depth-2-10-15",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.10",
+      "title": "API design",
+      "body": "- **REST:** resource-oriented, HTTP verbs, stateless, cacheable. Default for public/CRUD APIs. Know idempotent methods (GET/PUT/DELETE idempotent; POST not) and **idempotency keys** for safe retries on POST (payments!).\n- **gRPC:** binary (Protobuf), HTTP/2, streaming, low latency, strongly-typed contracts. Best for **internal service-to-service** comms.\n- **GraphQL:** client specifies exactly the fields it needs — solves over/under-fetching for complex, varied clients; cost: caching is harder, query complexity must be bounded.\n- **Pagination:** offset (simple, slow + inconsistent at scale) vs **cursor/keyset** (stable, efficient — paginate by `WHERE id > last_seen`). Use cursor for large/changing datasets.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-11-16": {
+      "id": "design-2-the-building-blocks-in-depth-2-11-16",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.11",
+      "title": "Search (you run Elasticsearch — a free deep-dive)",
+      "body": "Full-text search uses an **inverted index**: a map from each term → the list of documents containing it (a posting list). Querying intersects/unions posting lists, then ranks (TF-IDF / BM25). Elasticsearch shards the index for scale and replicates for availability. Use it when you need relevance-ranked text search, not exact lookups (that's what your DB does). Be ready to contrast: a B-tree index answers \"rows where col = X\"; an inverted index answers \"documents *about* X, ranked.\"",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-2-the-building-blocks-in-depth-2-12-17": {
+      "id": "design-2-the-building-blocks-in-depth-2-12-17",
+      "trackId": "design",
+      "topicId": "design-2-the-building-blocks-in-depth",
+      "section": "2.12",
+      "title": "Observability & reliability",
+      "body": "- **The three pillars:** **logs** (discrete events), **metrics** (aggregated numbers/time-series — counters, gauges, histograms), **traces** (a request's path across services). *Your YARP observability layer = a metrics/tracing story.*\n- **SLI/SLO/SLA:** SLI = the measured indicator (p99 latency), SLO = your internal target (p99 < 200ms 99.9% of the time), SLA = the contractual promise with penalties. Design to the SLO.\n- **Reliability patterns:**\n  - **Timeouts** — never wait forever on a dependency.\n  - **Retries with exponential backoff + jitter** — retry transient failures, but back off and randomize to avoid retry storms synchronizing.\n  - **Circuit breaker** — after N failures, \"open\" the circuit and fail fast for a cooldown, giving the dependency room to recover (Polly in .NET).\n  - **Bulkhead** — isolate resource pools so one failing dependency can't exhaust all threads/connections.\n  - **Graceful degradation** — serve stale cache / a reduced experience instead of erroring (e.g. show cached feed if the ranking service is down).\n  - **Idempotency + dead-letter** for async paths.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-3-the-interview-framework-run-this-every-time-3-18": {
+      "id": "design-3-the-interview-framework-run-this-every-time-3-18",
+      "trackId": "design",
+      "topicId": "design-3-the-interview-framework-run-this-every-time",
+      "section": "3",
+      "title": "The interview framework (run this every time) — overview",
+      "body": "**Step 1 — Clarify & scope (don't skip; ~5 min).** Functional requirements (what it does) and non-functional (scale, latency, consistency, availability). Cut scope explicitly: \"I'll focus on posting and the feed, and leave out DMs.\" Get the interviewer to confirm.\n\n**Step 2 — Estimate.** QPS (read vs write), storage, bandwidth. Use the toolkit above. Let the numbers flag the hard problem (read-heavy? write-heavy? storage-bound?).\n\n**Step 3 — API contract.** Define the few core endpoints (request/response). Concrete signatures anchor the rest of the discussion.\n\n**Step 4 — High-level design.** Draw the data flow: client → LB → services → data stores → async workers. Keep services stateless. Name the datastore per component.\n\n**Step 5 — Data model.** Schema + storage choice + *why*. Access patterns drive this. Mention partitioning/sharding key.\n\n**Step 6 — Deep dive.** The interviewer steers to the hard part (the feed fan-out, the dedupe, the geo-index). Go deep with real mechanisms. This is most of the interview.\n\n**Step 7 — Scale, bottlenecks, tradeoffs.** Where does it break? (hot keys, single points of failure, the DB.) Add caching, replication, sharding, queues — and *name what each costs*. Discuss failure modes and reliability patterns. End on tradeoffs.\n\nWhat \"good\" looks like: you drive, you quantify, you justify each choice and name its cost, and when pushed you have a real mechanism — not a logo.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-4-fully-worked-designs-4-1-19": {
+      "id": "design-4-fully-worked-designs-4-1-19",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "4.1",
+      "title": "URL Shortener (the warm-up that tests fundamentals)",
+      "body": "**Scope:** shorten a long URL → short code; redirect short→long. Custom aliases optional; analytics optional.\n**Numbers:** (from §1) ~40 writes/s, ~4,000 reads/s, ~3 TB/5yr. **Read-heavy, cache-first, storage trivial.**\n**API:** `POST /shorten {url} → {shortCode}`; `GET /{shortCode} → 302 redirect`.\n**Short code generation — the core problem:**\n- Base62 (`[A-Za-z0-9]`) encoding of a unique ID. 62⁷ ≈ 3.5 trillion codes in 7 chars — plenty.\n- *Option A — counter + base62:* a distributed counter (or DB auto-increment, or a range-allocator giving each app server a block of IDs to avoid a per-write coordination hop). Encode the integer to base62. Simple, no collisions, but codes are sequential/guessable.\n- *Option B — hash (e.g. MD5/SHA of URL) + take first 7 chars:* risk of collisions → check-and-retry. Handles dedup of identical URLs naturally.\n- Choose A with range-allocation for collision-free, low-coordination generation.\n**Data model:** KV is ideal — `shortCode → longURL`. A KV store (DynamoDB) or a sharded relational table keyed by shortCode.\n**Read path (the hot path):** `GET /{code}` → check **Redis cache** → on miss, DB lookup, populate cache → `302`. Cache hit rate will be high (popular links dominate). CDN can even cache the redirect at the edge.\n**Scale/tradeoffs:** read-heavy → cache + read replicas; storage is trivial so no sharding pressure early, but shard by shortCode hash when needed; analytics go through an **async queue** (don't block the redirect — fire an event, aggregate offline). Custom aliases → check uniqueness on write.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-4-fully-worked-designs-4-2-20": {
+      "id": "design-4-fully-worked-designs-4-2-20",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "4.2",
+      "title": "Distributed Rate Limiter",
+      "body": "**Scope:** limit each user/API-key to N requests per window, across many app servers.\n**Algorithm:** token bucket (burst-friendly) — each key has a bucket of tokens refilling at rate r.\n**Distributed state:** the bucket must be shared across servers → **Redis**. Store `tokens` and `lastRefill` per key. On each request, run a **Lua script** (atomic) that: computes tokens refilled since lastRefill, adds them (capped at bucket size), and if ≥1, decrements and allows; else denies. Atomicity via Lua avoids race conditions between read and write.\n**Tradeoffs:** Redis is now in the hot path → keep it co-located/low-latency, and **fail open or closed** deliberately (if Redis is down, do you allow all traffic or block it? Usually fail-open for availability, with a local fallback limiter). Sliding-window-counter is the alternative if you want smoother edges. Sharding the limiter by key spreads Redis load.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-4-fully-worked-designs-4-3-21": {
+      "id": "design-4-fully-worked-designs-4-3-21",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "4.3",
+      "title": "News Feed / Twitter (the fan-out classic)",
+      "body": "**Scope:** users post; users see a feed of posts from people they follow, newest-first.\n**Numbers:** assume 100M DAU, ~2 posts/user/day → ~2,300 writes/s; feed reads far higher → read-heavy, but writes fan out massively.\n**The core tension — fan-out on write vs read:**\n- **Fan-out on write (push):** when you post, immediately write the post ID into the precomputed feed cache of every follower. **Feed reads are O(1)** (just read your cache). Cost: a celebrity with 50M followers triggers 50M writes per post — the **\"hot user\" problem.**\n- **Fan-out on read (pull):** store posts once; when a user opens their feed, fetch recent posts from everyone they follow and merge. Cheap writes, but **expensive reads** (fan-in across thousands of followees).\n- **The hybrid (the senior answer):** push for normal users; for celebrities, *don't* fan out — instead, at read time, merge the (cached) push-feed with a pull of the few celebrities the user follows. Best of both.\n**Data model:** posts in a store keyed by postId (sharded by postId or userId); the social graph (follower/followee) in its own store; per-user feed = a cached list of post IDs (Redis sorted set by timestamp).\n**Read path:** read the user's feed (post IDs from Redis) → hydrate posts (batch fetch, cache) → merge celebrity posts → return. Pagination via cursor (timestamp/ID).\n**Scale/tradeoffs:** the feed cache (Redis) absorbs reads; fan-out workers run async via a **queue** (posting returns immediately, fan-out happens in the background); ranking (if not pure chronological) adds an async scoring service. Eventual consistency is fine here — a post appearing a second late is acceptable (name that tolerance).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-4-fully-worked-designs-4-4-22": {
+      "id": "design-4-fully-worked-designs-4-4-22",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "4.4",
+      "title": "Chat / Messaging (WhatsApp-lite)",
+      "body": "**Scope:** 1:1 messaging, delivery + read receipts, online presence, message history.\n**Core challenge:** real-time, bidirectional delivery → **persistent connections** (WebSocket), not request/response polling.\n**Design:** clients hold a WebSocket to a **connection/gateway service**. Because users connect to *different* gateway servers, you need a way to route a message to the server holding the recipient's connection: a **presence/routing registry** (Redis: `userId → gatewayServerId`). Message flow: sender → their gateway → lookup recipient's gateway via registry → forward → recipient's gateway pushes over its WebSocket. If the recipient is offline, persist and push via mobile notification; deliver on reconnect.\n**Storage:** messages in a write-heavy, time-ordered store — **wide-column (Cassandra)** keyed by `(conversationId, timestamp)` fits the access pattern (recent messages per conversation, huge write volume). \n**Delivery guarantees:** at-least-once + message IDs for client-side dedup; ack-based delivery/read receipts; ordering per conversation via timestamps/sequence numbers.\n**Scale/tradeoffs:** millions of concurrent WebSockets → many gateway servers, the registry is the coordination point (keep it fast, replicated). Presence is high-churn → eventual consistency and TTL-based heartbeats. Group chat = fan-out to N members (push to each connected member's gateway).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-4-fully-worked-designs-4-5-23": {
+      "id": "design-4-fully-worked-designs-4-5-23",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "4.5",
+      "title": "Notification System (multi-channel)",
+      "body": "**Scope:** send notifications via email / SMS / push, at scale, reliably, without spamming.\n**Design:** a **notification service** receives events → applies user preferences & rate limits / dedup → enqueues per-channel jobs onto a **message queue** → channel-specific **workers** (email worker, SMS worker, push worker) call third-party providers (SES, Twilio, FCM). \n**Reliability:** the queue gives retries + buffering; failed sends → **DLQ**; **idempotency keys** prevent duplicate sends on retry (don't email someone twice because a worker crashed after sending but before acking). Provider rate limits → token-bucket per provider. \n**Tradeoffs:** template rendering and personalization as a separate concern; user preference checks and quiet-hours upfront; analytics (delivered/opened) via an async event stream. This is a near-perfect showcase for *your* RabbitMQ pipeline experience — frame it in those terms.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-4-fully-worked-designs-4-6-24": {
+      "id": "design-4-fully-worked-designs-4-6-24",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "4.6",
+      "title": "Distributed Cache (design Redis-as-a-service — leans on your strength)",
+      "body": "**Scope:** a horizontally-scalable in-memory KV cache with get/put/TTL.\n**Design:** partition the keyspace across N cache nodes via **consistent hashing** (so adding/removing a node only remaps ~1/N of keys, not everything). A client library (or a proxy) hashes the key to find its node. \n**Replication:** each shard has a primary + replica(s) for availability; reads can hit replicas (eventual consistency) or primary (strong). \n**Eviction:** LRU per node when memory is full; TTLs for staleness control. \n**The hard parts (your operational scars apply):** **hot keys** (one key getting disproportionate traffic — mitigate with client-side caching or key replication/splitting), **large values** (your 24 MB-key lesson — big values fragment memory and cause eviction pressure; consider value-size limits and chunking), **thundering herd** on expiry (request coalescing — your semaphore fix), and **cache coherence** with the backing DB (TTL vs write-through vs explicit invalidation). \n**Tradeoffs:** consistency vs availability on replica reads; memory cost vs hit rate; eviction policy vs workload.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-4-fully-worked-designs-4-7-25": {
+      "id": "design-4-fully-worked-designs-4-7-25",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "4.7",
+      "title": "The meta-design — your own multi-tenant SaaS platform",
+      "body": "The single best prep you have: **be able to whiteboard DigitalReceipt crisply.** Structure it as: multi-tenancy strategy (schema-per-tenant — discuss the isolation/operational tradeoffs vs shared-schema-with-tenant-id vs DB-per-tenant), the ingestion pipeline (RabbitMQ workers processing millions of bills, partitioned PostgreSQL with monthly partition management and partition pruning), the caching layer (Redis with stampede protection), search (Elasticsearch inverted index), the API/proxy layer (YARP for observability), and the deployment (AKS, distributed sessions). For each, state the tradeoff you actually made. An interviewer who hears you reason about *your own* production system at this level knows immediately you operate at senior+. Rehearse it until it's a tight 10-minute narrative.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "design-5-senior-signals-and-the-mistakes-that-sink-candidates-5-26": {
+      "id": "design-5-senior-signals-and-the-mistakes-that-sink-candidates-5-26",
+      "trackId": "design",
+      "topicId": "design-5-senior-signals-and-the-mistakes-that-sink-candidates",
+      "section": "5",
+      "title": "Senior signals & the mistakes that sink candidates — overview",
+      "body": "**Signals that read as senior/staff:**\n- Driving the conversation and scoping *before* designing.\n- Quantifying with estimation and letting numbers pick the hard problem.\n- Naming the tradeoff and cost of every choice (\"Redis here cuts read latency but adds a failure mode and a consistency question — I'll fail open\").\n- Choosing the *weakest* consistency the use case tolerates, deliberately.\n- Going deep on mechanisms (outbox, consistent hashing, fan-out hybrid) not logos.\n- Discussing failure modes and how the system degrades.\n\n**Mistakes that sink it:**\n- Jumping to a diagram before requirements.\n- Name-dropping tech without justifying it (\"I'll use Kafka\" — why? what does it cost?).\n- Ignoring scale (a single DB serving 50k QPS) or over-engineering trivial scale.\n- Hand-waving the hard part the interviewer is probing.\n- Claiming \"exactly-once delivery\" without idempotency, or \"strongly consistent\" everything (expensive and usually unnecessary).\n- Forgetting the data flow has to *fail gracefully*.\n\n\n**Part 2 complete.** Next on the roadmap: **Part 3 — CS Fundamentals**, where I write out the actual answers to every \"probe you'll face\" question from the master curriculum (OS/concurrency, networking, DB internals, distributed systems, the .NET runtime) — the part that makes you peer-level, not just interview-ready. Say *continue* and I'll write it in full.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-1-oop-at-depth-beyond-the-four-pillars-1-0": {
+      "id": "lld-1-oop-at-depth-beyond-the-four-pillars-1-0",
+      "trackId": "lld",
+      "topicId": "lld-1-oop-at-depth-beyond-the-four-pillars",
+      "section": "1",
+      "title": "OOP at depth (beyond the four pillars) — overview",
+      "body": "Everyone recites encapsulation/inheritance/polymorphism/abstraction. The *senior* skills are the judgment calls:\n\n**Composition over inheritance.** Inheritance (\"is-a\") is rigid: it couples subclass to superclass internals, creates deep fragile hierarchies, and forces a single classification axis. **Composition** (\"has-a\") assembles behavior from parts you can swap at runtime. Rule of thumb: use inheritance only for a genuine, stable \"is-a\" with a Liskov-substitutable contract; otherwise compose.\n\n```csharp\n// Inheritance trap: a rigid hierarchy that fights you when a duck can't quack\nabstract class Duck { public abstract void Quack(); public abstract void Fly(); }\n// RubberDuck can't fly, ModelDuck can't quack -> override to throw -> LSP violation\n\n// Composition: behaviors as injected strategies (this is the Strategy pattern)\nclass Duck {\n    private IFlyBehavior _fly;\n    private IQuackBehavior _quack;\n    public Duck(IFlyBehavior fly, IQuackBehavior quack) { _fly = fly; _quack = quack; }\n    public void PerformFly() => _fly.Fly();      // swap FlyWithWings / FlyNoWay at runtime\n    public void PerformQuack() => _quack.Quack();\n}\n```\n\n**Cohesion and coupling** are the quality axes. **High cohesion** = a class does one well-defined thing (its members all serve one purpose). **Loose coupling** = classes depend on each other through narrow, stable abstractions, not concrete internals. Good design maximizes cohesion and minimizes coupling — every pattern below is a tool toward that.\n\n**Encapsulation properly** = hiding *invariants*, not just making fields private. A class should expose operations that keep its state valid and never let callers put it in an illegal state.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-2-solid-spot-the-violation-then-refactor-s-1": {
+      "id": "lld-2-solid-spot-the-violation-then-refactor-s-1",
+      "trackId": "lld",
+      "topicId": "lld-2-solid-spot-the-violation-then-refactor",
+      "section": "S",
+      "title": "Single Responsibility",
+      "body": "*A class should have one reason to change.* Mixing concerns means a change to one drags in the others.\n\n```csharp\n// VIOLATION: Invoice computes totals, persists itself, AND emails. Three reasons to change.\nclass Invoice {\n    public decimal Total() { /* business logic */ return 0; }\n    public void SaveToDb() { /* persistence */ }\n    public void EmailCustomer() { /* notification */ }\n}\n// REFACTOR: separate the concerns\nclass Invoice { public decimal Total() { return 0; } }          // domain\nclass InvoiceRepository { public void Save(Invoice i) { } }      // persistence\nclass InvoiceNotifier { public void Email(Invoice i) { } }       // notification\n```",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-2-solid-spot-the-violation-then-refactor-o-2": {
+      "id": "lld-2-solid-spot-the-violation-then-refactor-o-2",
+      "trackId": "lld",
+      "topicId": "lld-2-solid-spot-the-violation-then-refactor",
+      "section": "O",
+      "title": "Open/Closed",
+      "body": "*Open for extension, closed for modification.* Adding a new variant shouldn't mean editing existing tested code.\n\n```csharp\n// VIOLATION: every new shape edits this switch (and risks breaking others)\ndouble Area(object shape) => shape switch {\n    Circle c => Math.PI * c.R * c.R,\n    Square s => s.Side * s.Side,\n    _ => throw new(\"unknown\")\n};\n// REFACTOR: polymorphism — a new shape is a new class, no existing code changes\nabstract class Shape { public abstract double Area(); }\nclass Circle : Shape { public double R; public override double Area() => Math.PI * R * R; }\nclass Square : Shape { public double Side; public override double Area() => Side * Side; }\n```",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-2-solid-spot-the-violation-then-refactor-l-3": {
+      "id": "lld-2-solid-spot-the-violation-then-refactor-l-3",
+      "trackId": "lld",
+      "topicId": "lld-2-solid-spot-the-violation-then-refactor",
+      "section": "L",
+      "title": "Liskov Substitution",
+      "body": "*A subtype must be usable anywhere its base type is, without surprising the caller.* If a subclass weakens a guarantee or throws where the base wouldn't, it's a violation.\n\n```csharp\n// VIOLATION: Square \"is-a\" Rectangle mathematically, but breaks the contract\nclass Rectangle { public virtual int Width { get; set; } public virtual int Height { get; set; } }\nclass Square : Rectangle {\n    public override int Width { set { base.Width = base.Height = value; } }   // surprises callers\n    public override int Height { set { base.Width = base.Height = value; } }\n}\n// Code that sets Width=5, Height=4 and expects Area 20 gets 16 from a Square -> broken.\n// REFACTOR: don't force the inheritance. Model them as separate Shapes implementing IShape,\n// or favor composition. \"Is-a\" in math is not \"is-a\" in behavior.\n```",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-2-solid-spot-the-violation-then-refactor-i-4": {
+      "id": "lld-2-solid-spot-the-violation-then-refactor-i-4",
+      "trackId": "lld",
+      "topicId": "lld-2-solid-spot-the-violation-then-refactor",
+      "section": "I",
+      "title": "Interface Segregation",
+      "body": "*Don't force a class to implement methods it doesn't need.* Fat interfaces couple clients to things they don't use.\n\n```csharp\n// VIOLATION: a simple printer forced to implement Scan and Fax\ninterface IMachine { void Print(); void Scan(); void Fax(); }\nclass OldPrinter : IMachine { public void Print(){} public void Scan()=>throw new(); public void Fax()=>throw new(); }\n// REFACTOR: small, focused interfaces; a class implements only what it supports\ninterface IPrinter { void Print(); }\ninterface IScanner { void Scan(); }\nclass OldPrinter : IPrinter { public void Print(){} }\nclass AllInOne : IPrinter, IScanner { public void Print(){} public void Scan(){} }\n```",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-2-solid-spot-the-violation-then-refactor-d-5": {
+      "id": "lld-2-solid-spot-the-violation-then-refactor-d-5",
+      "trackId": "lld",
+      "topicId": "lld-2-solid-spot-the-violation-then-refactor",
+      "section": "D",
+      "title": "Dependency Inversion",
+      "body": "*Depend on abstractions, not concretions.* High-level policy shouldn't be welded to low-level detail.\n\n```csharp\n// VIOLATION: OrderService hard-wired to a concrete SQL repo and SMTP sender\nclass OrderService {\n    private SqlOrderRepository _repo = new();   // can't test, can't swap\n    private SmtpEmailSender _email = new();\n}\n// REFACTOR: depend on interfaces, inject them (this is what your DI container does)\nclass OrderService {\n    private readonly IOrderRepository _repo;\n    private readonly IEmailSender _email;\n    public OrderService(IOrderRepository repo, IEmailSender email) { _repo = repo; _email = email; }\n}\n```\n\n**The meta-point for interviews:** when shown bad code, *name the principle* and refactor. SOLID isn't trivia — it's the vocabulary for justifying structure.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-3-design-patterns-that-actually-appear-with-code-your-anchors-creational-6": {
+      "id": "lld-3-design-patterns-that-actually-appear-with-code-your-anchors-creational-6",
+      "trackId": "lld",
+      "topicId": "lld-3-design-patterns-that-actually-appear-with-code-your-anchors",
+      "section": "",
+      "title": "Creational",
+      "body": "**Strategy** *(technically behavioral, but the workhorse — lead with it).* Encapsulate interchangeable algorithms behind a common interface; swap at runtime.\n```csharp\ninterface IPricingStrategy { decimal Price(Ticket t); }\nclass HourlyPricing : IPricingStrategy { public decimal Price(Ticket t) => t.Hours * 20m; }\nclass FlatPricing   : IPricingStrategy { public decimal Price(Ticket t) => 100m; }\nclass ParkingLot {\n    private IPricingStrategy _pricing;\n    public ParkingLot(IPricingStrategy p) => _pricing = p;   // inject the algorithm\n}\n```\n*Your anchors:* parking-lot pricing, payment methods, discount rules, the fly/quack behaviors above.\n\n**Factory Method / Abstract Factory.** Centralize object creation so callers don't `new` concretes (supports OCP + DIP).\n```csharp\ninterface IVehicleFactory { Vehicle Create(VehicleType t); }\nclass VehicleFactory : IVehicleFactory {\n    public Vehicle Create(VehicleType t) => t switch {\n        VehicleType.Car => new Car(),\n        VehicleType.Bike => new Bike(),\n        _ => throw new ArgumentException()\n    };\n}\n```\n\n**Builder.** Construct a complex object step by step; great for many optional params / immutability.\n```csharp\nvar pizza = new PizzaBuilder().Size(\"L\").AddTopping(\"mushroom\").AddTopping(\"olive\").Build();\n```\n\n**Singleton — and why it's usually an anti-pattern.** One instance, global access.\n```csharp\npublic sealed class Config {\n    private static readonly Lazy<Config> _i = new(() => new Config());  // thread-safe lazy init\n    public static Config Instance => _i.Value;\n    private Config() { }\n}\n```\n*Say this in the interview:* Singleton introduces **global mutable state**, **hides dependencies** (callers reach for `Instance` instead of declaring what they need), and **hurts testability** (can't substitute a fake). The modern answer is a **DI-container singleton** — register one instance, but **inject** it as an interface. You get single-instance semantics without the global-state and testing costs.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-3-design-patterns-that-actually-appear-with-code-your-anchors-structural-7": {
+      "id": "lld-3-design-patterns-that-actually-appear-with-code-your-anchors-structural-7",
+      "trackId": "lld",
+      "topicId": "lld-3-design-patterns-that-actually-appear-with-code-your-anchors",
+      "section": "",
+      "title": "Structural",
+      "body": "**Decorator.** Wrap an object to add behavior without changing it; compose layers. (.NET streams are decorators: `GZipStream` wraps `FileStream`.)\n```csharp\ninterface ICoffee { decimal Cost(); }\nclass Espresso : ICoffee { public decimal Cost() => 80m; }\nclass MilkDecorator : ICoffee {\n    private readonly ICoffee _inner;\n    public MilkDecorator(ICoffee inner) => _inner = inner;\n    public decimal Cost() => _inner.Cost() + 20m;       // add cost, delegate the rest\n}\n// new MilkDecorator(new Espresso()) -> 100\n```\n\n**Proxy.** A stand-in that controls access — adds logging, caching, lazy-loading, or remoting *without* changing the real object's interface. **This is exactly your YARP wrapper:** a transparent layer in front of the real APIs adding observability/logging. Own it.\n```csharp\ninterface IApi { Response Call(Request r); }\nclass LoggingProxy : IApi {\n    private readonly IApi _real;\n    public LoggingProxy(IApi real) => _real = real;\n    public Response Call(Request r) {\n        Log(r);                       // cross-cutting concern added transparently\n        var resp = _real.Call(r);\n        Log(resp);\n        return resp;\n    }\n}\n```\n\n**Adapter.** Make an incompatible interface fit the one your code expects (wrap a third-party SDK). *Your anchor:* the StorePay integration — adapting their SHA-512-hashed, HTML-error-page API to your payment interface.\n```csharp\ninterface IPaymentGateway { PaymentResult Pay(decimal amount); }\nclass StorePayAdapter : IPaymentGateway {\n    private readonly StorePaySdk _sdk;                  // the incompatible third party\n    public PaymentResult Pay(decimal amount) {\n        var raw = _sdk.Charge(Sha512(amount.ToString())); // translate to their shape\n        return Parse(raw);                                 // translate back to ours\n    }\n}\n```\n\n**Facade.** A simple unified interface over a messy subsystem (an `OrderFacade` hiding inventory + payment + shipping calls).\n\n**Composite.** Treat individual objects and compositions uniformly via a tree (file system: a `File` and a `Folder` both implement `IComponent.Size()`).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-3-design-patterns-that-actually-appear-with-code-your-anchors-behavioral-8": {
+      "id": "lld-3-design-patterns-that-actually-appear-with-code-your-anchors-behavioral-8",
+      "trackId": "lld",
+      "topicId": "lld-3-design-patterns-that-actually-appear-with-code-your-anchors",
+      "section": "",
+      "title": "Behavioral",
+      "body": "**Observer.** Subscribers react to a subject's state changes (publish/subscribe in-process). C# has first-class support via `event`/`IObservable<T>`.\n```csharp\nclass Stock {\n    public event Action<decimal>? PriceChanged;          // subject\n    public void SetPrice(decimal p) => PriceChanged?.Invoke(p);  // notify observers\n}\n// stock.PriceChanged += price => Console.WriteLine($\"alert {price}\");\n```\n*Anchor:* notification fan-out, your gamification triggers.\n\n**State.** An object alters behavior when its internal state changes — each state is a class; transitions move between them. Replaces sprawling `if/switch` on a status field. *Anchor:* elevator (Idle/Moving/DoorOpen), order lifecycle (Draft→Submitted→Approved).\n```csharp\ninterface IElevatorState { IElevatorState Press(int floor); }\nclass IdleState : IElevatorState { public IElevatorState Press(int floor) => new MovingState(floor); }\nclass MovingState : IElevatorState { /* ... */ public IElevatorState Press(int floor) => this; }\n```\n\n**Chain of Responsibility.** A request passes along a chain; each handler either handles it or passes it on. **This is ASP.NET Core middleware and your `IExceptionHandler` pipeline.** Own it.\n```csharp\nabstract class Handler {\n    protected Handler? Next;\n    public Handler SetNext(Handler n) { Next = n; return n; }\n    public abstract void Handle(Request r);   // handle or delegate to Next\n}\n```\n\n**Command.** Encapsulate a request as an object (with `Execute`/`Undo`) — enables queuing, logging, and undo/redo.\n```csharp\ninterface ICommand { void Execute(); void Undo(); }\n```\n\n**Template Method.** A base class defines an algorithm's skeleton; subclasses fill in specific steps.\n```csharp\nabstract class ReportGenerator {\n    public void Generate() { Fetch(); Transform(); Render(); }   // fixed skeleton\n    protected abstract void Fetch();        // subclasses customize the steps\n    protected abstract void Render();\n    protected virtual void Transform() { }  // optional hook\n}\n```\n\n**Iterator.** Traverse a collection without exposing its internals — `IEnumerable<T>`/`IEnumerator<T>` and `yield return` are this pattern built into C#.\n\n**The pattern-selection skill** (what's actually graded): given a requirement, name the pattern *and the alternative you rejected*. \"Pricing varies by lot type and time → Strategy, injected, so adding a pricing scheme is a new class not an edited switch (OCP).\" That sentence is the senior signal.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-4-how-to-drive-an-lld-interview-4-9": {
+      "id": "lld-4-how-to-drive-an-lld-interview-4-9",
+      "trackId": "lld",
+      "topicId": "lld-4-how-to-drive-an-lld-interview",
+      "section": "4",
+      "title": "How to drive an LLD interview — overview",
+      "body": "1. **Clarify requirements & scope.** List the core use cases; confirm what's in/out. (Parking lot: multiple floors? vehicle types? pricing model? payment?)\n2. **Identify the core entities (nouns)** and their relationships → your classes.\n3. **Define behaviors (verbs)** → methods and interfaces.\n4. **Apply patterns where variation lives** — name them and why (Strategy for pricing, State for lifecycle, Factory for creation).\n5. **Draw the class diagram** — classes, key fields/methods, relationships (has-a / is-a / uses).\n6. **Handle concurrency** if the domain needs it (seat booking, spot allocation) — locks, atomic reservation, optimistic concurrency.\n7. **Walk a use case end to end** through your classes to prove it works; discuss extensibility (\"to add electric-vehicle spots, I'd…\").\n\nThe grading: clean responsibilities (SRP), extensibility without editing existing code (OCP), justified patterns, and not over-engineering a simple ask.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-5-worked-designs-5-1-10": {
+      "id": "lld-5-worked-designs-5-1-10",
+      "trackId": "lld",
+      "topicId": "lld-5-worked-designs",
+      "section": "5.1",
+      "title": "Parking Lot (the canonical)",
+      "body": "**Requirements:** multiple floors; spot sizes per vehicle type; assign nearest free spot on entry; issue a ticket; charge by duration on exit; pluggable pricing.\n**Entities & structure:**\n```csharp\nenum VehicleType { Bike, Car, Truck }\nabstract class Vehicle { public VehicleType Type { get; init; } public string Plate { get; init; } = \"\"; }\nclass Car : Vehicle { public Car() => Type = VehicleType.Car; }\n\nclass ParkingSpot {\n    public string Id { get; init; } = \"\";\n    public VehicleType Size { get; init; }\n    public bool IsFree { get; private set; } = true;\n    public Vehicle? Current { get; private set; }\n    public bool TryPark(Vehicle v) {            // encapsulated invariant: only park if free & fits\n        if (!IsFree || v.Type > Size) return false;\n        Current = v; IsFree = false; return true;\n    }\n    public void Vacate() { Current = null; IsFree = true; }\n}\n\nclass ParkingFloor {\n    private readonly List<ParkingSpot> _spots;\n    public ParkingFloor(List<ParkingSpot> spots) => _spots = spots;\n    public ParkingSpot? FindSpot(VehicleType t) =>\n        _spots.FirstOrDefault(s => s.IsFree && s.Size >= t);\n}\n\nclass Ticket {\n    public string Id { get; init; } = Guid.NewGuid().ToString();\n    public ParkingSpot Spot { get; init; } = null!;\n    public DateTime EntryTime { get; init; } = DateTime.UtcNow;\n}\n\ninterface IPricingStrategy { decimal Calculate(Ticket t, DateTime exit); }\nclass HourlyPricing : IPricingStrategy {\n    public decimal Calculate(Ticket t, DateTime exit) =>\n        (decimal)Math.Ceiling((exit - t.EntryTime).TotalHours) * 30m;\n}\n\nclass ParkingLot {\n    private readonly List<ParkingFloor> _floors;\n    private readonly IPricingStrategy _pricing;          // injected strategy\n    private readonly object _lock = new();\n    public ParkingLot(List<ParkingFloor> floors, IPricingStrategy pricing)\n        { _floors = floors; _pricing = pricing; }\n\n    public Ticket? Enter(Vehicle v) {\n        lock (_lock) {                                    // concurrency: avoid double-assigning a spot\n            foreach (var floor in _floors) {\n                var spot = floor.FindSpot(v.Type);\n                if (spot is not null && spot.TryPark(v))\n                    return new Ticket { Spot = spot };\n            }\n            return null;                                  // lot full\n        }\n    }\n    public decimal Exit(Ticket t) {\n        var fee = _pricing.Calculate(t, DateTime.UtcNow);\n        t.Spot.Vacate();\n        return fee;\n    }\n}\n```\n**Talking points:** Strategy for pricing (OCP — add surge/weekend pricing as a class), the `_lock` to prevent two cars claiming the same spot (concurrency), encapsulated spot invariants, easy extension to EV spots (new `VehicleType` + spot capability). For huge scale, replace the lock with per-spot atomic reservation or optimistic concurrency.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-5-worked-designs-5-2-11": {
+      "id": "lld-5-worked-designs-5-2-11",
+      "trackId": "lld",
+      "topicId": "lld-5-worked-designs",
+      "section": "5.2",
+      "title": "LRU Cache (hashmap + doubly linked list, O(1))",
+      "body": "**Insight:** O(1) get/put needs a hashmap (key→node) for lookup *and* a doubly linked list for recency order (move-to-front on access, evict the tail).\n```csharp\nclass LRUCache {\n    private class Node { public int Key, Val; public Node? Prev, Next; }\n    private readonly int _cap;\n    private readonly Dictionary<int, Node> _map = new();\n    private readonly Node _head = new(), _tail = new();   // sentinels kill edge cases\n    public LRUCache(int capacity) { _cap = capacity; _head.Next = _tail; _tail.Prev = _head; }\n\n    private void Remove(Node n) { n.Prev!.Next = n.Next; n.Next!.Prev = n.Prev; }\n    private void AddFront(Node n) {                        // most-recently-used at front\n        n.Next = _head.Next; n.Prev = _head;\n        _head.Next!.Prev = n; _head.Next = n;\n    }\n\n    public int Get(int key) {\n        if (!_map.TryGetValue(key, out var n)) return -1;\n        Remove(n); AddFront(n);                            // touch -> move to front\n        return n.Val;\n    }\n    public void Put(int key, int val) {\n        if (_map.TryGetValue(key, out var existing)) { existing.Val = val; Remove(existing); AddFront(existing); return; }\n        if (_map.Count == _cap) {                          // evict LRU (the tail)\n            var lru = _tail.Prev!;\n            Remove(lru); _map.Remove(lru.Key);\n        }\n        var node = new Node { Key = key, Val = val };\n        AddFront(node); _map[key] = node;\n    }\n}\n```\n**Talking points:** *doubly* linked list so you can unlink any node in O(1); sentinel head/tail remove null-checks; thread-safety would need a lock or a sharded/striped design (and `ConcurrentDictionary` won't give you LRU ordering for free). **LFU** is the harder follow-up (frequency buckets).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-5-worked-designs-5-3-12": {
+      "id": "lld-5-worked-designs-5-3-12",
+      "trackId": "lld",
+      "topicId": "lld-5-worked-designs",
+      "section": "5.3",
+      "title": "Rate Limiter (token bucket, pluggable algorithm)",
+      "body": "```csharp\ninterface IRateLimiter { bool Allow(string clientId); }\n\nclass TokenBucketLimiter : IRateLimiter {\n    private class Bucket { public double Tokens; public DateTime Last; }\n    private readonly int _capacity; private readonly double _refillPerSec;\n    private readonly Dictionary<string, Bucket> _buckets = new();\n    private readonly object _lock = new();\n    public TokenBucketLimiter(int capacity, double refillPerSec)\n        { _capacity = capacity; _refillPerSec = refillPerSec; }\n\n    public bool Allow(string clientId) {\n        lock (_lock) {\n            if (!_buckets.TryGetValue(clientId, out var b))\n                b = _buckets[clientId] = new Bucket { Tokens = _capacity, Last = DateTime.UtcNow };\n            var now = DateTime.UtcNow;\n            b.Tokens = Math.Min(_capacity, b.Tokens + (now - b.Last).TotalSeconds * _refillPerSec); // refill\n            b.Last = now;\n            if (b.Tokens >= 1) { b.Tokens -= 1; return true; }   // consume\n            return false;                                         // throttled\n        }\n    }\n}\n```\n**Talking points:** token bucket allows bursts up to capacity then steady refill; the interface lets you swap in sliding-window or leaky-bucket (Strategy). For a *distributed* limiter, this state moves to Redis with an atomic Lua script (Part 2 §4.2) — say that, it shows you know the single-node design is only step one. *Your anchor:* you've built rate limiting in production.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-5-worked-designs-5-4-13": {
+      "id": "lld-5-worked-designs-5-4-13",
+      "trackId": "lld",
+      "topicId": "lld-5-worked-designs",
+      "section": "5.4",
+      "title": "Elevator (State pattern + scheduling)",
+      "body": "**Requirements:** N floors, requests from inside (destination) and outside (up/down call), efficient scheduling.\n**Structure:** an `Elevator` with a current floor, direction, and a `State` (Idle/MovingUp/MovingDown/DoorOpen); a request queue (often two sorted sets — pending stops above and below — served in a sweep, the **SCAN/elevator algorithm**); a `Controller`/`Dispatcher` that assigns external calls to the best elevator (nearest, same-direction).\n```csharp\nenum Direction { Up, Down, Idle }\nclass Elevator {\n    public int CurrentFloor { get; private set; }\n    public Direction Dir { get; private set; } = Direction.Idle;\n    private readonly SortedSet<int> _up = new();      // stops above, served ascending\n    private readonly SortedSet<int> _down = new(Comparer<int>.Create((a,b)=>b-a));\n    public void Request(int floor) {\n        if (floor > CurrentFloor) _up.Add(floor); else _down.Add(floor);\n    }\n    public void Step() {                              // SCAN: exhaust one direction, then reverse\n        var queue = Dir == Direction.Down ? _down : _up;\n        // ... move toward nearest stop in current direction; reverse when exhausted\n    }\n}\n```\n**Talking points:** State pattern for behavior per mode; the SCAN algorithm for efficiency (don't reverse direction with pending same-direction stops); the dispatcher as a separate concern (SRP). Multi-car scheduling is the extension.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "lld-5-worked-designs-5-5-14": {
+      "id": "lld-5-worked-designs-5-5-14",
+      "trackId": "lld",
+      "topicId": "lld-5-worked-designs",
+      "section": "5.5",
+      "title": "Quick sketches for the rest of the common set",
+      "body": "- **Notification Service:** `INotificationChannel` (Email/SMS/Push) = **Strategy**; subscribers via **Observer**; a queue + workers for async/retry (Part 2 §4.5). Your RabbitMQ experience is the story.\n- **Vending Machine:** **State** pattern (Idle → MoneyInserted → Dispensing → OutOfStock); inventory + change-making.\n- **Splitwise:** users, groups, expenses with **split strategies** (equal/exact/percentage = Strategy); a balance sheet (who owes whom) with simplification.\n- **Tic-Tac-Toe / Chess:** `Board`, `Piece` hierarchy (each piece's move rules = polymorphism), a rules engine; **Command** for moves + undo.\n- **Logging framework:** **Chain of Responsibility** (level-based handlers) + **Strategy** (sinks: file/console/db) + a **Singleton/DI** logger factory.\n\n\n**Part 4 complete.** You now have OOP judgment, SOLID as refactor drills, the ~15 patterns that appear (with your YARP-proxy, StorePay-adapter, and IExceptionHandler-chain anchors), and five+ worked designs with code. Last one: **Part 5 — Behavioral**, where I give you the framework *and pre-draft your actual story bank* from your real work (the Redis crisis, partition pruning, the purging task, mentoring) in STAR form, plus the company-flavor angles. Say *continue* to finish the set.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-1-0": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-1-0",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.1",
+      "title": "Process vs thread",
+      "body": "A **process** is an instance of a running program with its *own* address space (virtual memory), file descriptors, and resources. A **thread** is a unit of execution *within* a process; threads of the same process **share** the address space (heap, globals, code) but each has its **own stack and registers (and program counter)**.\n\nImplications: threads communicate cheaply (shared memory) but must synchronize to avoid races; processes are isolated (a crash in one doesn't corrupt another) but communicate via IPC (pipes, sockets, shared memory) which is heavier. Creating a thread is far cheaper than a process.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-2-1": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-2-1",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.2",
+      "title": "Context switching",
+      "body": "The CPU runs one thread per core at a time. A **context switch** saves the current thread's registers/PC/stack pointer and loads another's. It costs directly (the save/restore, ~1–10 µs) and indirectly (**cache and TLB pollution** — the new thread's working set isn't in cache). This is why spawning thousands of threads hurts: more time switching than working. It's also the argument for async I/O over thread-per-request.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-3-2": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-3-2",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.3",
+      "title": "User mode vs kernel mode, syscalls",
+      "body": "The CPU runs in **user mode** (restricted) or **kernel mode** (full hardware access). Application code runs in user mode; to do privileged things (I/O, allocate memory, spawn threads) it makes a **syscall**, which traps into the kernel (a mode switch, more expensive than a function call). This boundary is why I/O is \"expensive\" beyond the device itself, and why batching syscalls (e.g. reading larger buffers) helps.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-4-3": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-4-3",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.4",
+      "title": "Scheduling",
+      "body": "The OS scheduler decides which ready thread runs next. **Preemptive** scheduling interrupts a running thread (via a timer) to give others a turn — guaranteeing no thread monopolizes the CPU. Concerns: **fairness**, **priority** (higher-priority threads first), **starvation** (a low-priority thread never running — mitigated by priority aging), and throughput vs latency. Common policies: round-robin, multilevel feedback queues (Linux CFS aims for fairness via a virtual-runtime).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-5-4": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-5-4",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.5",
+      "title": "Virtual memory, paging, page faults, TLB",
+      "body": "Each process sees a private, contiguous **virtual address space**; the **MMU** translates virtual → physical addresses via **page tables**, in fixed-size **pages** (typically 4 KB). This gives isolation (processes can't touch each other's memory) and the *illusion of more memory than physically exists* (unused pages live on disk/swap).\n\nThe **TLB** (Translation Lookaside Buffer) caches recent virtual→physical translations so the MMU doesn't walk the page table every access.",
+      "probes": [
+        {
+          "question": "Walk me through a page fault.",
+          "answer": "The CPU issues a virtual address. The MMU looks it up — if the translation isn't in the TLB, it walks the page table. If the page-table entry says the page is **not present** in physical memory (valid bit clear), the MMU raises a **page fault**, trapping to the OS. The OS handler checks if the access is legal (within a mapped region — if not, segfault). For a legal fault it (1) finds a free physical frame, evicting one via the page-replacement policy if memory is full (writing the victim to disk if dirty), (2) reads the needed page from disk/swap into the frame, (3) updates the page table and TLB, then (4) restarts the faulting instruction, which now succeeds. A **minor fault** = the page is already in RAM but not mapped into this process (cheap); a **major fault** = a disk read (slow, ~ms). Excessive major faults = **thrashing**, where the system spends more time paging than computing."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-6-5": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-6-5",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.6",
+      "title": "Memory hierarchy & cache locality — *the answer to \"but they're both O(n)\"*",
+      "body": "Registers → L1 → L2 → L3 → RAM → SSD → disk, each ~10–100× slower and larger than the last. The CPU loads memory in **cache lines** (~64 bytes), so accessing one element pulls in its neighbors.",
+      "probes": [
+        {
+          "question": "An array and a linked list are both O(n) to traverse — why is the array dramatically faster in practice?",
+          "answer": "Big-O ignores constants and the memory hierarchy. An array is **contiguous**, so a traversal has excellent **spatial locality** — each cache line fetch brings in the next several elements, and the hardware **prefetcher** predicts the sequential access. A linked list scatters nodes across the heap, so each `next` is likely a **cache miss** (~100 ns to RAM) and defeats prefetching. The array can be 10–50× faster despite identical asymptotic complexity. This is why `List<T>`/arrays beat `LinkedList<T>` for almost all real workloads, and why data-oriented design (struct-of-arrays) matters in hot paths."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-7-6": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-7-6",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.7",
+      "title": "False sharing",
+      "body": "When two threads update *different* variables that happen to sit on the *same cache line*, each write invalidates the other core's cached copy, ping-ponging the line between cores even though there's no logical contention. Fix: pad/align hot per-thread data to separate cache lines (or use thread-local storage). A subtle performance killer worth naming — it signals real systems depth.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-8-7": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-8-7",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.8",
+      "title": "Concurrency primitives",
+      "body": "- **Race condition:** the result depends on unsynchronized timing of threads accessing shared state. The classic: `i++` is read-modify-write, not atomic; two threads can both read 5, both write 6, losing an increment.\n- **Critical section:** code that must execute atomically with respect to shared state; protect it with a lock.\n- **Mutex:** a lock with **ownership** — only the thread that acquired it can release it. For mutual exclusion (one thread in the critical section).\n- **Semaphore:** a **counter** with no ownership; `acquire` decrements (blocks at 0), `release` increments. Used to **limit N concurrent** accesses or for **signaling** between threads. A binary semaphore (count 1) resembles a mutex but lacks ownership semantics.\n- **Spinlock:** busy-waits (spins) instead of sleeping. Cheaper than a mutex *if* the wait is very short (avoids the context-switch cost) but wastes CPU if held long.",
+      "probes": [
+        {
+          "question": "Mutex vs semaphore — when each?",
+          "answer": "Use a **mutex** for mutual exclusion: protecting a shared resource so exactly one thread uses it at a time, with clear ownership (the locker unlocks). Use a **semaphore** when you want to allow up to **N** concurrent users of a resource (a connection pool of 10, or your `SemaphoreSlim(1)` used to serialize cache repopulation), or for **signaling** (producer signals consumer that an item is ready). Key difference: a mutex is owned and binary; a semaphore is a counter without ownership, so one thread can signal and another can wait."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-9-8": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-9-8",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.9",
+      "title": "Deadlock, livelock, starvation",
+      "body": "**Deadlock** requires all four **Coffman conditions** simultaneously:\n1. **Mutual exclusion** — resources are non-shareable.\n2. **Hold and wait** — a thread holds one resource while waiting for another.\n3. **No preemption** — resources can't be forcibly taken.\n4. **Circular wait** — a cycle of threads each waiting on the next.\n\nBreak **any one** to prevent deadlock. Most practical fix: impose a **global lock ordering** (always acquire locks in the same order) to eliminate circular wait. Others: acquire all locks at once (no hold-and-wait), use timeouts/try-lock, or detect-and-recover.\n\n**Livelock:** threads keep changing state in response to each other but make no progress (two people stepping aside in a hallway, repeatedly). **Starvation:** a thread is perpetually denied a resource (always outprioritized) — fixed by fairness/aging.",
+      "probes": [
+        {
+          "question": "Your high-throughput service has lock contention killing throughput — what do you do?",
+          "answer": "The goal is to shrink or remove the serialized section. Options, roughly in order: (1) **reduce the critical section** — do only the minimum under the lock, move expensive work outside it; (2) **lock striping / sharding** — split one lock into many keyed by hash (e.g. `ConcurrentDictionary` does this internally) so unrelated keys don't contend; (3) **read-write locks** — if reads dominate, let readers run concurrently and only writers exclude; (4) **immutability / copy-on-write** — readers never lock if data is immutable; (5) **lock-free structures** using CAS for simple state; (6) **partition the state per-thread** and merge later (thread-local accumulation); (7) reduce the *need* to share at all (sharding work by key). I'd profile first to confirm the lock is the bottleneck and measure contention, not guess."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-10-9": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-10-9",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.10",
+      "title": "Atomicity, memory models, and why `volatile` isn't a lock",
+      "body": "Modern CPUs and compilers **reorder** instructions and cache values in registers for speed. A **memory model** defines what reorderings are allowed and what guarantees about visibility one thread has of another's writes.\n\n`volatile` (in C#/Java) provides **visibility and ordering** guarantees — a volatile read/write isn't cached in a register and certain reorderings around it are forbidden — so one thread sees another's write. But `volatile` does **not** make compound operations atomic: `volatileInt++` is still a non-atomic read-modify-write and still races. **Memory barriers/fences** enforce ordering at specific points. For atomic compound ops you need interlocked/atomic operations or a lock.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-11-10": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-11-10",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.11",
+      "title": "Lock-free programming & CAS",
+      "body": "**Compare-And-Swap (CAS)** is an atomic CPU primitive: \"if this memory location still equals *expected*, set it to *new*, atomically, and report success.\" It's the foundation of lock-free structures — you compute a new value and CAS it in; if another thread changed it first, you retry. Benefit: no blocking, no deadlock. Pitfall: the **ABA problem** (a value changes A→B→A and CAS wrongly thinks nothing happened — fixed with version tags) and livelock under high contention. `Interlocked.CompareExchange` in .NET exposes it.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-1-operating-systems-and-concurrency-1-12-11": {
+      "id": "fundamentals-1-operating-systems-and-concurrency-1-12-11",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-1-operating-systems-and-concurrency",
+      "section": "1.12",
+      "title": "Concurrency vs parallelism — and why async ≠ threads",
+      "body": "- **Concurrency** = *dealing with* many things at once (structure: interleaving tasks, making progress on multiple, even on one core).\n- **Parallelism** = *doing* many things at once (multiple cores executing simultaneously).\nYou can have concurrency without parallelism (one core time-slicing) and parallelism is one way to *implement* concurrency.",
+      "probes": [
+        {
+          "question": "Is `async/await` multithreading?",
+          "answer": "No. `async/await` is about **not blocking a thread while waiting on I/O**, not about using more threads. When you `await` an I/O-bound operation (a DB call, an HTTP request), the thread is **released back to the pool** while the OS/device does the work; when the I/O completes, a continuation is scheduled (often on a different pool thread) to resume. So one thread can service many in-flight requests — high **concurrency** with few threads. This is why async dramatically improves throughput for **I/O-bound** servers (your web APIs): you're not holding a thread per blocked request. It does **not** speed up **CPU-bound** work — for that you need actual parallelism (`Parallel`, multiple threads/cores). Using async for CPU-bound work or blocking inside async just wastes the benefit."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-2-networking-2-1-12": {
+      "id": "fundamentals-2-networking-2-1-12",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-2-networking",
+      "section": "2.1",
+      "title": "The layers that matter",
+      "body": "Don't recite all seven OSI layers — *understand* the ones in play: **L3 (network/IP)** routes packets between hosts by IP; **L4 (transport/TCP/UDP)** delivers to the right process (ports) with/without reliability; **L7 (application/HTTP, gRPC, DNS)** is your protocols. Load balancers operate at L4 (fast, opaque) or L7 (content-aware) — the distinction your YARP proxy lives in.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-2-networking-2-2-13": {
+      "id": "fundamentals-2-networking-2-2-13",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-2-networking",
+      "section": "2.2",
+      "title": "TCP vs UDP",
+      "body": "**TCP** is connection-oriented and reliable: a **3-way handshake** (SYN → SYN-ACK → ACK) establishes the connection; data is delivered **in order, without loss or duplication** via sequence numbers, acknowledgments, and retransmission. It has **flow control** (the receiver advertises a window so a fast sender doesn't overwhelm it) and **congestion control** (slow-start, then additive-increase/multiplicative-decrease — back off on packet loss to avoid collapsing the network). Teardown is a 4-way FIN/ACK exchange.\n\n**UDP** is connectionless and unreliable: no handshake, no ordering, no retransmission — just send datagrams. Lower latency and overhead.",
+      "probes": [
+        {
+          "question": "When choose UDP?",
+          "answer": "When loss is tolerable and latency matters more than reliability: live video/voice (a dropped frame is better than a stall), DNS (small, one round trip, retry at the app level), gaming. **QUIC/HTTP3** is built on UDP precisely to escape TCP's limitations while re-implementing reliability in user space."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-2-networking-2-3-14": {
+      "id": "fundamentals-2-networking-2-3-14",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-2-networking",
+      "section": "2.3",
+      "title": "IP, ports, NAT",
+      "body": "An **IP address** identifies a host; a **port** identifies a process/socket on it. **NAT** lets many devices behind a router share one public IP by rewriting addresses/ports — the reason your laptop's private IP isn't internet-routable, and a complication for peer-to-peer (hence STUN/TURN).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-2-networking-2-4-15": {
+      "id": "fundamentals-2-networking-2-4-15",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-2-networking",
+      "section": "2.4",
+      "title": "DNS, end to end",
+      "body": "",
+      "probes": [
+        {
+          "question": "What happens when you type a URL and hit Enter? (the all-time classic — go deep)",
+          "answer": "1. **DNS resolution:** the browser checks its cache, then the OS cache, then asks a **resolver** (usually the ISP's). If uncached, the resolver queries the **root** nameserver → the **TLD** server (`.com`) → the domain's **authoritative** nameserver, getting the IP (an **A**/**AAAA** record), cached per its **TTL**.\n2. **TCP connection:** the browser opens a TCP connection to that IP on port 443 — the **3-way handshake**.\n3. **TLS handshake:** for HTTPS, client and server negotiate a cipher, the server presents its **certificate** (validated up a CA chain), and they establish a shared **symmetric** session key via asymmetric key exchange (ECDHE for forward secrecy). TLS 1.3 does this in ~1 round trip.\n4. **HTTP request:** the browser sends `GET /` with headers; the request may hit a **CDN/edge**, a **load balancer**, then an app server.\n5. **Server processing:** app logic, DB/cache calls, response generated.\n6. **Response & render:** the browser receives HTML, parses it, builds the DOM, fetches subresources (CSS/JS/images — often from a CDN, over multiplexed HTTP/2 streams), runs JS, and paints.\nA strong answer names DNS caching layers, the TCP+TLS handshakes, the CDN/LB hops, and the render pipeline — and can go deeper on any of them when pushed."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-2-networking-2-5-16": {
+      "id": "fundamentals-2-networking-2-5-16",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-2-networking",
+      "section": "2.5",
+      "title": "HTTP versions",
+      "body": "- **HTTP/1.1:** one request at a time per connection (pipelining is broken in practice); browsers open multiple connections. Suffers **head-of-line (HOL) blocking** at the application layer — one slow response blocks the connection.\n- **HTTP/2:** **multiplexes** many concurrent **streams** over a **single** TCP connection (binary framing), adds **header compression (HPACK)** and server push. Solves application-layer HOL.",
+      "probes": [
+        {
+          "question": "Why is HTTP/2 faster?",
+          "answer": "Multiplexing (no per-request connection setup, many in flight at once on one connection), header compression (headers repeat heavily across requests), and binary framing (cheaper to parse). *But* it still rides on TCP, so a single lost packet stalls **all** streams — **transport-layer HOL blocking** remains. - **HTTP/3 (QUIC):** runs over **UDP**, implementing streams that are **independent** at the transport layer, so one lost packet only stalls its own stream — eliminating TCP HOL. It also folds the transport + TLS handshake together for faster connection setup and supports connection migration (survives IP changes)."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-2-networking-2-6-17": {
+      "id": "fundamentals-2-networking-2-6-17",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-2-networking",
+      "section": "2.6",
+      "title": "TLS handshake (why HTTPS is secure)",
+      "body": "Asymmetric crypto (public/private key) is used **only to securely agree on a shared symmetric key**; the bulk session then uses fast symmetric encryption. The server's **certificate**, signed by a **Certificate Authority**, proves the server's identity (the client validates the signature chain to a trusted root). Modern handshakes use **ephemeral** key exchange (ECDHE) for **forward secrecy** — capturing the traffic and later stealing the server key still can't decrypt past sessions. TLS 1.3 trimmed it to 1-RTT (0-RTT on resumption).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-2-networking-2-7-18": {
+      "id": "fundamentals-2-networking-2-7-18",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-2-networking",
+      "section": "2.7",
+      "title": "Real-time: WebSocket vs SSE vs long-polling",
+      "body": "- **Long polling:** client requests, server holds the connection open until data is available, then responds; client immediately re-requests. Works everywhere; inefficient.\n- **Server-Sent Events (SSE):** a single long-lived HTTP connection, server → client only, text streaming. Good for one-way feeds.\n- **WebSocket:** a persistent, **full-duplex** connection (upgraded from HTTP). Both sides push anytime. The right tool for chat, live collaboration, gaming (the chat design in Part 2 uses it).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-2-networking-2-8-19": {
+      "id": "fundamentals-2-networking-2-8-19",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-2-networking",
+      "section": "2.8",
+      "title": "gRPC vs REST vs GraphQL",
+      "body": "",
+      "probes": [
+        {
+          "question": "When gRPC over REST?",
+          "answer": "Use **gRPC** for **internal service-to-service** communication where you control both ends and want low latency, a strict typed contract, and streaming: it uses HTTP/2 (multiplexed) and **Protobuf** (compact binary, fast to serialize, schema-enforced), supports bidirectional streaming, and generates client/server stubs. Use **REST** for public-facing/CRUD APIs where human-readability, broad client support, browser-friendliness, and HTTP caching matter. Use **GraphQL** when diverse clients need to fetch exactly the fields they want in one round trip (avoiding over-/under-fetching in REST), accepting harder caching and the need to bound query complexity. Trade-off summary: gRPC = performance + typing, REST = simplicity + ubiquity, GraphQL = flexible fetching."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-2-networking-2-9-20": {
+      "id": "fundamentals-2-networking-2-9-20",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-2-networking",
+      "section": "2.9",
+      "title": "HTTP semantics worth knowing",
+      "body": "**Idempotent** methods (same effect if repeated): GET, PUT, DELETE, HEAD. **Not** idempotent: POST — which is why retrying a failed payment POST needs an **idempotency key**. Status codes that signal real understanding: 201 (created), 202 (accepted/async), 304 (not modified — caching), 401 vs 403 (unauthenticated vs unauthorized), 409 (conflict), 429 (rate limited), 502/503/504 (gateway/unavailable/timeout).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-1-21": {
+      "id": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-1-21",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight",
+      "section": "3.1",
+      "title": "Indexing internals",
+      "body": "**B-tree / B+-tree (the relational default):** a balanced tree with **high fanout** — each node holds many keys and corresponds to a disk page — so even billions of rows are ~3–4 levels deep, meaning a lookup is a handful of page reads. B+-trees keep all data in the leaves, linked for efficient **range scans**. Great for reads, equality, and ranges; writes cost rebalancing.\n\n**LSM-tree (write-optimized stores — Cassandra, RocksDB):** writes go to an in-memory **memtable** + a write-ahead log, then flush as sorted immutable **SSTables**; background **compaction** merges them. Writes are sequential (fast); reads may check several SSTables (**read amplification**, mitigated by **bloom filters** that cheaply rule out SSTables). The core trade: **B-tree = read-optimized, LSM = write-optimized.**\n\n**Index rules that show judgment:**\n- **Composite index column order** follows leftmost-prefix: an index on `(a, b)` serves queries filtering on `a` or `a,b`, but not `b` alone.\n- A **covering index** includes all columns a query needs, so it's answered from the index without touching the table.\n- **Cardinality matters:** an index on a boolean (2 values) is usually useless — the planner will seq-scan anyway.",
+      "probes": [
+        {
+          "question": "When would you NOT add an index?",
+          "answer": "On **write-heavy tables** where the index's write/maintenance cost outweighs read benefit; on **low-cardinality** columns (few distinct values — the index doesn't narrow enough); on **small tables** (a sequential scan is cheaper than index overhead); on columns **rarely used** in filters/joins; and when a column is **already the prefix** of an existing composite index (redundant). Every index also costs storage and slows inserts/updates/deletes, so they're not free — you add them to serve specific, measured query patterns."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-2-22": {
+      "id": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-2-22",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight",
+      "section": "3.2",
+      "title": "ACID & transactions",
+      "body": "**Atomicity** (all-or-nothing), **Consistency** (constraints hold before and after), **Isolation** (concurrent transactions don't corrupt each other), **Durability** (committed data survives crashes — via the write-ahead log). The WAL is the mechanism behind both atomicity (undo) and durability (redo).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-3-23": {
+      "id": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-3-23",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight",
+      "section": "3.3",
+      "title": "Isolation levels & the anomalies they prevent",
+      "body": "Concurrency anomalies, from worst:\n- **Dirty read:** reading another transaction's *uncommitted* change.\n- **Non-repeatable read:** reading the same row twice in one transaction yields different values because another transaction *committed an update* in between.\n- **Phantom read:** re-running the same *query* yields a different *set of rows* because another transaction *inserted/deleted* matching rows.\n- **Write skew:** two transactions each read an overlapping set, then make *disjoint* writes that together violate an invariant — even though neither alone does.\n\nThe levels, each preventing more:\n| Level | Prevents |\n|---|---|\n| Read Uncommitted | (nothing — allows dirty reads) |\n| Read Committed | dirty reads (**Postgres default**) |\n| Repeatable Read | + non-repeatable reads |\n| Serializable | + phantoms + write skew (behaves as if transactions ran one at a time) |",
+      "probes": [
+        {
+          "question": "Repeatable Read vs Serializable — give an anomaly each prevents but the other doesn't.",
+          "answer": "Standard **Repeatable Read** prevents non-repeatable reads but still allows **phantoms** and **write skew**. **Serializable** prevents those too. (A wrinkle worth knowing and stating: PostgreSQL's Repeatable Read is implemented as **snapshot isolation**, which actually *does* prevent phantoms — but it still permits **write skew**. PostgreSQL's Serializable uses **Serializable Snapshot Isolation (SSI)**, which detects and aborts the dangerous read-write dependency cycles that cause write skew.) The canonical **write skew** example: two on-call doctors each run \"is at least one *other* doctor on call? yes → I can go off-call,\" both read the same snapshot showing the other on call, and both go off-call — leaving zero coverage, violating the invariant. Only Serializable catches this."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-4-24": {
+      "id": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-4-24",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight",
+      "section": "3.4",
+      "title": "MVCC (Multi-Version Concurrency Control)",
+      "body": "",
+      "probes": [
+        {
+          "question": "How does Postgres let readers not block writers (and vice versa)?",
+          "answer": "**MVCC.** Instead of overwriting a row, an update creates a **new version** of the row, tagged with transaction IDs (`xmin` = creating txn, `xmax` = deleting/superseding txn). Each transaction sees a **snapshot**: the set of row versions visible as of its start (or statement, depending on level). So **readers see a consistent snapshot without taking read locks**, and writers create new versions without blocking those readers. The cost is **bloat** — dead/old row versions accumulate and must be reclaimed by **VACUUM** (and the visibility map / autovacuum manage this). This is exactly why your `dr_transaction` purging and retention work matters operationally: dead tuples and table bloat directly hurt performance and disk usage if not vacuumed/purged."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-5-25": {
+      "id": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-5-25",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight",
+      "section": "3.5",
+      "title": "Concurrency control",
+      "body": "- **Pessimistic** (locking): assume conflict, lock rows/tables (e.g. `SELECT ... FOR UPDATE`). **Two-phase locking (2PL)** — acquire all locks (growing phase), then release (shrinking phase) — guarantees serializability but risks deadlock.\n- **Optimistic** (versioning): assume no conflict, proceed, then **check a version/timestamp at commit**; if it changed, abort and retry. Better under low contention; wasteful under high contention.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-6-26": {
+      "id": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-6-26",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight",
+      "section": "3.6",
+      "title": "Query execution & tuning (your 45s→sub-second story, explained)",
+      "body": "The **cost-based planner** estimates the cheapest plan using table statistics. Scan types: **sequential scan** (read the whole table — best when returning a large fraction), **index scan** (walk the B-tree — best for selective filters), **bitmap heap scan** (build a bitmap of matching pages from an index, then fetch — for medium selectivity). Join strategies: **nested loop** (small or indexed inner), **hash join** (build a hash table on one side — for large unsorted equality joins), **merge join** (both inputs sorted — for sorted/range joins).",
+      "probes": [
+        {
+          "question": "A query suddenly takes 45 seconds. Walk me through diagnosing it.",
+          "answer": "Run **`EXPLAIN ANALYZE`** and compare **estimated vs actual rows** — a big gap means the planner's statistics are stale, so I'd `ANALYZE` (refresh stats) or check autovacuum. Look for a **sequential scan** where an index scan should apply (missing/unusable index, or a function/implicit-cast on the column defeating the index, or low selectivity making the planner choose seq scan). Check whether **partition pruning** is happening — if the query can't be pruned to the relevant partitions it scans all of them (this was central to your work: a query that should touch one monthly partition scanning 120 of them). Check for a bad **join order/strategy** (a nested loop over a huge set), **lock waits** (`pg_stat_activity`), **I/O vs CPU** bound, and whether the result set ballooned. The fix is usually one of: add/repair an index, make the predicate sargable, ensure partition pruning fires, refresh statistics, or rewrite the query to let the planner prune — which is precisely how a 45-second report collapses to sub-second."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-7-27": {
+      "id": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight-3-7-27",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-3-databases-your-strongest-fundamental-make-it-airtight",
+      "section": "3.7",
+      "title": "SQL vs NoSQL & the outbox problem",
+      "body": "(See Part 2 §2.5 for the data-model families and partitioning.) The senior point to internalize: **you cannot atomically write to your database and publish to a message broker** (two systems, no shared transaction) — the **dual-write problem**. The fix is the **transactional outbox**: write the event into an `outbox` table inside the *same* DB transaction as the state change; a separate relay (polling the table, or **CDC** reading the WAL via Debezium) publishes it to the broker. The event fires **iff** the transaction committed. This ties directly to your RabbitMQ pipelines.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-1-28": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-1-28",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "section": "4.1",
+      "title": "Why distributed systems are hard",
+      "body": "The **fallacies of distributed computing**: the network is *not* reliable, latency is *not* zero, bandwidth is *not* infinite, the topology *changes*, there's *no* single clock. The defining difficulty is **partial failure** — in one process, code either runs or the process dies; in a distributed system, a node can be up while the *network* to it is down, and you often **can't tell the difference** between a slow node, a dead node, and a partitioned network. And there's **no global clock**, so \"what happened first\" is genuinely ambiguous across nodes.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-2-29": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-2-29",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "section": "4.2",
+      "title": "CAP & PACELC (state these precisely)",
+      "body": "**CAP:** during a **network partition**, a distributed store must choose between **Consistency** (refuse or delay to avoid returning stale data) and **Availability** (keep serving, possibly stale). It is *only* a forced choice **during a partition** — a common shallow mistake is treating it as \"pick 2 of 3 always.\"\n**PACELC** completes the picture: **if Partitioned, choose A or C; Else (normal operation), choose between Latency and Consistency.** Even with no partition, stronger consistency (more coordination) costs latency. Saying PACELC unprompted signals depth.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-3-30": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-3-30",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "section": "4.3",
+      "title": "The consistency spectrum",
+      "body": "**Linearizable/strong** (every read sees the latest write, as if one copy — requires coordination, expensive) → **sequential** → **causal** (causally-related operations are seen in order everywhere; concurrent ones may differ) → **read-your-writes** (you always see your own updates) → **eventual** (replicas converge *eventually* if writes stop). **Design rule:** choose the **weakest** model the use case tolerates. A bank balance needs strong; a follower count, a like, a view count tolerates eventual — and that choice buys you availability and latency.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-4-31": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-4-31",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "section": "4.4",
+      "title": "Consensus — Raft",
+      "body": "",
+      "probes": [
+        {
+          "question": "How does Raft elect a leader and replicate a log?",
+          "answer": "Nodes are in one of three states: **follower**, **candidate**, **leader**, and time is divided into numbered **terms**. **Election:** each follower has a **randomized election timeout**; if it goes that long without hearing a heartbeat from a leader, it becomes a **candidate**, increments the term, votes for itself, and sends **RequestVote** RPCs. Each node grants **at most one vote per term** (to the first valid candidate whose log is at least as up-to-date as its own). A candidate that gets votes from a **majority** becomes leader and starts sending heartbeats. Randomized timeouts make simultaneous candidacies (split votes) rare, and any split simply resolves in the next term. **Log replication:** clients send commands to the leader, which appends to its log and sends **AppendEntries** RPCs to followers; once a **majority** have replicated an entry, the leader marks it **committed**, applies it to its state machine, and informs followers. Safety comes from the majority-overlap (any two majorities share a node) and the up-to-date-log voting rule, guaranteeing a new leader has all committed entries. Systems like **etcd** (and thus Kubernetes' control plane) and Consul run on Raft."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-5-32": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-5-32",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "section": "4.5",
+      "title": "Replication & quorums",
+      "body": "**Synchronous** replication (wait for replicas to ack) = no data loss on failover but higher latency and an availability risk if a replica is down; **asynchronous** = fast but can lose the last few writes if the leader dies before replicas catch up (**replication lag**, which also causes stale reads on followers and read-your-writes violations). **Quorum:** with N replicas, requiring write quorum W and read quorum R such that **W + R > N** guarantees a read set overlaps the latest write set — so a read sees the newest value. Tuning W/R trades consistency against latency/availability (e.g. W=N, R=1 favors reads; W=1, R=N favors writes).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-6-33": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-6-33",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "section": "4.6",
+      "title": "Partitioning & consistent hashing",
+      "body": "To split data across nodes, **consistent hashing** maps both keys and nodes onto a hash ring; a key belongs to the next node clockwise. Adding/removing a node only remaps the keys between it and its neighbor — **~1/N of keys move**, not everything (as naive `hash % N` would). **Virtual nodes** (each physical node owns many points on the ring) smooth out load imbalance and make rebalancing even. This underlies Dynamo/Cassandra and the distributed-cache design in Part 2.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-7-34": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-7-34",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "section": "4.7",
+      "title": "Ordering without a clock: Lamport & vector clocks",
+      "body": "**Lamport timestamps** give a logical counter that produces a *total order consistent with causality* (if A causally precedes B, A's timestamp < B's) — but equal/Lamport-ordered events might actually be concurrent; it can't *detect* concurrency. **Vector clocks** (a counter per node) can: comparing two vector clocks tells you whether one happened-before the other or they're **concurrent** (a conflict). Used to detect conflicting writes in leaderless replication, then resolved by last-write-wins, app logic, or **CRDTs** (data types that merge concurrent updates deterministically — e.g. a grow-only counter).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-8-35": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-8-35",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "section": "4.8",
+      "title": "Idempotency & the exactly-once myth",
+      "body": "",
+      "probes": [
+        {
+          "question": "Why can't you have exactly-once delivery?",
+          "answer": "Because the network can't distinguish a **lost message** from a **lost acknowledgment**. If a sender doesn't get an ack, it must either retry (risking a **duplicate** if the original actually arrived) or not (risking **loss**). So end-to-end you get **at-most-once** (may lose) or **at-least-once** (may duplicate) — true exactly-once *delivery* is impossible in the general asynchronous model. What people *call* \"exactly-once\" is **at-least-once delivery + idempotent processing**: the consumer deduplicates (by message ID / idempotency key / a processed-IDs table) so duplicates have no effect, yielding **effectively-once** semantics. Always design consumers to be idempotent and never assume the broker gives you real exactly-once."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-9-36": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-9-36",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "section": "4.9",
+      "title": "Distributed transactions: 2PC, sagas, outbox",
+      "body": "**Two-phase commit (2PC):** a coordinator asks all participants to **prepare** (vote), then **commit** if all voted yes. It gives atomicity across systems but is **blocking** (if the coordinator dies after prepare, participants are stuck holding locks) and hurts availability — so it's avoided at scale. **Sagas** replace one distributed transaction with a **sequence of local transactions**, each with a **compensating action** to undo on failure (book flight → book hotel → if hotel fails, cancel flight). Eventual consistency, no global lock. **Outbox/CDC** (from §3.7) solves the specific DB-plus-broker dual-write atomically. The senior instinct: **design to avoid distributed transactions**; reach for sagas/outbox/idempotency instead.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-10-37": {
+      "id": "fundamentals-4-distributed-systems-the-senior-staff-differentiator-4-10-37",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-4-distributed-systems-the-senior-staff-differentiator",
+      "section": "4.10",
+      "title": "Failure detection",
+      "body": "Nodes detect each other's liveness via **heartbeats** (periodic \"I'm alive\") with timeouts, or **gossip** protocols (nodes randomly exchange membership/health info, scaling to large clusters without a central monitor — used by Cassandra/Dynamo). The hard truth (from §4.1): a timeout can't distinguish *dead* from *slow/partitioned*, so failure detection is always a probabilistic judgment, and acting on a false positive (declaring a live node dead) can cause split-brain — which is why you need consensus/quorums for decisions like leader election.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-38": {
+      "id": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-38",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack",
+      "section": "5",
+      "title": "NET / CLR Runtime Depth (own your own stack) — overview",
+      "body": "A principal engineer assumes you know your runtime cold. This is where a .NET candidate either sounds senior or gets exposed.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-1-39": {
+      "id": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-1-39",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack",
+      "section": "5.1",
+      "title": "Memory: stack, heap, value vs reference",
+      "body": "**Value types** (`struct`, `int`, `bool`) hold their data inline — on the **stack** if local, or **inline within** their containing object on the heap. **Reference types** (`class`) live on the **heap**; the variable holds a **reference** (pointer). Assigning a value type **copies** it; assigning a reference type copies the reference (both point to the same object).\n\n**Boxing** wraps a value type in a heap object to treat it as `object`/an interface — it **allocates and copies**, and **unboxing** copies back. In hot paths (e.g. a value type going through a non-generic collection or `object` API) boxing causes hidden GC pressure. **struct vs class:** prefer a `struct` for small, immutable, short-lived data to avoid heap allocation (e.g. coordinates, `DateTime`); prefer a `class` for larger or identity-bearing objects. **`Span<T>`** is a stack-only `ref struct` that gives a typed, bounds-checked **window over contiguous memory** (an array, `stackalloc` buffer, or native memory) with **zero allocation and zero copy** — ideal for slicing/parsing in hot paths; **`Memory<T>`** is the heap-storable cousin usable across `await` (a `ref struct` can't live on the heap or cross awaits). **`stackalloc`** allocates a buffer on the stack (no GC) for short-lived scratch space.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-2-40": {
+      "id": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-2-40",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack",
+      "section": "5.2",
+      "title": "Garbage collection",
+      "body": "**`IDisposable` and finalizers:** `IDisposable.Dispose()` deterministically releases **unmanaged** resources (file handles, sockets, DB connections) — call it via `using`. A **finalizer** (`~Type()`) is a non-deterministic safety net the GC runs before reclaiming an object with unmanaged resources, but finalizable objects **survive an extra GC cycle** (they go on a finalization queue, get promoted, and are collected later) — so finalizers hurt GC performance and are a **last resort**. The pattern: implement `Dispose`, suppress finalization (`GC.SuppressFinalize`) when disposed, keep a finalizer only as a backstop.",
+      "probes": [
+        {
+          "question": "Walk me through a gen-2 GC.",
+          "answer": ".NET's GC is **generational** and **mark-sweep-compact**. Objects start in **gen 0** (small, cheap, collected very frequently); survivors are promoted to **gen 1** (a buffer), then **gen 2** (long-lived). The generational hypothesis — most objects die young — means most collections are cheap gen-0s. A **gen-2 (full) collection** scans the **entire** managed heap: it **marks** all objects reachable from the **roots** (stack references, statics, GC handles), **sweeps** the unreachable, and **compacts** survivors (moving them together to defragment, then fixing up all references) — this is the expensive part and the source of noticeable **pauses**. Large objects (≥ **85 KB**) live on the **Large Object Heap**, which is collected *with* gen 2 and, by default, **not compacted** (to avoid copying big blocks), so it can fragment. Gen-2 collections are triggered by exceeding the gen-2 allocation budget, LOH allocations, memory pressure, or an induced `GC.Collect()`. **Workstation GC** (default for client apps) favors low latency on one heap; **Server GC** (default for ASP.NET Core on servers) uses **one heap and GC thread per core** for higher throughput. **Background/concurrent GC** does most gen-2 marking concurrently with your threads to shrink pauses. The takeaway for performance: minimize allocations (especially LOH and boxing), reuse buffers (`ArrayPool<T>`, `Span<T>`), and avoid promoting short-lived objects."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-3-41": {
+      "id": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-3-41",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack",
+      "section": "5.3",
+      "title": "async/await internals",
+      "body": "**Thread-pool starvation:** blocking pool threads (sync-over-async, or `Task.Run` wrapping blocking I/O) consumes the limited pool; the pool **injects new threads slowly** (roughly one per ~0.5–1 s once past the minimum), so a burst of blocked threads causes latency cliffs, timeouts, and apparent deadlocks. The cure is true async I/O end to end.",
+      "probes": [
+        {
+          "question": "What actually happens when you `await`?",
+          "answer": "The C# compiler rewrites an `async` method into a **state machine** (a struct implementing `IAsyncStateMachine`). At an `await` on an incomplete `Task`, the method **doesn't block** — it registers a **continuation** (the rest of the method, captured as the next state) with the awaited task and **returns** to the caller, freeing the thread. When the awaited operation completes, the continuation is scheduled to run — by default **back on the captured `SynchronizationContext`** (in UI/classic-ASP.NET) or on the **thread pool** (ASP.NET Core has no SyncContext). For I/O, no thread is consumed during the wait (it's an OS completion callback), which is why async scales I/O-bound work. **`Task` vs `ValueTask`:** `Task` is a heap object; `ValueTask` is a struct that avoids the allocation when the result is frequently available **synchronously** (cached values, hot paths) — but it has rules (await it **once**, don't block on it, don't await concurrently), so use `Task` by default and `ValueTask` for measured hot paths."
+        },
+        {
+          "question": "Why did calling `.Result` (or `.Wait()`) deadlock?",
+          "answer": "In an environment with a **single-threaded SynchronizationContext** (a UI thread, or classic ASP.NET request context), you call an async method and then **block** the context thread on `.Result`. Inside, the method `await`s and, by default, captures the context so its **continuation must resume on that same context thread**. But that thread is **blocked** waiting on `.Result` — which can't complete until the continuation runs, which can't run until the thread is free. **Circular wait → deadlock.** Fixes: **don't block on async** (await all the way up — \"async all the way\"); or, in library code, use **`ConfigureAwait(false)`** so the continuation resumes on the **thread pool** instead of the captured context, breaking the cycle. ASP.NET **Core** removed the SynchronizationContext, so this specific deadlock is rare there — but **sync-over-async still causes thread-pool starvation**."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-4-42": {
+      "id": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-4-42",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack",
+      "section": "5.4",
+      "title": "Threading primitives in .NET",
+      "body": "- **`lock` (Monitor):** mutual exclusion with ownership — the everyday critical-section guard.\n- **`Interlocked`:** atomic ops (`Increment`, `CompareExchange`) without a lock — lock-free counters.\n- **`SemaphoreSlim`:** limit N concurrent (or `(1,1)` to serialize, **async-friendly** — your cache-stampede fix used this to ensure one repopulation while others await).\n- **`ConcurrentDictionary` / concurrent collections:** internally lock-striped/lock-free for safe, low-contention concurrent access.\n- **`Channel<T>`:** an async producer/consumer queue with backpressure — the idiomatic in-process pipeline primitive (a clean alternative to hand-rolled `BlockingCollection`).",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-5-43": {
+      "id": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack-5-5-43",
+      "trackId": "fundamentals",
+      "topicId": "fundamentals-5-net-clr-runtime-depth-own-your-own-stack",
+      "section": "5.5",
+      "title": "ASP.NET Core pipeline & DI (own this — it's your daily surface)",
+      "body": "**Middleware** is a pipeline of delegates, each receiving the `HttpContext` and a `next` — it can do work, call `next()`, and do more on the way back (a **Russian-doll** model where the request flows in and the response flows out). Your `IExceptionHandler` / exception-handling middleware sits early so it can wrap everything downstream — conceptually a **Chain of Responsibility**.\n\n**DI lifetimes:** **Singleton** (one instance for the app), **Scoped** (one per request/scope), **Transient** (a new instance per resolution).\n\n\n\n**Part 3 complete.** You now have the peer-level depth track with the answers written out — cover them and quiz yourself; the bar is answering each probe cold, out loud. Next on the roadmap: **Part 4 — LLD/OOD** (SOLID with violation-spotting, the patterns that actually appear with code, and worked designs like parking lot / LRU / rate limiter), then **Part 5 — Behavioral** (the framework plus your story bank pre-drafted from your real work). Say *continue* for Part 4.",
+      "probes": [
+        {
+          "question": "What breaks if you inject a Scoped service into a Singleton?",
+          "answer": "The **captive dependency** problem. The singleton is constructed once and **holds its dependencies for the app's lifetime**, so a scoped service injected into it is effectively **promoted to singleton** — it never gets a fresh per-request instance. That's a bug when the scoped service carries per-request state or isn't thread-safe: the classic case is injecting a **`DbContext`** (scoped, not thread-safe, tracks entities) into a singleton — you get a single shared context used concurrently across requests, causing race conditions, stale tracked entities, and connection-lifetime issues. .NET's DI container **validates against this** at startup (scope validation in Development) and throws. The correct pattern is to inject **`IServiceScopeFactory`** (or `IServiceProvider`) into the singleton and **create a scope per unit of work** to resolve the scoped dependency freshly. Background services (`BackgroundService`, themselves singletons) hit this constantly — they must create a scope per iteration to use scoped services like a `DbContext`."
+        }
+      ],
+      "followups": [],
+      "source": "original"
+    },
+    "fw-1-0": {
+      "id": "fw-1-0",
+      "trackId": "behavioral",
+      "topicId": "behavioral-framework",
+      "section": "1",
+      "title": "Why behavioral decides senior outcomes",
+      "body": "At 6 YOE the bar isn't \"can you code\" — it's \"what's your **scope, judgment, and impact**, and can you **own ambiguity and influence people**.\" Interviewers are reverse-engineering your seniority from how you talk about your work. Two engineers can have done the same project; the one who narrates **decisions, tradeoffs, and quantified impact** reads as senior, the one who narrates **tasks** reads as junior. Your memory shows you've worked on exactly this — \"articulating the seniority of your own work.\" This document is that, finished. **You did senior work. Claim it plainly.**\n\n---",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fw-2-1": {
+      "id": "fw-2-1",
+      "trackId": "behavioral",
+      "topicId": "behavioral-framework",
+      "section": "2",
+      "title": "STAR — and the senior upgrade",
+      "body": "- **S — Situation:** the context, briefly. One or two sentences. Scale matters (\"a multi-tenant platform processing millions of bills monthly across 120+ tenants\").\n- **T — Task:** what *you* specifically owned and why it was hard.\n- **A — Action:** the meat — **your decisions**, the options you weighed, the tradeoffs. Say \"I decided… because… over the alternative of… which would have…\". First person singular: \"I\", not \"we\", for *your* contribution.\n- **R — Result:** **quantified** outcome + what you learned / what it enabled.\n\n**The senior upgrades:** spend ~60% on the Action and make it about *judgment*, not steps. Always quantify the Result (latency, %, cost, time saved, incidents avoided, people grown). Keep each story to **~2 minutes** spoken. Have a one-line \"headline\" you can lead with.\n\n---",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fw-3-2": {
+      "id": "fw-3-2",
+      "trackId": "behavioral",
+      "topicId": "behavioral-framework",
+      "section": "3",
+      "title": "The seniority signals interviewers grade",
+      "body": "Scope (system vs feature) · handling ambiguity · tradeoff articulation · influence & mentoring · ownership beyond your ticket · dealing with failure · calm under production pressure · disagree-and-commit · driving clarity from chaos. Each story below is tagged with which it shows.\n\n---",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fw-5-3": {
+      "id": "fw-5-3",
+      "trackId": "behavioral",
+      "topicId": "behavioral-framework",
+      "section": "5",
+      "title": "Competency → story matrix (so you never blank)",
+      "body": "| If asked about… | Pull story |\n|---|---|\n| Hardest technical problem | 1 (stampede), 3 (45s→sub-second) |\n| A production incident / firefight | 2 (24MB key), 1 (stampede) |\n| Ownership / went beyond your role | 4 (purge), 7 (YARP), 6 (KT) |\n| Ambiguity / undefined problem | 4 (purge), 7 (YARP) |\n| Scaling / systems thinking | 5 (sessions), 3 (partitioning) |\n| Mentoring / leadership / influence | 6 (juniors + KT) |\n| Conflict / disagreement | 8 (your real one) |\n| Failure / mistake | 9 (your real one) |\n| Impact you're proud of | 3 (45s→sub-second), 6 (growing people) |\n| Stakeholder / cross-functional | 4 (purge comms) |\n\nAim for **8–10 solid stories**; most prompts are these recombined. Know your matrix cold so you map any question to a story in two seconds.\n\n---",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fw-6-4": {
+      "id": "fw-6-4",
+      "trackId": "behavioral",
+      "topicId": "behavioral-framework",
+      "section": "6",
+      "title": "Company flavors",
+      "body": "- **Amazon (and Amazon-style):** the **16 Leadership Principles** are the rubric. Prepare ~2 stories each for the big ones — **Customer Obsession, Ownership, Dive Deep, Bias for Action, Deliver Results, Earn Trust, Invent and Simplify, Are Right A Lot, Have Backbone (Disagree and Commit)**. Your stories map naturally: purge = Ownership + Earn Trust; 45s→sub-second = Dive Deep + Deliver Results; KT = Develop the Best/Earn Trust; YARP = Invent and Simplify; Story 8 = Have Backbone. They'll drill with \"tell me more,\" \"what would you do differently,\" \"what was the data\" — **Dive Deep** is real, have the details.\n- **Google:** \"Googleyness\" + general cognitive ability; less rubric-rigid, more \"are you thoughtful, collaborative, comfortable with ambiguity.\" Emphasize reasoning and collaboration.\n- **GCCs (JPMC, Walmart, Microsoft India):** general impact, ownership, collaboration, and **real depth in your stack** (they value your actual experience more than FAANG does). Your platform stories are perfect here.\n- **Product companies:** impact, user/business outcome, scrappiness, end-to-end ownership.\n\nPrep the **framework and your matrix**, not 200 memorized scripts — you adapt the same stories to the company's language.\n\n---",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fw-7-5": {
+      "id": "fw-7-5",
+      "trackId": "behavioral",
+      "topicId": "behavioral-framework",
+      "section": "7",
+      "title": "Common prompts — quick guidance",
+      "body": "- **\"Tell me about yourself.\"** 90 seconds: who you are, the scope you operate at (multi-tenant SaaS at scale), 1–2 headline impacts, why you're looking. Not a résumé readthrough.\n- **\"Why are you leaving / why us?\"** Forward-looking and positive: growth, scope, the kind of problems they have. Never trash your current employer.\n- **\"Most challenging project.\"** Story 1 or 3. Go deep when they probe.\n- **\"A time you disagreed with your manager/a senior.\"** Story 8 — and land the \"disagree and commit.\"\n- **\"A time you failed.\"** Story 9 — owned and learned.\n- **\"How do you mentor / handle a struggling teammate?\"** Story 6.\n- **\"A time you took ownership of something outside your scope.\"** Story 4 or 7.\n- **\"How do you handle a production incident?\"** Walk your real approach (Story 1/2): stabilize first, find root cause, fix durably, post-mortem, prevent recurrence.\n\n---",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fw-8-6": {
+      "id": "fw-8-6",
+      "trackId": "behavioral",
+      "topicId": "behavioral-framework",
+      "section": "8",
+      "title": "Delivery — the part that's pure reps",
+      "body": "Your memory notes you've worked on **interview narration confidence** — so this matters most. Knowing the story ≠ telling it crisply under pressure. The gap closes one way: out loud.\n- **Record yourself** telling each story once. Listen back. You'll catch rambling, missing numbers, and burying the impact.\n- **Lead with the headline** (\"I took a 45-second report to sub-second by fixing partition pruning\") then unfold STAR.\n- **Keep to ~2 minutes.** Practice trimming.\n- **Use \"I\"** for your decisions. You're not stealing team credit — they're asking what *you* did.\n- **Quantify or it didn't happen** — fill every bracket in this doc with a real number.\n- **Speak plainly and own it.** You did senior-level work on a system processing millions of transactions across 120+ tenants. That's not a small thing. Say it like it isn't.\n\n---",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fw-9-7": {
+      "id": "fw-9-7",
+      "trackId": "behavioral",
+      "topicId": "behavioral-framework",
+      "section": "9",
+      "title": "Questions to ask them (you're evaluating them too)",
+      "body": "Have 3–4 ready; it signals seniority. E.g.: \"What does the path from senior to staff look like here?\" · \"What's the biggest technical challenge the team is facing right now?\" · \"How are technical decisions made and disagreements resolved?\" · \"What does success look like in the first 6 months?\" Pick ones you actually care about.\n\n---",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    },
+    "fw-the-corpus-is-complete-how-to-use-all-five-parts-8": {
+      "id": "fw-the-corpus-is-complete-how-to-use-all-five-parts-8",
+      "trackId": "behavioral",
+      "topicId": "behavioral-framework",
+      "section": "",
+      "title": "THE CORPUS IS COMPLETE — how to use all five parts",
+      "body": "You now have a self-contained set:\n- **Part 1 — DSA:** every pattern, C# templates, every problem dissected (Insight/Approach/Complexity/Watch).\n- **Part 2 — System Design:** estimation, building blocks in depth, the framework, worked designs.\n- **Part 3 — CS Fundamentals:** OS/networking/DB/distributed/.NET with every probe answered — your peer-level depth.\n- **Part 4 — LLD/OOD:** SOLID drills, patterns with code, worked designs.\n- **Part 5 — Behavioral:** this — your story bank, drafted.\n\n**The honest framing on \"no external resources ever\":** this gets you *interview-ready* on its own — it's the spine. Two things still live outside it by nature: **fresh problem reps** (you must actually *solve* DSA problems to build the muscle; reading my dissections builds recognition, solving builds recall — Part 1's Read/Solved/**Cold** metric is the law), and **mock interviews** (you can't self-source the pressure of explaining out loud to another person). Everything *conceptual* you need to clear interviews is in these five files.\n\n**Sequencing reminder (from the master curriculum):** DSA daily as the spine; rotate Parts 2–5 alongside; front-load DSA in months 1–2, deepen fundamentals in months 3–6. The 2–3 month checkpoint is \"switch-ready\" (clear GCC/product interviews); the 6-month checkpoint is \"FAANG-ready *and* genuinely peer-level.\"\n\n**The first move:** fill the brackets in Part 5 with your real numbers, pick your conflict and failure moments, and record yourself telling Story 1 out loud today. Then open Part 1 and bring two problems to Cold. The corpus is the map; the reps are the territory.\n\nYou did the work. Now go make them see it.",
+      "probes": [],
+      "followups": [],
+      "source": "original"
+    }
+  },
+  "stories": {
+    "story-1-the-cache-stampede-that-was-hammering-the-database": {
+      "id": "story-1-the-cache-stampede-that-was-hammering-the-database",
+      "trackId": "behavioral",
+      "topicId": "behavioral-story-bank",
+      "order": 0,
+      "title": "The cache stampede that was hammering the database",
+      "signals": [
+        "hardest technical problem",
+        "production pressure",
+        "ownership"
+      ],
+      "placeholders": [
+        "quantify: e.g. p99 from Xms→Yms / DB CPU from X%→Y%"
+      ],
+      "source": "original",
+      "situation": "On our multi-tenant DigitalReceipt platform (millions of bills/month across 120+ tenants), a heavily-read resource was cached, but under load we were seeing database latency spikes and CPU pressure.",
+      "task": "I owned diagnosing and fixing it without losing the cache's benefit.",
+      "action": "I traced it to a **cache stampede** — when the hot key expired, hundreds of concurrent requests all missed simultaneously and hammered Postgres to recompute the same value (a thundering herd). I evaluated options: longer TTLs (just delays it), pre-warming (fragile), or coordinating the recompute. I implemented a **`SemaphoreSlim`-based lock around the `IMemoryCache` repopulation** so that on a miss, exactly **one** request recomputes while the others wait briefly (or serve the slightly-stale value), then all read the fresh cache. I chose this over a distributed lock because the contention was per-pod and I wanted to avoid adding a network round-trip to the hot path.",
+      "result": "The database spike disappeared and tail latency stabilized [quantify: e.g. p99 from Xms→Yms / DB CPU from X%→Y%]. The deeper lesson I carry: caching isn't just a TTL — you have to design the **miss path** under concurrency."
+    },
+    "story-2-the-24mb-redis-key-crashing-pods-in-production": {
+      "id": "story-2-the-24mb-redis-key-crashing-pods-in-production",
+      "trackId": "behavioral",
+      "topicId": "behavioral-story-bank",
+      "order": 1,
+      "title": "The 24MB Redis key crashing pods in production",
+      "signals": [
+        "debugging under pressure",
+        "production incident",
+        "learning from a design flaw"
+      ],
+      "placeholders": [
+        "your approach: chunking / narrowing the cached shape / size guardrails",
+        "quantify: crash rate / memory headroom"
+      ],
+      "source": "original",
+      "situation": "Our AKS pods started crashing/OOM-ing intermittently — a live production incident.",
+      "task": "I had to find the cause fast and stop the recurrence.",
+      "action": "I worked back from the memory profile and Redis metrics to a **single ~24MB key**. A value that large fragments memory, spikes pod memory on each fetch, and creates eviction pressure that destabilizes the whole cache. The immediate fix was to stop loading the monolithic value; the durable fix was to **restructure how that data was keyed/stored** [your approach: chunking / narrowing the cached shape / size guardrails] and add a guardrail against oversized values.",
+      "result": "Pods stabilized and the crashes stopped [quantify: crash rate / memory headroom]. The lesson: cache *value size* is a first-class design constraint, not an afterthought — a big value is an operational hazard even when it \"works.\""
+    },
+    "story-3-turning-a-45-second-report-into-sub-second": {
+      "id": "story-3-turning-a-45-second-report-into-sub-second",
+      "trackId": "behavioral",
+      "topicId": "behavioral-story-bank",
+      "order": 2,
+      "title": "Turning a 45-second report into sub-second",
+      "signals": [
+        "hardest technical problem",
+        "measurable impact",
+        "systems depth"
+      ],
+      "placeholders": [
+        "the predicate wasn't sargable / the partition key wasn't being used effectively",
+        "alternative considered, e.g. materialized view / denormalization",
+        "confirm exact"
+      ],
+      "source": "original",
+      "situation": "A report on our partitioned, multi-tenant Postgres was taking ~45 seconds, which was unacceptable for users.",
+      "task": "I owned making it fast.",
+      "action": "Using `EXPLAIN ANALYZE`, I found that **partition pruning wasn't firing** — the query was scanning across far more partitions than it needed because [the predicate wasn't sargable / the partition key wasn't being used effectively]. I rewrote the query so the planner could prune to the relevant partitions, and I fixed **index propagation across the tenant schemas** so the right indexes existed everywhere. I weighed [alternative considered, e.g. materialized view / denormalization] but chose the query+index fix because it addressed the root cause without adding maintenance burden.",
+      "result": "~45 seconds → **sub-second** [confirm exact]. Beyond the one report, the partition-pruning and index-propagation patterns I established helped other queries across the platform."
+    },
+    "story-4-owning-a-high-risk-irreversible-data-purge-across-123-tenant-schemas": {
+      "id": "story-4-owning-a-high-risk-irreversible-data-purge-across-123-tenant-schemas",
+      "trackId": "behavioral",
+      "topicId": "behavioral-story-bank",
+      "order": 3,
+      "title": "Owning a high-risk, irreversible data purge across 123 tenant schemas",
+      "signals": [
+        "ownership",
+        "ambiguity",
+        "stakeholder communication",
+        "managing risk"
+      ],
+      "placeholders": [
+        "carefully — e.g. batched / dry-run-validated / reversible-where-possible",
+        "quantify"
+      ],
+      "source": "original",
+      "situation": "We urgently needed to purge a large transaction database (`dr_transaction`) spanning **123 tenant schemas**, each with different, brand-specific retention policies. Deletes are irreversible and the data was sensitive — high blast radius.",
+      "task": "I owned doing it safely: correct per-brand retention, zero accidental loss, and stakeholders kept informed.",
+      "action": "Because the risk was irreversible, I treated communication and safeguards as part of the engineering. I **produced a deletion guide** documenting exactly what would be removed per schema, got **per-brand retention approvals** so the policy was owned by the business not assumed by me, drafted **stakeholder communications** so no one was surprised, and executed [carefully — e.g. batched / dry-run-validated / reversible-where-possible]. I deliberately slowed down to get approvals rather than move fast on an irreversible action.",
+      "result": "The purge completed cleanly — correct retention honored, space reclaimed [quantify], no data incident and no stakeholder caught off guard. This is my template for high-risk operational work: the deletion is the easy part; the approvals, documentation, and comms are what make it safe."
+    },
+    "story-5-users-randomly-logged-out-after-we-scaled-horizontally": {
+      "id": "story-5-users-randomly-logged-out-after-we-scaled-horizontally",
+      "trackId": "behavioral",
+      "topicId": "behavioral-story-bank",
+      "order": 4,
+      "title": "Users randomly logged out after we scaled horizontally",
+      "signals": [
+        "scaling",
+        "debugging",
+        "stateless-design judgment"
+      ],
+      "placeholders": [
+        "quantify if possible"
+      ],
+      "source": "original",
+      "situation": "After scaling our app to multiple Kubernetes pods, users started getting intermittently logged out.",
+      "task": "Diagnose and fix the session inconsistency.",
+      "action": "I traced it to **session state living in individual pod memory** — a request load-balanced to a different pod than the one holding the session had no idea who the user was. I moved sessions to **distributed Redis**, making the pods **stateless** so any pod can serve any request. I chose distributed sessions over sticky sessions because sticky routing undermines load balancing and resilience.",
+      "result": "Logouts stopped and the app became genuinely horizontally scalable [quantify if possible]. The principle I internalized — and now apply by default — is that **horizontal scaling requires statelessness**; per-process state is a scaling bug waiting to happen."
+    },
+    "story-6-spreading-critical-knowledge-and-growing-the-juniors": {
+      "id": "story-6-spreading-critical-knowledge-and-growing-the-juniors",
+      "trackId": "behavioral",
+      "topicId": "behavioral-story-bank",
+      "order": 5,
+      "title": "Spreading critical knowledge and growing the juniors",
+      "signals": [
+        "mentoring",
+        "influence",
+        "reducing bus factor",
+        "ownership beyond your role"
+      ],
+      "placeholders": [
+        "quantify: e.g. picked up X tickets solo"
+      ],
+      "source": "original",
+      "situation": "Critical parts of our system — notably the RabbitMQ-based data pipeline — were understood by only a couple of people, and we had 2–3 junior engineers who needed to ramp up.",
+      "task": "I took it on myself to de-silo the knowledge and grow the juniors, even though it wasn't a ticket assigned to me.",
+      "action": "I built a **26-slide RabbitMQ knowledge-transfer presentation** and other internal KT materials, and I **mentored 2–3 junior engineers** hands-on — pairing, reviewing their work, and walking them through the harder parts of the system. I focused on teaching them *how to reason about* the pipeline, not just the steps.",
+      "result": "The juniors became able to work on the pipeline independently [quantify: e.g. picked up X tickets solo], and our bus factor on that system improved. This is the part of the job I find most rewarding, and it's where I've grown most as a senior — impact through other people, not just my own commits."
+    },
+    "story-7-building-observability-the-whole-platform-was-missing": {
+      "id": "story-7-building-observability-the-whole-platform-was-missing",
+      "trackId": "behavioral",
+      "topicId": "behavioral-story-bank",
+      "order": 6,
+      "title": "Building observability the whole platform was missing",
+      "signals": [
+        "initiative",
+        "ownership beyond ticket",
+        "architectural judgment"
+      ],
+      "placeholders": [
+        "quantify"
+      ],
+      "source": "original",
+      "situation": "We lacked good visibility into API traffic and behavior across the platform, which made debugging production issues slow.",
+      "task": "I wanted observability without forcing a rewrite of every service.",
+      "action": "I built a **transparent API proxy/wrapper layer using YARP** that sits in front of the real services and adds logging/observability **without changing them** — a classic proxy that intercepts requests/responses for instrumentation. I chose a transparent proxy over per-service instrumentation because it was non-invasive and consistent across services.",
+      "result": "We gained centralized visibility that cut debugging time [quantify], and it became a platform capability others built on. I drove this proactively because I saw the recurring cost of flying blind."
+    },
+    "story-8-conflict-disagreement-you-supply-the-moment": {
+      "id": "story-8-conflict-disagreement-you-supply-the-moment",
+      "trackId": "behavioral",
+      "topicId": "behavioral-story-bank",
+      "order": 7,
+      "title": "Conflict / disagreement (you supply the moment)",
+      "signals": [
+        "disagree-and-commit",
+        "influence without authority"
+      ],
+      "placeholders": [],
+      "source": "original",
+      "body": "*Signals: disagree-and-commit · influence without authority* I won't fabricate this — it has to be real. Here's the frame and **your strongest candidates** from your history: - **Advocating for the shared NuGet package architecture** to reduce code duplication across workers — if anyone pushed back on the upfront investment, that's a disagreement-and-influence story. - **Pushing to normalize the DCS JSON blob into relational tables** in the DR Builder — if there was tension between \"just store the blob\" and \"model it properly,\" that's a judgment-and-persuasion story. - **Choosing distributed Redis sessions over sticky sessions**, or the transparent-proxy approach, if either met resistance. **Structure to use:** S — the decision and who disagreed (a senior/peer/manager). T — why you believed differently and why it mattered. A — how you made your case (**data, a prototype, a cost/benefit, listening to their concern**), and crucially, what you did when a call was made. R — the outcome, *and* — this is the senior part — **if you disagreed but the team went the other way, show you committed fully** (\"disagree and commit\"). Interviewers want to see you can advocate hard *and* be a team player, not that you always won."
+    },
+    "story-9-failure-you-supply-the-moment": {
+      "id": "story-9-failure-you-supply-the-moment",
+      "trackId": "behavioral",
+      "topicId": "behavioral-story-bank",
+      "order": 8,
+      "title": "Failure (you supply the moment)",
+      "signals": [
+        "humility",
+        "learning",
+        "accountability"
+      ],
+      "placeholders": [],
+      "source": "original",
+      "body": "*Signals: humility · learning · accountability* Also has to be real. The strongest failure stories show **ownership** (you don't blame others), a **concrete lesson**, and **changed behavior** afterward. Candidates from your history to consider framing honestly: - The **24MB key** — if that key/design was originally yours, framing it as \"a design choice that worked until it didn't, here's what I learned about value-size as a constraint\" is a genuinely good failure story. - An early instance of the **cache stampede reaching production** before you hardened it. - From your own growth notes: **over-relying on AI for code generation** early on — if you can frame \"I caught myself shipping code I couldn't fully defend, so I changed how I work to ensure I understand everything I commit,\" that's a *mature, self-aware* failure story that many candidates can't tell. It signals exactly the engineer you're becoming. **Structure:** S/T — what you owned. A — what went wrong and **your** part in it (own it cleanly). R — the impact, how you fixed it, and **the specific habit/process you changed** so it can't recur. Avoid the fake \"my weakness is I work too hard\" — real, owned, learned-from. ---"
+    }
+  },
   "allocation": [
     {
       "track": "DSA",
@@ -2351,7 +4122,7 @@
   ],
   "stats": {
     "problems": 129,
-    "concepts": 0,
-    "stories": 0
+    "concepts": 95,
+    "stories": 9
   }
 }

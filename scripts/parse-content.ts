@@ -10,6 +10,8 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import type { ContentBundle, Track, Topic, Problem, Concept, Story } from '../src/types';
 import { parseDsa } from './parsers/dsa';
+import { parseConceptFile } from './parsers/concepts';
+import { parseBehavioral } from './parsers/behavioral';
 import { parseCurriculum } from './parsers/curriculum';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -35,7 +37,73 @@ function build(): ContentBundle {
     topicIds: dsa.topics.map((t) => t.id),
   });
 
-  // (depth tracks + behavioral are added in the next milestone)
+  // --- Track 2: System Design (HLD) ---
+  const design = parseConceptFile({
+    file: 'part2-system-design.md',
+    trackId: 'design',
+    topicLevel: 2,
+    conceptLevel: 3,
+  });
+  for (const t of design.topics) topics[t.id] = t;
+  for (const c of design.concepts) concepts[c.id] = c;
+  tracks.push({
+    id: 'design',
+    title: 'System Design (HLD)',
+    order: 1,
+    kind: 'design',
+    blurb: 'Estimation, the building blocks in depth, the interview framework, and fully worked designs.',
+    topicIds: design.topics.map((t) => t.id),
+  });
+
+  // --- Track 3: LLD / OOD ---
+  const lld = parseConceptFile({
+    file: 'part4-lld-ood.md',
+    trackId: 'lld',
+    topicLevel: 1,
+    conceptLevel: 2,
+  });
+  for (const t of lld.topics) topics[t.id] = t;
+  for (const c of lld.concepts) concepts[c.id] = c;
+  tracks.push({
+    id: 'lld',
+    title: 'LLD / OOD',
+    order: 2,
+    kind: 'lld',
+    blurb: 'OOP judgment, SOLID as spot-the-violation drills, the patterns that actually appear, worked designs.',
+    topicIds: lld.topics.map((t) => t.id),
+  });
+
+  // --- Track 4: CS Fundamentals ---
+  const fund = parseConceptFile({
+    file: 'part3-cs-fundamentals.md',
+    trackId: 'fundamentals',
+    topicLevel: 1,
+    conceptLevel: 2,
+  });
+  for (const t of fund.topics) topics[t.id] = t;
+  for (const c of fund.concepts) concepts[c.id] = c;
+  tracks.push({
+    id: 'fundamentals',
+    title: 'CS Fundamentals',
+    order: 3,
+    kind: 'fundamentals',
+    blurb: 'OS/concurrency, networking, DB internals, distributed systems, .NET/CLR — every PROBE answered.',
+    topicIds: fund.topics.map((t) => t.id),
+  });
+
+  // --- Track 5: Behavioral ---
+  const beh = parseBehavioral();
+  for (const t of beh.topics) topics[t.id] = t;
+  for (const c of beh.concepts) concepts[c.id] = c;
+  for (const s of beh.stories) stories[s.id] = s;
+  tracks.push({
+    id: 'behavioral',
+    title: 'Behavioral & Seniority',
+    order: 4,
+    kind: 'behavioral',
+    blurb: 'STAR story bank (fill the [brackets] with your real numbers) + the framework and delivery mechanics.',
+    topicIds: beh.topics.map((t) => t.id),
+  });
 
   const { allocation } = parseCurriculum();
 

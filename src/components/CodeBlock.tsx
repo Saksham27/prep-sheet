@@ -1,6 +1,11 @@
 import { useState } from 'react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
+import csharp from 'react-syntax-highlighter/dist/esm/languages/prism/csharp';
+import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
+SyntaxHighlighter.registerLanguage('csharp', csharp);
+SyntaxHighlighter.registerLanguage('json', json);
 
 interface Props {
   code: string;

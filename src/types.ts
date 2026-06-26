@@ -33,16 +33,21 @@ export interface Problem {
   needsReview?: boolean;
 }
 
+export type ItemKind = 'problem' | 'concept' | 'story';
+
 export interface Topic {
   id: string;
   trackId: string;
   order: number;
   title: string;
+  itemKind: ItemKind;
   coreIdea?: string;
   recognitionSignals: string[];
   masteryBar?: string;
   templates: Template[];
   problemIds: string[];
+  conceptIds: string[];
+  storyIds: string[];
 }
 
 export interface ProbeQA {
@@ -53,11 +58,12 @@ export interface ProbeQA {
 export interface Concept {
   id: string;
   trackId: string;
+  topicId: string;
   section: string; // e.g. "1.5"
   title: string;
   body: string; // markdown
-  probe?: ProbeQA;
-  followups: ProbeQA[];
+  probes: ProbeQA[]; // PROBE Q&A parsed from the source
+  followups: ProbeQA[]; // generated follow-up probes (expansion phase)
   source: Source;
   needsReview?: boolean;
 }
@@ -65,6 +71,7 @@ export interface Concept {
 export interface Story {
   id: string;
   trackId: string;
+  topicId: string;
   order: number;
   title: string;
   signals: string[];

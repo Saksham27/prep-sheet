@@ -87,11 +87,14 @@ export function parseDsa(): DsaResult {
         trackId: TRACK_ID,
         order: order++,
         title,
+        itemKind: 'problem',
         coreIdea: undefined,
         recognitionSignals: [],
         masteryBar: undefined,
         templates: [],
         problemIds: [],
+        conceptIds: [],
+        storyIds: [],
       };
       pendingLabel = '';
       continue;
