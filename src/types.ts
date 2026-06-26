@@ -30,6 +30,8 @@ export interface Problem {
   note?: string; // free-form trailing text for cross-listed / pointer-only problems
   template?: string; // the topic template, snapshotted for convenience
   solution?: string; // full C# solution (added in expansion phase)
+  url?: string; // external practice link (LeetCode)
+  practice?: boolean; // link-only extra-practice item (no authored dissection)
   source: Source;
   needsReview?: boolean;
 }

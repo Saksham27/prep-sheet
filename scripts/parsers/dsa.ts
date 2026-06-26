@@ -1,5 +1,5 @@
 import type { Problem, Topic, Template } from '../../src/types';
-import { read, slugify, clean, difficulty, splitLabeledFields, stripLeadConnective } from './util';
+import { read, slugify, clean, difficulty, splitLabeledFields, stripLeadConnective, leetcodeUrl } from './util';
 import { parseCurriculum, normalizeTitle } from './curriculum';
 
 const TRACK_ID = 'dsa';
@@ -153,6 +153,7 @@ export function parseDsa(): DsaResult {
         complexity: fields['complexity'] || undefined,
         watch: fields['watch'] || undefined,
         note: lead || undefined,
+        url: leetcodeUrl(title),
         source: 'original',
       };
       problems.push(problem);

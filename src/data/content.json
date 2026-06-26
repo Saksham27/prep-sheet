@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T22:36:18.919Z",
+  "generatedAt": "2026-06-26T22:47:04.112Z",
   "tracks": [
     {
       "id": "dsa",
@@ -1392,6 +1392,7 @@
       "approach": "fold XOR across the array.",
       "complexity": "O(n)/O(1).",
       "watch": "don't reach for a hashmap; XOR is the O(1)-space answer they want.",
+      "url": "https://leetcode.com/problems/single-number/",
       "source": "original",
       "solution": "```csharp\n// XOR cancels equal pairs (a ^ a = 0; a ^ 0 = a), leaving only the unique element.\npublic int SingleNumber(int[] nums) {\n    int x = 0;\n    foreach (int n in nums) x ^= n;\n    return x;\n}\n```\n**Complexity:** O(n) time, O(1) space — the O(1)-space answer they want (no hashmap).\n\n---",
       "needsReview": true
@@ -1408,6 +1409,7 @@
       "approach": "loop, count, until 0.",
       "complexity": "O(set bits).",
       "watch": "in C# use `uint` to avoid sign issues, or `BitOperations.PopCount`.",
+      "url": "https://leetcode.com/problems/number-of-1-bits/",
       "source": "original",
       "solution": "```csharp\n// Brian Kernighan: n & (n-1) clears the lowest set bit, so the loop runs once per 1-bit.\npublic int HammingWeight(uint n) {\n    int count = 0;\n    while (n != 0) { n &= n - 1; count++; }\n    return count;\n}\n```\n**Complexity:** O(number of set bits) time, O(1) space. Use `uint` (or `BitOperations.PopCount`) to avoid sign issues.\n\n---",
       "needsReview": true
@@ -1424,6 +1426,7 @@
       "approach": "DP using the already-computed half.",
       "complexity": "O(n).",
       "watch": "this is secretly a DP problem.",
+      "url": "https://leetcode.com/problems/counting-bits/",
       "source": "original",
       "solution": "```csharp\n// DP: a number i has the same set bits as i>>1, plus 1 if its lowest bit is set.\npublic int[] CountBits(int n) {\n    var bits = new int[n + 1];\n    for (int i = 1; i <= n; i++)\n        bits[i] = bits[i >> 1] + (i & 1);\n    return bits;\n}\n```\n**Complexity:** O(n) time, O(n) space (for the output array).\n\n---",
       "needsReview": true
@@ -1440,6 +1443,7 @@
       "approach": "sum bits per position across all numbers; bits with count%3≠0 belong to the answer.",
       "complexity": "O(32n).",
       "watch": "the elegant version uses two accumulators (ones/twos) — know it exists.",
+      "url": "https://leetcode.com/problems/single-number-ii/",
       "source": "original",
       "solution": "```csharp\n// Every value appears 3× except one. For each bit position, the count of 1s across all\n// numbers is a multiple of 3 unless the unique number sets that bit.\npublic int SingleNumber(int[] nums) {\n    int result = 0;\n    for (int b = 0; b < 32; b++) {\n        int sum = 0;\n        foreach (int n in nums) sum += (n >> b) & 1;\n        if (sum % 3 != 0) result |= 1 << b;\n    }\n    return result;\n}\n\n// O(1)-space alternative: two accumulators tracking bits seen once / twice.\npublic int SingleNumberOnesTwos(int[] nums) {\n    int ones = 0, twos = 0;\n    foreach (int n in nums) {\n        ones = (ones ^ n) & ~twos;   // add to 'ones' unless already in 'twos'\n        twos = (twos ^ n) & ~ones;   // add to 'twos' unless now in 'ones'\n    }\n    return ones;                      // appears exactly once\n}\n```\n**Complexity:** O(32·n) for the bit-count version, O(n)/O(1) for the ones/twos version.\n\n---",
       "needsReview": true
@@ -1456,6 +1460,7 @@
       "approach": "one pass; before inserting x, check if its complement is already in the map.",
       "complexity": "O(n)/O(n).",
       "watch": "check complement *before* inserting current, or you'll match an element with itself.",
+      "url": "https://leetcode.com/problems/two-sum/",
       "source": "original",
       "solution": "```csharp\n// For each x, the partner we need is target - x. Remember values we've already passed;\n// check the complement BEFORE inserting x so we never pair an element with itself.\npublic int[] TwoSum(int[] nums, int target) {\n    var seen = new Dictionary<int, int>();         // value -> index\n    for (int i = 0; i < nums.Length; i++) {\n        int need = target - nums[i];\n        if (seen.TryGetValue(need, out int j)) return new[] { j, i };\n        seen[nums[i]] = i;\n    }\n    return Array.Empty<int>();\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
       "needsReview": true
@@ -1472,6 +1477,7 @@
       "approach": "add as you go, return true on first re-add.",
       "complexity": "O(n)/O(n).",
       "watch": "O(1)-space alternative is sort-then-scan at O(n log n) — mention the trade.",
+      "url": "https://leetcode.com/problems/contains-duplicate/",
       "source": "original",
       "solution": "```csharp\n// HashSet.Add returns false if the element was already present — first false = duplicate.\npublic bool ContainsDuplicate(int[] nums) {\n    var seen = new HashSet<int>();\n    foreach (int n in nums)\n        if (!seen.Add(n)) return true;\n    return false;\n}\n```\n**Complexity:** O(n) time, O(n) space. (O(1)-space alternative: sort then scan neighbours, O(n log n).)\n\n---",
       "needsReview": true
@@ -1488,6 +1494,7 @@
       "approach": "key = sorted string *or* a 26-length count vector; group into a `Dictionary<string, List<string>>`.",
       "complexity": "O(n·k log k) with sorted key, O(n·k) with count key (k = word length).",
       "watch": "the count-vector key avoids the sort and is the better answer.",
+      "url": "https://leetcode.com/problems/group-anagrams/",
       "source": "original",
       "solution": "```csharp\n// Anagrams share a canonical key. A 26-length character-count vector beats a sorted\n// string (no O(k log k) sort) and is the stronger answer.\npublic IList<IList<string>> GroupAnagrams(string[] strs) {\n    var groups = new Dictionary<string, IList<string>>();\n    foreach (var s in strs) {\n        var count = new int[26];\n        foreach (char c in s) count[c - 'a']++;\n        string key = string.Join(',', count);\n        if (!groups.TryGetValue(key, out var list))\n            groups[key] = list = new List<string>();\n        list.Add(s);\n    }\n    return groups.Values.ToList();\n}\n```\n**Complexity:** O(n·k) time (k = word length), O(n·k) space.\n\n---",
       "needsReview": true
@@ -1504,6 +1511,7 @@
       "approach": "frequency map → bucket array indexed by count (bucket sort), collect from high counts; O(n). Or a size-k min-heap, O(n log k).",
       "complexity": "O(n) bucket / O(n log k) heap.",
       "watch": "bucket sort beats the heap here and surprises interviewers.",
+      "url": "https://leetcode.com/problems/top-k-frequent-elements/",
       "source": "original",
       "solution": "```csharp\n// Bucket sort by frequency: index a bucket array by count, then read from high counts\n// down. Beats a size-k heap (O(n log k)) and surprises interviewers.\npublic int[] TopKFrequent(int[] nums, int k) {\n    var freq = new Dictionary<int, int>();\n    foreach (int n in nums) freq[n] = freq.GetValueOrDefault(n) + 1;\n\n    var buckets = new List<int>[nums.Length + 1];   // buckets[c] = values seen c times\n    foreach (var kv in freq)\n        (buckets[kv.Value] ??= new List<int>()).Add(kv.Key);\n\n    var res = new List<int>();\n    for (int c = nums.Length; c >= 1 && res.Count < k; c--)\n        if (buckets[c] != null) res.AddRange(buckets[c]);\n    return res.Take(k).ToArray();\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
       "needsReview": true
@@ -1520,6 +1528,7 @@
       "approach": "prefix pass storing left-products, suffix pass multiplying right-products in place.",
       "complexity": "O(n)/O(1) extra.",
       "watch": "division is banned (and breaks on zeros) — that's the whole point.",
+      "url": "https://leetcode.com/problems/product-of-array-except-self/",
       "source": "original",
       "solution": "```csharp\n// answer[i] = (product of everything left of i) * (product of everything right of i).\n// Two passes, no division (which would break on zeros). Output array doesn't count as\n// extra space.\npublic int[] ProductExceptSelf(int[] nums) {\n    int n = nums.Length;\n    var res = new int[n];\n    res[0] = 1;\n    for (int i = 1; i < n; i++) res[i] = res[i - 1] * nums[i - 1];   // prefix products\n    int suffix = 1;\n    for (int i = n - 1; i >= 0; i--) {                               // multiply suffixes\n        res[i] *= suffix;\n        suffix *= nums[i];\n    }\n    return res;\n}\n```\n**Complexity:** O(n) time, O(1) extra space.\n\n---",
       "needsReview": true
@@ -1536,6 +1545,7 @@
       "approach": "9 sets each for rows/cols/boxes; box index = `(r/3)*3 + c/3`.",
       "complexity": "O(1) (fixed 81 cells).",
       "watch": "the box-index formula is the only tricky part.",
+      "url": "https://leetcode.com/problems/valid-sudoku/",
       "source": "original",
       "solution": "```csharp\n// Validity = no duplicate within any row, column, or 3×3 box. One set per row/col/box.\n// Box index = (r/3)*3 + c/3.\npublic bool IsValidSudoku(char[][] board) {\n    var rows = new HashSet<char>[9];\n    var cols = new HashSet<char>[9];\n    var boxes = new HashSet<char>[9];\n    for (int i = 0; i < 9; i++) { rows[i] = new(); cols[i] = new(); boxes[i] = new(); }\n\n    for (int r = 0; r < 9; r++)\n        for (int c = 0; c < 9; c++) {\n            char v = board[r][c];\n            if (v == '.') continue;\n            int b = (r / 3) * 3 + c / 3;\n            if (!rows[r].Add(v) || !cols[c].Add(v) || !boxes[b].Add(v)) return false;\n        }\n    return true;\n}\n```\n**Complexity:** O(1) — the board is a fixed 81 cells.\n\n---",
       "needsReview": true
@@ -1552,6 +1562,7 @@
       "approach": "dump into a set; for each x with no `x-1` in set, walk x, x+1, x+2… counting.",
       "complexity": "O(n) (each number visited at most twice).",
       "watch": "without the \"only start at run-beginnings\" guard it degrades to O(n²).",
+      "url": "https://leetcode.com/problems/longest-consecutive-sequence/",
       "source": "original",
       "solution": "```csharp\n// Dump into a set; only START counting from a number whose predecessor is absent, so\n// each run is walked exactly once → O(n) overall.\npublic int LongestConsecutive(int[] nums) {\n    var set = new HashSet<int>(nums);\n    int best = 0;\n    foreach (int n in set) {\n        if (set.Contains(n - 1)) continue;          // not a run beginning\n        int len = 1;\n        while (set.Contains(n + len)) len++;\n        best = Math.Max(best, len);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(n) space. (Without the run-beginning guard it degrades to O(n²).)\n\n---",
       "needsReview": true
@@ -1568,6 +1579,7 @@
       "approach": "place each value v into slot v-1 by swapping (cyclic sort); then the first slot where `a[i] != i+1` gives the answer.",
       "complexity": "O(n)/O(1).",
       "watch": "ignore values ≤0 or >n; the in-place swap loop is the trick that achieves O(1) space.",
+      "url": "https://leetcode.com/problems/first-missing-positive/",
       "source": "original",
       "solution": "```csharp\n// The answer lies in [1, n+1]. Use the array as a hash: place value v into slot v-1 via\n// cyclic-sort swaps, then the first slot where a[i] != i+1 is the answer.\npublic int FirstMissingPositive(int[] nums) {\n    int n = nums.Length;\n    for (int i = 0; i < n; i++) {\n        while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {\n            int j = nums[i] - 1;                     // home slot for nums[i]\n            (nums[i], nums[j]) = (nums[j], nums[i]);\n        }\n    }\n    for (int i = 0; i < n; i++)\n        if (nums[i] != i + 1) return i + 1;\n    return n + 1;\n}\n```\n**Complexity:** O(n) time, O(1) space.",
       "needsReview": true
@@ -1584,6 +1596,7 @@
       "approach": "skip non-alphanumerics, lowercase, compare l/r inward.",
       "complexity": "O(n)/O(1).",
       "watch": "the filtering (`char.IsLetterOrDigit`) is where bugs hide, not the pointer logic.",
+      "url": "https://leetcode.com/problems/valid-palindrome/",
       "source": "original",
       "solution": "```csharp\n// Converge from both ends, skipping non-alphanumerics; compare case-insensitively.\npublic bool IsPalindrome(string s) {\n    int l = 0, r = s.Length - 1;\n    while (l < r) {\n        while (l < r && !char.IsLetterOrDigit(s[l])) l++;\n        while (l < r && !char.IsLetterOrDigit(s[r])) r--;\n        if (char.ToLowerInvariant(s[l]) != char.ToLowerInvariant(s[r])) return false;\n        l++; r--;\n    }\n    return true;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -1600,6 +1613,7 @@
       "approach": "see template.",
       "complexity": "O(n)/O(1).",
       "watch": "1-indexed output in the classic version.",
+      "url": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/",
       "source": "original",
       "solution": "```csharp\n// Converging pointers on a sorted array; raise the floor or lower the ceiling by the sum.\npublic int[] TwoSum(int[] numbers, int target) {\n    int l = 0, r = numbers.Length - 1;\n    while (l < r) {\n        int sum = numbers[l] + numbers[r];\n        if (sum == target) return new[] { l + 1, r + 1 };   // problem is 1-indexed\n        if (sum < target) l++; else r--;\n    }\n    return Array.Empty<int>();\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -1616,6 +1630,7 @@
       "approach": "sort; for each i, run converging pointers on (i+1, end) for target `-a[i]`; **skip duplicates** at i and after each match.",
       "complexity": "O(n²)/O(1) (excluding output).",
       "watch": "duplicate handling is the whole difficulty — skip equal values at all three positions.",
+      "url": "https://leetcode.com/problems/3sum/",
       "source": "original",
       "solution": "```csharp\n// Sort, fix one number, then it's Two-Sum-sorted on the rest. Skip duplicates at all\n// three positions — that dedup is the whole difficulty.\npublic IList<IList<int>> ThreeSum(int[] nums) {\n    Array.Sort(nums);\n    var res = new List<IList<int>>();\n    for (int i = 0; i < nums.Length - 2; i++) {\n        if (i > 0 && nums[i] == nums[i - 1]) continue;          // skip duplicate anchor\n        int l = i + 1, r = nums.Length - 1;\n        while (l < r) {\n            int sum = nums[i] + nums[l] + nums[r];\n            if (sum < 0) l++;\n            else if (sum > 0) r--;\n            else {\n                res.Add(new List<int> { nums[i], nums[l], nums[r] });\n                l++; r--;\n                while (l < r && nums[l] == nums[l - 1]) l++;     // skip duplicates\n                while (l < r && nums[r] == nums[r + 1]) r--;\n            }\n        }\n    }\n    return res;\n}\n```\n**Complexity:** O(n²) time, O(1) extra space (excluding output).\n\n---",
       "needsReview": true
@@ -1632,6 +1647,7 @@
       "approach": "converge; always move the shorter pointer inward, track max area.",
       "complexity": "O(n)/O(1).",
       "watch": "prove why moving the shorter wall is safe — that's the interview question behind the question.",
+      "url": "https://leetcode.com/problems/container-with-most-water/",
       "source": "original",
       "solution": "```csharp\n// Area is bounded by the SHORTER wall, so moving the taller pointer can never help —\n// always advance the shorter one.\npublic int MaxArea(int[] height) {\n    int l = 0, r = height.Length - 1, best = 0;\n    while (l < r) {\n        best = Math.Max(best, Math.Min(height[l], height[r]) * (r - l));\n        if (height[l] < height[r]) l++; else r--;\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -1648,6 +1664,7 @@
       "approach": "`low`, `mid`, `high`; mid scans, swap 0s to front, 2s to back; don't advance mid after swapping with high.",
       "complexity": "O(n)/O(1), single pass.",
       "watch": "after swapping `mid` with `high`, *don't* increment mid (the swapped-in value is unexamined).",
+      "url": "https://leetcode.com/problems/sort-colors/",
       "source": "original",
       "solution": "```csharp\n// Three regions (0s | 1s | 2s) via low/mid/high. After swapping mid with high, DON'T\n// advance mid — the swapped-in value is unexamined.\npublic void SortColors(int[] nums) {\n    int low = 0, mid = 0, high = nums.Length - 1;\n    while (mid <= high) {\n        if (nums[mid] == 0) { (nums[low], nums[mid]) = (nums[mid], nums[low]); low++; mid++; }\n        else if (nums[mid] == 2) { (nums[mid], nums[high]) = (nums[high], nums[mid]); high--; }\n        else mid++;\n    }\n}\n```\n**Complexity:** O(n) time, O(1) space, single pass.\n\n---",
       "needsReview": true
@@ -1664,6 +1681,7 @@
       "approach": "two pointers tracking running maxLeft/maxRight; advance the side with the smaller wall (it bounds the water).",
       "complexity": "O(n)/O(1).",
       "watch": "know all three solutions (DP-prefix-max, stack, two-pointer); two-pointer is the O(1)-space flex.",
+      "url": "https://leetcode.com/problems/trapping-rain-water/",
       "source": "original",
       "solution": "```csharp\n// Water above i = min(maxLeft, maxRight) - height[i]. Advance the side with the smaller\n// wall, since that wall bounds the water there.\npublic int Trap(int[] height) {\n    int l = 0, r = height.Length - 1, leftMax = 0, rightMax = 0, water = 0;\n    while (l < r) {\n        if (height[l] < height[r]) {\n            leftMax = Math.Max(leftMax, height[l]);\n            water += leftMax - height[l];\n            l++;\n        } else {\n            rightMax = Math.Max(rightMax, height[r]);\n            water += rightMax - height[r];\n            r--;\n        }\n    }\n    return water;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -1680,6 +1698,7 @@
       "approach": "on duplicate, shrink left past the previous occurrence.",
       "complexity": "O(n)/O(min(n,charset)).",
       "watch": "using a last-seen-index map lets you jump left in O(1) instead of shrinking one step at a time.",
+      "url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
       "source": "original",
       "solution": "```csharp\n// Window valid while all chars unique. On a duplicate, jump `left` past the previous\n// occurrence (O(1)) using a last-seen-index map.\npublic int LengthOfLongestSubstring(string s) {\n    var last = new Dictionary<char, int>();\n    int left = 0, best = 0;\n    for (int right = 0; right < s.Length; right++) {\n        char c = s[right];\n        if (last.TryGetValue(c, out int j) && j >= left) left = j + 1;\n        last[c] = right;\n        best = Math.Max(best, right - left + 1);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(min(n, charset)) space.\n\n---",
       "needsReview": true
@@ -1696,6 +1715,7 @@
       "approach": "track char counts and the running max frequency; shrink when the replacement budget is exceeded.",
       "complexity": "O(n).",
       "watch": "you don't need to recompute maxFreq on shrink — a slightly stale max still yields a correct answer (classic subtlety).",
+      "url": "https://leetcode.com/problems/longest-repeating-character-replacement/",
       "source": "original",
       "solution": "```csharp\n// Window valid while (windowLen - maxFreq) <= k. maxFreq need not be decreased on shrink:\n// a slightly stale max still yields a correct answer (classic subtlety).\npublic int CharacterReplacement(string s, int k) {\n    var count = new int[26];\n    int left = 0, maxFreq = 0, best = 0;\n    for (int right = 0; right < s.Length; right++) {\n        maxFreq = Math.Max(maxFreq, ++count[s[right] - 'A']);\n        while (right - left + 1 - maxFreq > k) count[s[left++] - 'A']--;\n        best = Math.Max(best, right - left + 1);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -1712,6 +1732,7 @@
       "approach": "need-map of target counts + a `have/need` counter; expand right, and while satisfied, record length and shrink left.",
       "complexity": "O(n).",
       "watch": "this is the hardest standard window — get the `have==need` bookkeeping exactly right.",
+      "url": "https://leetcode.com/problems/minimum-window-substring/",
       "source": "original",
       "solution": "```csharp\n// Expand right until the window covers all required chars (have == need), then contract\n// from the left while it still covers, recording the minimum.\npublic string MinWindow(string s, string t) {\n    if (t.Length == 0 || s.Length < t.Length) return \"\";\n    var need = new Dictionary<char, int>();\n    foreach (char c in t) need[c] = need.GetValueOrDefault(c) + 1;\n    int required = need.Count, formed = 0, left = 0;\n    var window = new Dictionary<char, int>();\n    int bestLen = int.MaxValue, bestL = 0;\n    for (int right = 0; right < s.Length; right++) {\n        char c = s[right];\n        window[c] = window.GetValueOrDefault(c) + 1;\n        if (need.ContainsKey(c) && window[c] == need[c]) formed++;\n        while (formed == required) {\n            if (right - left + 1 < bestLen) { bestLen = right - left + 1; bestL = left; }\n            char lc = s[left++];\n            window[lc]--;\n            if (need.ContainsKey(lc) && window[lc] < need[lc]) formed--;\n        }\n    }\n    return bestLen == int.MaxValue ? \"\" : s.Substring(bestL, bestLen);\n}\n```\n**Complexity:** O(|s| + |t|) time.\n\n---",
       "needsReview": true
@@ -1727,6 +1748,7 @@
       "insight": "it's a degenerate window — track the minimum price seen and the best profit against it.",
       "approach": "one pass, `min = Math.Min(min, price)`, `best = Math.Max(best, price - min)`.",
       "complexity": "O(n)/O(1).",
+      "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
       "source": "original",
       "solution": "```csharp\n// A degenerate window: track the minimum price seen and the best profit against it.\npublic int MaxProfit(int[] prices) {\n    int min = int.MaxValue, best = 0;\n    foreach (int p in prices) {\n        min = Math.Min(min, p);\n        best = Math.Max(best, p - min);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -1743,6 +1765,7 @@
       "approach": "fixed window of len(target); slide and compare count vectors.",
       "complexity": "O(n).",
       "watch": "compare 26-length vectors, not sorted strings, to stay O(1) per check.",
+      "url": "https://leetcode.com/problems/permutation-in-string/",
       "source": "original",
       "solution": "```csharp\n// A permutation = a fixed-size window whose 26-length char-count vector matches s1's.\npublic bool CheckInclusion(string s1, string s2) {\n    if (s1.Length > s2.Length) return false;\n    int[] need = new int[26], win = new int[26];\n    foreach (char c in s1) need[c - 'a']++;\n    for (int i = 0; i < s2.Length; i++) {\n        win[s2[i] - 'a']++;\n        if (i >= s1.Length) win[s2[i - s1.Length] - 'a']--;   // slide\n        if (i >= s1.Length - 1 && win.SequenceEqual(need)) return true;\n    }\n    return false;\n}\n```\n**Complexity:** O(26·n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -1759,6 +1782,7 @@
       "approach": "pop smaller values from the back before pushing; pop the front when it slides out of range.",
       "complexity": "O(n).",
       "watch": "store indices (to detect expiry), not values; this is the bridge into monotonic structures.",
+      "url": "https://leetcode.com/problems/sliding-window-maximum/",
       "source": "original",
       "solution": "```csharp\n// Maintain a deque of INDICES whose values are decreasing; the front is the window max.\n// Pop smaller values from the back, and pop the front when it slides out of range.\npublic int[] MaxSlidingWindow(int[] nums, int k) {\n    var dq = new LinkedList<int>();                  // indices\n    var res = new int[nums.Length - k + 1];\n    for (int i = 0; i < nums.Length; i++) {\n        if (dq.Count > 0 && dq.First!.Value <= i - k) dq.RemoveFirst();   // expired\n        while (dq.Count > 0 && nums[dq.Last!.Value] <= nums[i]) dq.RemoveLast();\n        dq.AddLast(i);\n        if (i >= k - 1) res[i - k + 1] = nums[dq.First!.Value];\n    }\n    return res;\n}\n```\n**Complexity:** O(n) time, O(k) space.\n\n---",
       "needsReview": true
@@ -1775,6 +1799,7 @@
       "approach": "the template above.",
       "complexity": "O(n)/O(n).",
       "watch": "seed the map with `{0:1}` for subarrays starting at index 0; handles negatives where sliding window can't.",
+      "url": "https://leetcode.com/problems/subarray-sum-equals-k/",
       "source": "original",
       "solution": "```csharp\n// A subarray sums to k iff some earlier prefix equals (currentPrefix - k). Seed {0:1}\n// for subarrays starting at index 0. Handles negatives (sliding window can't).\npublic int SubarraySum(int[] nums, int k) {\n    var seen = new Dictionary<long, int> { [0] = 1 };   // prefix sum -> count\n    long sum = 0; int count = 0;\n    foreach (int x in nums) {\n        sum += x;\n        count += seen.GetValueOrDefault(sum - k);\n        seen[sum] = seen.GetValueOrDefault(sum) + 1;\n    }\n    return count;\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
       "needsReview": true
@@ -1791,6 +1816,7 @@
       "approach": "inclusion-exclusion to build and to query.",
       "complexity": "O(mn) build, O(1) query.",
       "watch": "the four-term inclusion-exclusion (add two, subtract two… plus the corner) is the only tricky part.",
+      "url": "https://leetcode.com/problems/range-sum-query-2d-immutable/",
       "source": "original",
       "solution": "```csharp\n// 2D prefix sums with inclusion-exclusion. pre[r,c] = sum of the rectangle from origin.\npublic class NumMatrix {\n    private readonly int[,] pre;\n    public NumMatrix(int[][] matrix) {\n        int m = matrix.Length, n = matrix[0].Length;\n        pre = new int[m + 1, n + 1];\n        for (int r = 0; r < m; r++)\n            for (int c = 0; c < n; c++)\n                pre[r + 1, c + 1] = matrix[r][c] + pre[r, c + 1] + pre[r + 1, c] - pre[r, c];\n    }\n    public int SumRegion(int r1, int c1, int r2, int c2) =>\n        pre[r2 + 1, c2 + 1] - pre[r1, c2 + 1] - pre[r2 + 1, c1] + pre[r1, c1];\n}\n```\n**Complexity:** O(mn) build, O(1) per query.\n\n---",
       "needsReview": true
@@ -1807,6 +1833,7 @@
       "approach": "apply all updates as endpoints, sweep once.",
       "complexity": "O(n + updates).",
       "watch": "the `r+1` boundary and array sizing.",
+      "url": "https://leetcode.com/problems/corporate-flight-bookings/",
       "source": "original",
       "solution": "```csharp\n// Difference array: a range +v over [l, r] becomes diff[l] += v; diff[r+1] -= v. One\n// prefix-sum pass materializes the per-seat totals.\npublic int[] CorpFlightBookings(int[][] bookings, int n) {\n    var diff = new int[n + 1];\n    foreach (var b in bookings) {       // b = [first, last, seats] (1-indexed flights)\n        diff[b[0] - 1] += b[2];\n        diff[b[1]] -= b[2];\n    }\n    var res = new int[n];\n    int running = 0;\n    for (int i = 0; i < n; i++) { running += diff[i]; res[i] = running; }\n    return res;\n}\n```\n**Complexity:** O(n + bookings) time.\n\n---",
       "needsReview": true
@@ -1823,6 +1850,7 @@
       "approach": "standard.",
       "complexity": "O(log n).",
       "watch": "memorize the half-open template so you never re-derive it under pressure.",
+      "url": "https://leetcode.com/problems/binary-search/",
       "source": "original",
       "solution": "```csharp\n// The canonical inclusive-bounds loop. Always use lo + (hi-lo)/2 to avoid overflow.\npublic int Search(int[] nums, int target) {\n    int lo = 0, hi = nums.Length - 1;\n    while (lo <= hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (nums[mid] == target) return mid;\n        if (nums[mid] < target) lo = mid + 1; else hi = mid - 1;\n    }\n    return -1;\n}\n```\n**Complexity:** O(log n).\n\n---",
       "needsReview": true
@@ -1839,6 +1867,7 @@
       "approach": "compare `a[mid]` to `a[lo]` to identify the sorted half; narrow accordingly.",
       "complexity": "O(log n).",
       "watch": "duplicates break the \"which half is sorted\" test (that's the harder II variant).",
+      "url": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
       "source": "original",
       "solution": "```csharp\n// At any mid, one half is sorted — identify it, then decide if target lies within it.\npublic int Search(int[] nums, int target) {\n    int lo = 0, hi = nums.Length - 1;\n    while (lo <= hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (nums[mid] == target) return mid;\n        if (nums[lo] <= nums[mid]) {                        // left half sorted\n            if (nums[lo] <= target && target < nums[mid]) hi = mid - 1;\n            else lo = mid + 1;\n        } else {                                            // right half sorted\n            if (nums[mid] < target && target <= nums[hi]) lo = mid + 1;\n            else hi = mid - 1;\n        }\n    }\n    return -1;\n}\n```\n**Complexity:** O(log n).\n\n---",
       "needsReview": true
@@ -1855,6 +1884,7 @@
       "approach": "run LowerBound twice.",
       "complexity": "O(log n).",
       "watch": "reuse the exact template; don't write two bespoke searches.",
+      "url": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/",
       "source": "original",
       "solution": "```csharp\n// Two boundary searches: lower_bound(target) and lower_bound(target+1) - 1.\npublic int[] SearchRange(int[] nums, int target) {\n    int lo = LowerBound(nums, target);\n    if (lo == nums.Length || nums[lo] != target) return new[] { -1, -1 };\n    return new[] { lo, LowerBound(nums, target + 1) - 1 };\n}\nprivate int LowerBound(int[] a, int t) {\n    int lo = 0, hi = a.Length;                    // half-open [lo, hi)\n    while (lo < hi) { int mid = lo + (hi - lo) / 2; if (a[mid] < t) lo = mid + 1; else hi = mid; }\n    return lo;\n}\n```\n**Complexity:** O(log n).\n\n---",
       "needsReview": true
@@ -1871,6 +1901,7 @@
       "approach": "feasible(speed) = total hours ≤ H; search [1, max pile].",
       "complexity": "O(n log maxPile).",
       "watch": "hours per pile = `ceil(pile/speed)` = `(pile + speed - 1)/speed`.",
+      "url": "https://leetcode.com/problems/koko-eating-bananas/",
       "source": "original",
       "solution": "```csharp\n// \"Min speed to finish in h hours\" is monotonic in speed → binary-search the speed.\npublic int MinEatingSpeed(int[] piles, int h) {\n    int lo = 1, hi = piles.Max();\n    while (lo < hi) {\n        int mid = lo + (hi - lo) / 2;\n        long hours = 0;\n        foreach (int p in piles) hours += (p + mid - 1) / mid;   // ceil(p/mid)\n        if (hours <= h) hi = mid; else lo = mid + 1;             // feasible → try slower\n    }\n    return lo;\n}\n```\n**Complexity:** O(n log(maxPile)).\n\n---",
       "needsReview": true
@@ -1887,6 +1918,7 @@
       "approach": "compare `a[mid]` to `a[hi]`; if greater, min is right of mid, else at/left.",
       "complexity": "O(log n).",
       "watch": "compare against `a[hi]`, not `a[lo]`, to handle the no-rotation case cleanly.",
+      "url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
       "source": "original",
       "solution": "```csharp\n// Compare against a[hi] (not a[lo]) to handle the no-rotation case cleanly.\npublic int FindMin(int[] nums) {\n    int lo = 0, hi = nums.Length - 1;\n    while (lo < hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (nums[mid] > nums[hi]) lo = mid + 1;   // min is strictly right of mid\n        else hi = mid;                            // min is at mid or to its left\n    }\n    return nums[lo];\n}\n```\n**Complexity:** O(log n).\n\n---",
       "needsReview": true
@@ -1903,6 +1935,7 @@
       "approach": "search [max element, total sum]; greedily count pieces.",
       "complexity": "O(n log(sum)).",
       "watch": "this archetype (\"minimize the max / maximize the min\") is a top-tier FAANG pattern — recognize it instantly.",
+      "url": "https://leetcode.com/problems/split-array-largest-sum/",
       "source": "original",
       "solution": "```csharp\n// \"Minimize the largest subarray sum across k splits\" → binary-search that value;\n// feasible(x) = the array cuts into <= k pieces each with sum <= x. The archetype.\npublic int SplitArray(int[] nums, int k) {\n    int lo = nums.Max(), hi = nums.Sum();\n    while (lo < hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (Pieces(nums, mid) <= k) hi = mid; else lo = mid + 1;\n    }\n    return lo;\n}\nprivate int Pieces(int[] nums, int cap) {\n    int pieces = 1, cur = 0;\n    foreach (int x in nums) {\n        if (cur + x > cap) { pieces++; cur = x; } else cur += x;\n    }\n    return pieces;\n}\n```\n**Complexity:** O(n log(sum)).\n\n---",
       "needsReview": true
@@ -1919,6 +1952,7 @@
       "approach": "partition search on the shorter array.",
       "complexity": "O(log min(m,n)).",
       "watch": "the ±∞ sentinels for empty partitions; this is genuinely hard — learn it cold, it's a known filter.",
+      "url": "https://leetcode.com/problems/median-of-two-sorted-arrays/",
       "source": "original",
       "solution": "```csharp\n// Binary-search the partition of the SHORTER array so both left halves together hold\n// half the elements, with maxLeft <= minRight. ±∞ sentinels guard empty partitions.\npublic double FindMedianSortedArrays(int[] a, int[] b) {\n    if (a.Length > b.Length) (a, b) = (b, a);\n    int m = a.Length, n = b.Length, half = (m + n + 1) / 2;\n    int lo = 0, hi = m;\n    while (lo <= hi) {\n        int i = lo + (hi - lo) / 2;   // cut in a\n        int j = half - i;            // cut in b\n        int aL = i == 0 ? int.MinValue : a[i - 1];\n        int aR = i == m ? int.MaxValue : a[i];\n        int bL = j == 0 ? int.MinValue : b[j - 1];\n        int bR = j == n ? int.MaxValue : b[j];\n        if (aL <= bR && bL <= aR) {\n            if (((m + n) & 1) == 1) return Math.Max(aL, bL);\n            return (Math.Max(aL, bL) + Math.Min(aR, bR)) / 2.0;\n        }\n        if (aL > bR) hi = i - 1; else lo = i + 1;\n    }\n    return 0.0;\n}\n```\n**Complexity:** O(log min(m, n)).",
       "needsReview": true
@@ -1935,6 +1969,7 @@
       "approach": "push opens, on a close pop and verify the pair.",
       "complexity": "O(n).",
       "watch": "reject if the stack is empty on a close, or non-empty at the end.",
+      "url": "https://leetcode.com/problems/valid-parentheses/",
       "source": "original",
       "solution": "```csharp\n// A close must match the most recent open. Reject on a close with empty/mismatched stack,\n// or a non-empty stack at the end.\npublic bool IsValid(string s) {\n    var st = new Stack<char>();\n    var match = new Dictionary<char, char> { [')'] = '(', [']'] = '[', ['}'] = '{' };\n    foreach (char c in s) {\n        if (match.TryGetValue(c, out char open)) {\n            if (st.Count == 0 || st.Pop() != open) return false;\n        } else st.Push(c);\n    }\n    return st.Count == 0;\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
       "needsReview": true
@@ -1951,6 +1986,7 @@
       "approach": "on push, store `min(value, currentMin)`; pop both together.",
       "complexity": "O(1) per op.",
       "watch": "the parallel-min stack must push on *every* push, even when min doesn't change.",
+      "url": "https://leetcode.com/problems/min-stack/",
       "source": "original",
       "solution": "```csharp\n// A parallel stack of running minimums; push on EVERY push (even when min is unchanged).\npublic class MinStack {\n    private readonly Stack<int> _stack = new();\n    private readonly Stack<int> _mins = new();\n    public void Push(int val) {\n        _stack.Push(val);\n        _mins.Push(_mins.Count == 0 ? val : Math.Min(val, _mins.Peek()));\n    }\n    public void Pop() { _stack.Pop(); _mins.Pop(); }\n    public int Top() => _stack.Peek();\n    public int GetMin() => _mins.Peek();\n}\n```\n**Complexity:** O(1) per operation.\n\n---",
       "needsReview": true
@@ -1967,6 +2003,7 @@
       "approach": "monotonic decreasing stack of indices; on a warmer day, pop and set the gap.",
       "complexity": "O(n).",
       "watch": "store indices to compute the distance.",
+      "url": "https://leetcode.com/problems/daily-temperatures/",
       "source": "original",
       "solution": "```csharp\n// \"Days until warmer\" = distance to next-greater. Monotonic decreasing stack of indices.\npublic int[] DailyTemperatures(int[] temps) {\n    var res = new int[temps.Length];\n    var st = new Stack<int>();                      // indices\n    for (int i = 0; i < temps.Length; i++) {\n        while (st.Count > 0 && temps[st.Peek()] < temps[i]) {\n            int j = st.Pop();\n            res[j] = i - j;\n        }\n        st.Push(i);\n    }\n    return res;\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
       "needsReview": true
@@ -1983,6 +2020,7 @@
       "approach": "push numbers, on operator pop two (order matters for `-` and `/`).",
       "complexity": "O(n).",
       "watch": "operand order: `b` is popped first, compute `a op b`.",
+      "url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/",
       "source": "original",
       "solution": "```csharp\n// Operands wait on a stack until an operator consumes two. Order matters: b is popped\n// first, so compute a op b.\npublic int EvalRPN(string[] tokens) {\n    var st = new Stack<int>();\n    foreach (var t in tokens) {\n        if (t is \"+\" or \"-\" or \"*\" or \"/\") {\n            int b = st.Pop(), a = st.Pop();\n            st.Push(t switch { \"+\" => a + b, \"-\" => a - b, \"*\" => a * b, _ => a / b });\n        } else st.Push(int.Parse(t));\n    }\n    return st.Pop();\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
       "needsReview": true
@@ -1999,6 +2037,7 @@
       "approach": "recurse adding `(` if available, `)` if it keeps balance.",
       "complexity": "O(Catalan(n)).",
       "watch": "listed here because the validity rule is stack-shaped; the algorithm is backtracking (see §9).",
+      "url": "https://leetcode.com/problems/generate-parentheses/",
       "source": "original",
       "solution": "```csharp\n// Backtracking with a validity invariant: add '(' while opens < n, add ')' while it keeps\n// balance (closes < opens).\npublic IList<string> GenerateParenthesis(int n) {\n    var res = new List<string>();\n    var sb = new System.Text.StringBuilder();\n    void Backtrack(int open, int close) {\n        if (sb.Length == 2 * n) { res.Add(sb.ToString()); return; }\n        if (open < n) { sb.Append('('); Backtrack(open + 1, close); sb.Length--; }\n        if (close < open) { sb.Append(')'); Backtrack(open, close + 1); sb.Length--; }\n    }\n    Backtrack(0, 0);\n    return res;\n}\n```\n**Complexity:** O(Catalan(n)) — the nth Catalan number of valid strings.\n\n---",
       "needsReview": true
@@ -2015,6 +2054,7 @@
       "approach": "monotonic increasing stack; when a shorter bar arrives, pop and compute area `height × width` using the new boundaries.",
       "complexity": "O(n).",
       "watch": "the boss of this pattern; \"Maximal Rectangle\" (2D) reduces to running this per row.",
+      "url": "https://leetcode.com/problems/largest-rectangle-in-histogram/",
       "source": "original",
       "solution": "```csharp\n// Monotonic increasing stack of indices. When a shorter bar arrives, pop and compute area\n// = poppedHeight × width, where width spans to the new left/right boundaries. A sentinel\n// 0 at the end flushes the stack.\npublic int LargestRectangleArea(int[] heights) {\n    var st = new Stack<int>();\n    int best = 0, n = heights.Length;\n    for (int i = 0; i <= n; i++) {\n        int h = i == n ? 0 : heights[i];\n        while (st.Count > 0 && heights[st.Peek()] >= h) {\n            int height = heights[st.Pop()];\n            int left = st.Count == 0 ? -1 : st.Peek();\n            best = Math.Max(best, height * (i - left - 1));\n        }\n        st.Push(i);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
       "needsReview": true
@@ -2031,6 +2071,7 @@
       "approach": "push to `in`; when popping, if `out` empty, drain `in`→`out`.",
       "complexity": "amortized O(1).",
       "watch": "only transfer when `out` is empty, or you scramble order.",
+      "url": "https://leetcode.com/problems/implement-queue-using-stacks/",
       "source": "original",
       "solution": "```csharp\n// Two stacks; only transfer in→out when out is empty, or you scramble order.\npublic class MyQueue {\n    private readonly Stack<int> _in = new(), _out = new();\n    public void Push(int x) => _in.Push(x);\n    public int Pop() { Shift(); return _out.Pop(); }\n    public int Peek() { Shift(); return _out.Peek(); }\n    public bool Empty() => _in.Count == 0 && _out.Count == 0;\n    private void Shift() { if (_out.Count == 0) while (_in.Count > 0) _out.Push(_in.Pop()); }\n}\n```\n**Complexity:** amortized O(1) per operation.\n\n---",
       "needsReview": true
@@ -2047,6 +2088,7 @@
       "approach": "track size; `(idx + cap) % cap` for wraparound.",
       "complexity": "O(1).",
       "watch": "distinguishing full vs empty (keep an explicit count).",
+      "url": "https://leetcode.com/problems/design-circular-deque/",
       "source": "original",
       "solution": "```csharp\n// Fixed array + head/tail with modular wraparound; an explicit size disambiguates\n// full vs empty.\npublic class MyCircularDeque {\n    private readonly int[] _buf;\n    private readonly int _cap;\n    private int _head, _tail, _size;\n    public MyCircularDeque(int k) { _cap = k; _buf = new int[k]; }\n    public bool InsertFront(int v) {\n        if (IsFull()) return false;\n        _head = (_head - 1 + _cap) % _cap; _buf[_head] = v; _size++; return true;\n    }\n    public bool InsertLast(int v) {\n        if (IsFull()) return false;\n        _buf[_tail] = v; _tail = (_tail + 1) % _cap; _size++; return true;\n    }\n    public bool DeleteFront() { if (IsEmpty()) return false; _head = (_head + 1) % _cap; _size--; return true; }\n    public bool DeleteLast() { if (IsEmpty()) return false; _tail = (_tail - 1 + _cap) % _cap; _size--; return true; }\n    public int GetFront() => IsEmpty() ? -1 : _buf[_head];\n    public int GetRear() => IsEmpty() ? -1 : _buf[(_tail - 1 + _cap) % _cap];\n    public bool IsEmpty() => _size == 0;\n    public bool IsFull() => _size == _cap;\n}\n```\n**Complexity:** O(1) per operation.\n\n---",
       "needsReview": true
@@ -2061,6 +2103,7 @@
       "revisit": false,
       "watch": "it's a queue problem and a window problem; know it from both angles.",
       "note": "see §3 (deque of decreasing indices).",
+      "url": "https://leetcode.com/problems/sliding-window-maximum/",
       "source": "original",
       "solution": "```csharp\n// Monotonic deque of indices (values decreasing): the front is always the window max.\npublic int[] MaxSlidingWindow(int[] nums, int k) {\n    var dq = new LinkedList<int>();\n    var res = new int[nums.Length - k + 1];\n    for (int i = 0; i < nums.Length; i++) {\n        if (dq.Count > 0 && dq.First!.Value <= i - k) dq.RemoveFirst();\n        while (dq.Count > 0 && nums[dq.Last!.Value] <= nums[i]) dq.RemoveLast();\n        dq.AddLast(i);\n        if (i >= k - 1) res[i - k + 1] = nums[dq.First!.Value];\n    }\n    return res;\n}\n```\n**Complexity:** O(n) time, O(k) space.\n\n---",
       "needsReview": true
@@ -2077,6 +2120,7 @@
       "approach": "the template; also know the recursive form.",
       "complexity": "O(n)/O(1) iter, O(n) stack recursive.",
       "watch": "save `next` *before* overwriting it.",
+      "url": "https://leetcode.com/problems/reverse-linked-list/",
       "source": "original",
       "solution": "```csharp\n// Rewire each next to point backward; save next BEFORE overwriting it.\npublic ListNode Reverse(ListNode head) {\n    ListNode prev = null, cur = head;\n    while (cur != null) {\n        var next = cur.next;\n        cur.next = prev;\n        prev = cur; cur = next;\n    }\n    return prev;        // new head\n}\n```\n**Complexity:** O(n) time, O(1) space (iterative).\n\n---",
       "needsReview": true
@@ -2093,6 +2137,7 @@
       "approach": "splice the smaller head each step; attach the leftover tail.",
       "complexity": "O(n+m)/O(1).",
       "watch": "the dummy node is what keeps this clean.",
+      "url": "https://leetcode.com/problems/merge-two-sorted-lists/",
       "source": "original",
       "solution": "```csharp\n// A dummy head removes the special case for the first node; splice the smaller head each\n// step and attach the leftover tail.\npublic ListNode MergeTwoLists(ListNode a, ListNode b) {\n    var dummy = new ListNode();\n    var tail = dummy;\n    while (a != null && b != null) {\n        if (a.val <= b.val) { tail.next = a; a = a.next; }\n        else { tail.next = b; b = b.next; }\n        tail = tail.next;\n    }\n    tail.next = a ?? b;\n    return dummy.next;\n}\n```\n**Complexity:** O(n + m) time, O(1) space.\n\n---",
       "needsReview": true
@@ -2109,6 +2154,7 @@
       "approach": "detect meeting, then reset one to head, step both by 1.",
       "complexity": "O(n)/O(1).",
       "watch": "be able to *derive* why the math works (distance algebra), not just recite it — interviewers push on this.",
+      "url": "https://leetcode.com/problems/linked-list-cycle-ii/",
       "source": "original",
       "solution": "```csharp\n// Floyd's: after slow/fast meet, a pointer from head and one from the meeting point\n// advance equally and collide at the cycle entrance.\npublic ListNode DetectCycle(ListNode head) {\n    ListNode slow = head, fast = head;\n    while (fast != null && fast.next != null) {\n        slow = slow.next; fast = fast.next.next;\n        if (slow == fast) {\n            var p = head;\n            while (p != slow) { p = p.next; slow = slow.next; }\n            return p;\n        }\n    }\n    return null;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -2125,6 +2171,7 @@
       "approach": "advance `fast` n steps, then move both until `fast` ends; `slow.next` is the node to drop.",
       "complexity": "O(n)/O(1).",
       "watch": "use a dummy head so removing the actual head is not a special case.",
+      "url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
       "source": "original",
       "solution": "```csharp\n// A gap of n between two pointers locates the target in one pass; a dummy head makes\n// removing the actual head a non-special case.\npublic ListNode RemoveNthFromEnd(ListNode head, int n) {\n    var dummy = new ListNode(0, head);\n    ListNode fast = dummy, slow = dummy;\n    for (int i = 0; i < n; i++) fast = fast.next;\n    while (fast.next != null) { fast = fast.next; slow = slow.next; }\n    slow.next = slow.next.next;\n    return dummy.next;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -2141,6 +2188,7 @@
       "approach": "find middle (fast/slow) → reverse second half → merge the two halves alternately.",
       "complexity": "O(n)/O(1).",
       "watch": "split cleanly so the first half's tail is nulled.",
+      "url": "https://leetcode.com/problems/reorder-list/",
       "source": "original",
       "solution": "```csharp\n// Three composed sub-skills: find middle (fast/slow), reverse second half, merge alternately.\npublic void ReorderList(ListNode head) {\n    if (head?.next == null) return;\n    ListNode slow = head, fast = head;\n    while (fast.next != null && fast.next.next != null) { slow = slow.next; fast = fast.next.next; }\n\n    ListNode second = slow.next; slow.next = null;     // split (null the first half's tail)\n    ListNode prev = null;\n    while (second != null) { var nxt = second.next; second.next = prev; prev = second; second = nxt; }\n\n    ListNode first = head;\n    while (prev != null) {\n        var f = first.next; var s = prev.next;\n        first.next = prev; prev.next = f;\n        first = f; prev = s;\n    }\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -2157,6 +2205,7 @@
       "approach": "walk both lists, sum + carry, emit digit.",
       "complexity": "O(max(n,m)).",
       "watch": "the final leftover carry needs an extra node.",
+      "url": "https://leetcode.com/problems/add-two-numbers/",
       "source": "original",
       "solution": "```csharp\n// Grade-school addition with a carry; the final leftover carry needs an extra node.\npublic ListNode AddTwoNumbers(ListNode a, ListNode b) {\n    var dummy = new ListNode();\n    var tail = dummy;\n    int carry = 0;\n    while (a != null || b != null || carry != 0) {\n        int sum = carry + (a?.val ?? 0) + (b?.val ?? 0);\n        carry = sum / 10;\n        tail.next = new ListNode(sum % 10);\n        tail = tail.next;\n        a = a?.next; b = b?.next;\n    }\n    return dummy.next;\n}\n```\n**Complexity:** O(max(n, m)) time.\n\n---",
       "needsReview": true
@@ -2173,6 +2222,7 @@
       "approach": "on access, move node to front; on overflow, evict the tail.",
       "complexity": "O(1) per op.",
       "watch": "a *doubly* linked list (so you can unlink in O(1)); sentinel head+tail nodes kill edge cases. This is also a design favorite.",
+      "url": "https://leetcode.com/problems/lru-cache/",
       "source": "original",
       "solution": "```csharp\n// O(1) get/put: a hashmap (key→node) for lookup + a DOUBLY linked list for recency.\n// Sentinel head/tail nodes kill edge cases; the double links allow O(1) unlink.\npublic class LRUCache {\n    private class Node { public int Key, Val; public Node Prev, Next; }\n    private readonly int _cap;\n    private readonly Dictionary<int, Node> _map = new();\n    private readonly Node _head = new(), _tail = new();\n    public LRUCache(int capacity) { _cap = capacity; _head.Next = _tail; _tail.Prev = _head; }\n\n    private void Remove(Node n) { n.Prev.Next = n.Next; n.Next.Prev = n.Prev; }\n    private void AddFront(Node n) { n.Next = _head.Next; n.Prev = _head; _head.Next.Prev = n; _head.Next = n; }\n\n    public int Get(int key) {\n        if (!_map.TryGetValue(key, out var n)) return -1;\n        Remove(n); AddFront(n);            // touch → most recent\n        return n.Val;\n    }\n    public void Put(int key, int value) {\n        if (_map.TryGetValue(key, out var ex)) { ex.Val = value; Remove(ex); AddFront(ex); return; }\n        if (_map.Count == _cap) { var lru = _tail.Prev; Remove(lru); _map.Remove(lru.Key); }\n        var node = new Node { Key = key, Val = value };\n        AddFront(node); _map[key] = node;\n    }\n}\n```\n**Complexity:** O(1) per operation.\n\n---",
       "needsReview": true
@@ -2189,6 +2239,7 @@
       "approach": "min-heap of the k heads (O(n log k)), or divide-and-conquer pairwise merge.",
       "complexity": "O(n log k).",
       "watch": "heap comparator on node value; push the popped node's `next`.",
+      "url": "https://leetcode.com/problems/merge-k-sorted-lists/",
       "source": "original",
       "solution": "```csharp\n// Always pull the global minimum head via a min-heap of the k current heads.\npublic ListNode MergeKLists(ListNode[] lists) {\n    var pq = new PriorityQueue<ListNode, int>();\n    foreach (var node in lists) if (node != null) pq.Enqueue(node, node.val);\n    var dummy = new ListNode(); var tail = dummy;\n    while (pq.Count > 0) {\n        var node = pq.Dequeue();\n        tail.next = node; tail = node;\n        if (node.next != null) pq.Enqueue(node.next, node.next.val);\n    }\n    return dummy.next;\n}\n```\n**Complexity:** O(n log k) time, O(k) space.\n\n---",
       "needsReview": true
@@ -2205,6 +2256,7 @@
       "approach": "check k nodes remain, reverse the block, recurse/iterate on the rest, reconnect.",
       "complexity": "O(n)/O(1).",
       "watch": "the reconnection between reversed groups is where it breaks.",
+      "url": "https://leetcode.com/problems/reverse-nodes-in-k-group/",
       "source": "original",
       "solution": "```csharp\n// Reverse each block of k; if fewer than k remain, leave them untouched. Reconnect by\n// pointing the old block-head (now the block's tail) at the reversed rest.\npublic ListNode ReverseKGroup(ListNode head, int k) {\n    var node = head;\n    for (int i = 0; i < k; i++) { if (node == null) return head; node = node.next; }\n    ListNode prev = null, cur = head;\n    for (int i = 0; i < k; i++) { var nxt = cur.next; cur.next = prev; prev = cur; cur = nxt; }\n    head.next = ReverseKGroup(cur, k);    // head is the tail of this reversed block\n    return prev;                          // new head of this block\n}\n```\n**Complexity:** O(n) time, O(n/k) recursion depth.",
       "needsReview": true
@@ -2221,6 +2273,7 @@
       "approach": "the combinations template.",
       "complexity": "O(n·2ⁿ).",
       "watch": "copy `path` when adding (it's mutated as you backtrack).",
+      "url": "https://leetcode.com/problems/subsets/",
       "source": "original",
       "solution": "```csharp\n// Every node of the recursion tree is a valid subset. Copy `path` when adding (it mutates).\npublic IList<IList<int>> Subsets(int[] nums) {\n    var res = new List<IList<int>>();\n    var path = new List<int>();\n    void Backtrack(int start) {\n        res.Add(new List<int>(path));\n        for (int i = start; i < nums.Length; i++) {\n            path.Add(nums[i]);\n            Backtrack(i + 1);                  // i+1 = no reuse\n            path.RemoveAt(path.Count - 1);     // un-choose\n        }\n    }\n    Backtrack(0);\n    return res;\n}\n```\n**Complexity:** O(n·2ⁿ).\n\n---",
       "needsReview": true
@@ -2237,6 +2290,7 @@
       "approach": "the used[] template.",
       "complexity": "O(n·n!).",
       "watch": "reset `used[i]=false` on the way back up.",
+      "url": "https://leetcode.com/problems/permutations/",
       "source": "original",
       "solution": "```csharp\n// Fill positions, marking used elements; reset used[i] on the way back up.\npublic IList<IList<int>> Permute(int[] nums) {\n    var res = new List<IList<int>>();\n    var path = new List<int>();\n    var used = new bool[nums.Length];\n    void Backtrack() {\n        if (path.Count == nums.Length) { res.Add(new List<int>(path)); return; }\n        for (int i = 0; i < nums.Length; i++) {\n            if (used[i]) continue;\n            used[i] = true; path.Add(nums[i]);\n            Backtrack();\n            path.RemoveAt(path.Count - 1); used[i] = false;\n        }\n    }\n    Backtrack();\n    return res;\n}\n```\n**Complexity:** O(n·n!).\n\n---",
       "needsReview": true
@@ -2253,6 +2307,7 @@
       "approach": "sort; prune when the remaining target goes negative.",
       "complexity": "exponential, pruned.",
       "watch": "`i` (not `i+1`) on the recursive call allows reuse; sorting enables early break.",
+      "url": "https://leetcode.com/problems/combination-sum/",
       "source": "original",
       "solution": "```csharp\n// Unlimited reuse → recurse with the SAME start index. Sort enables an early break (prune).\npublic IList<IList<int>> CombinationSum(int[] candidates, int target) {\n    Array.Sort(candidates);\n    var res = new List<IList<int>>();\n    var path = new List<int>();\n    void Backtrack(int start, int remain) {\n        if (remain == 0) { res.Add(new List<int>(path)); return; }\n        for (int i = start; i < candidates.Length; i++) {\n            if (candidates[i] > remain) break;          // sorted → no point continuing\n            path.Add(candidates[i]);\n            Backtrack(i, remain - candidates[i]);       // i, not i+1 → reuse allowed\n            path.RemoveAt(path.Count - 1);\n        }\n    }\n    Backtrack(0, target);\n    return res;\n}\n```\n**Complexity:** exponential, heavily pruned.\n\n---",
       "needsReview": true
@@ -2269,6 +2324,7 @@
       "approach": "4-directional DFS matching the next letter; temporarily overwrite the visited cell, restore on backtrack.",
       "complexity": "O(m·n·4^L).",
       "watch": "restore the cell after recursion — the classic \"mark and unmark.\"",
+      "url": "https://leetcode.com/problems/word-search/",
       "source": "original",
       "solution": "```csharp\n// DFS from each cell, temporarily overwriting visited cells; restore on backtrack.\npublic bool Exist(char[][] board, string word) {\n    int m = board.Length, n = board[0].Length;\n    bool Dfs(int r, int c, int k) {\n        if (k == word.Length) return true;\n        if (r < 0 || r >= m || c < 0 || c >= n || board[r][c] != word[k]) return false;\n        char tmp = board[r][c];\n        board[r][c] = '#';\n        bool found = Dfs(r+1,c,k+1) || Dfs(r-1,c,k+1) || Dfs(r,c+1,k+1) || Dfs(r,c-1,k+1);\n        board[r][c] = tmp;\n        return found;\n    }\n    for (int r = 0; r < m; r++)\n        for (int c = 0; c < n; c++)\n            if (Dfs(r, c, 0)) return true;\n    return false;\n}\n```\n**Complexity:** O(m·n·4ᴸ).\n\n---",
       "needsReview": true
@@ -2285,6 +2341,7 @@
       "approach": "recurse one digit deep per level.",
       "complexity": "O(4ⁿ·n).",
       "watch": "the empty-input edge case.",
+      "url": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
       "source": "original",
       "solution": "```csharp\n// Cartesian product across digit→letters maps; one digit deep per recursion level.\npublic IList<string> LetterCombinations(string digits) {\n    var res = new List<string>();\n    if (digits.Length == 0) return res;       // empty-input edge case\n    string[] map = { \"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\" };\n    var sb = new System.Text.StringBuilder();\n    void Backtrack(int i) {\n        if (i == digits.Length) { res.Add(sb.ToString()); return; }\n        foreach (char c in map[digits[i] - '0']) { sb.Append(c); Backtrack(i + 1); sb.Length--; }\n    }\n    Backtrack(0);\n    return res;\n}\n```\n**Complexity:** O(4ⁿ·n).\n\n---",
       "needsReview": true
@@ -2301,6 +2358,7 @@
       "approach": "backtrack over cut points with a palindrome check.",
       "complexity": "O(2ⁿ·n).",
       "watch": "precompute palindrome DP to avoid re-checking.",
+      "url": "https://leetcode.com/problems/palindrome-partitioning/",
       "source": "original",
       "solution": "```csharp\n// Try every prefix; recurse on the rest only when the prefix is a palindrome.\npublic IList<IList<string>> Partition(string s) {\n    var res = new List<IList<string>>();\n    var path = new List<string>();\n    bool IsPalin(int l, int r) { while (l < r) if (s[l++] != s[r--]) return false; return true; }\n    void Backtrack(int start) {\n        if (start == s.Length) { res.Add(new List<string>(path)); return; }\n        for (int end = start; end < s.Length; end++) {\n            if (!IsPalin(start, end)) continue;\n            path.Add(s.Substring(start, end - start + 1));\n            Backtrack(end + 1);\n            path.RemoveAt(path.Count - 1);\n        }\n    }\n    Backtrack(0);\n    return res;\n}\n```\n**Complexity:** O(2ⁿ·n).\n\n---",
       "needsReview": true
@@ -2317,6 +2375,7 @@
       "approach": "recurse row by row; a cell is safe if its column, `r−c`, and `r+c` are all free.",
       "complexity": "O(n!).",
       "watch": "the two diagonal keys (`r−c` and `r+c`) are the elegant part.",
+      "url": "https://leetcode.com/problems/n-queens/",
       "source": "original",
       "solution": "```csharp\n// One queen per row; track attacked columns and both diagonals (r−c and r+c) as sets.\npublic IList<IList<string>> SolveNQueens(int n) {\n    var res = new List<IList<string>>();\n    var cols = new bool[n];\n    var diag1 = new bool[2 * n];   // r - c + n\n    var diag2 = new bool[2 * n];   // r + c\n    var col = new int[n];\n    void Backtrack(int r) {\n        if (r == n) {\n            var sol = new List<string>();\n            for (int i = 0; i < n; i++)\n                sol.Add(new string('.', col[i]) + \"Q\" + new string('.', n - col[i] - 1));\n            res.Add(sol);\n            return;\n        }\n        for (int c = 0; c < n; c++) {\n            if (cols[c] || diag1[r - c + n] || diag2[r + c]) continue;\n            cols[c] = diag1[r - c + n] = diag2[r + c] = true; col[r] = c;\n            Backtrack(r + 1);\n            cols[c] = diag1[r - c + n] = diag2[r + c] = false;\n        }\n    }\n    Backtrack(0);\n    return res;\n}\n```\n**Complexity:** O(n!).\n\n---",
       "needsReview": true
@@ -2333,6 +2392,7 @@
       "approach": "find an empty cell, try 1–9 that don't violate row/col/box, recurse, undo on failure.",
       "complexity": "exponential, heavily pruned.",
       "watch": "track row/col/box availability incrementally instead of rescanning.",
+      "url": "https://leetcode.com/problems/sudoku-solver/",
       "source": "original",
       "solution": "```csharp\n// Backtracking constraint satisfaction: find an empty cell, try 1–9 that don't violate\n// row/col/box, recurse, undo on failure.\npublic void SolveSudoku(char[][] board) {\n    bool Valid(int r, int c, char v) {\n        for (int i = 0; i < 9; i++) {\n            if (board[r][i] == v || board[i][c] == v) return false;\n            if (board[(r / 3) * 3 + i / 3][(c / 3) * 3 + i % 3] == v) return false;\n        }\n        return true;\n    }\n    bool Solve() {\n        for (int r = 0; r < 9; r++)\n            for (int c = 0; c < 9; c++)\n                if (board[r][c] == '.') {\n                    for (char v = '1'; v <= '9'; v++) {\n                        if (!Valid(r, c, v)) continue;\n                        board[r][c] = v;\n                        if (Solve()) return true;\n                        board[r][c] = '.';\n                    }\n                    return false;            // no valid digit here → backtrack\n                }\n        return true;                          // no empty cell → solved\n    }\n    Solve();\n}\n```\n**Complexity:** exponential, heavily pruned.\n\n---",
       "needsReview": true
@@ -2349,6 +2409,7 @@
       "approach": "e.g. depth = `1 + max(L, R)`.",
       "complexity": "O(n).",
       "watch": "these build the reflex; do them until trivial.",
+      "url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
       "source": "original",
       "solution": "```csharp\n// Three one-line recursions that build the \"combine left and right\" reflex.\npublic int MaxDepth(TreeNode root) =>\n    root == null ? 0 : 1 + Math.Max(MaxDepth(root.left), MaxDepth(root.right));\n\npublic TreeNode InvertTree(TreeNode root) {\n    if (root == null) return null;\n    (root.left, root.right) = (InvertTree(root.right), InvertTree(root.left));\n    return root;\n}\n\npublic bool IsSameTree(TreeNode p, TreeNode q) {\n    if (p == null || q == null) return p == q;\n    return p.val == q.val && IsSameTree(p.left, q.left) && IsSameTree(p.right, q.right);\n}\n```\n**Complexity:** O(n) each.\n\n---",
       "needsReview": true
@@ -2365,6 +2426,7 @@
       "approach": "BFS template.",
       "complexity": "O(n).",
       "watch": "the per-level size snapshot is what groups nodes correctly.",
+      "url": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
       "source": "original",
       "solution": "```csharp\n// Freeze q.Count at the start of each level to separate levels.\npublic IList<IList<int>> LevelOrder(TreeNode root) {\n    var res = new List<IList<int>>();\n    if (root == null) return res;\n    var q = new Queue<TreeNode>(); q.Enqueue(root);\n    while (q.Count > 0) {\n        int sz = q.Count;\n        var level = new List<int>();\n        for (int i = 0; i < sz; i++) {\n            var node = q.Dequeue(); level.Add(node.val);\n            if (node.left != null) q.Enqueue(node.left);\n            if (node.right != null) q.Enqueue(node.right);\n        }\n        res.Add(level);\n    }\n    return res;\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2381,6 +2443,7 @@
       "approach": "return depth up, side-effect a max.",
       "complexity": "O(n).",
       "watch": "return depth, but *track* diameter separately — they're different quantities.",
+      "url": "https://leetcode.com/problems/diameter-of-binary-tree/",
       "source": "original",
       "solution": "```csharp\n// Return depth up the tree, but side-effect the global max of (leftDepth + rightDepth).\npublic int DiameterOfBinaryTree(TreeNode root) {\n    int best = 0;\n    int Depth(TreeNode node) {\n        if (node == null) return 0;\n        int l = Depth(node.left), r = Depth(node.right);\n        best = Math.Max(best, l + r);\n        return 1 + Math.Max(l, r);\n    }\n    Depth(root);\n    return best;\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2397,6 +2460,7 @@
       "approach": "post-order; if left and right both return non-null, this node is the LCA; else bubble up whichever is non-null.",
       "complexity": "O(n).",
       "watch": "a node is its own ancestor (handle when a target equals the current node).",
+      "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/",
       "source": "original",
       "solution": "```csharp\n// Post-order: if both sides return non-null, this node is the LCA; else bubble up the\n// non-null one. A node is its own ancestor (handled by the root==p||root==q base case).\npublic TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n    if (root == null || root == p || root == q) return root;\n    var left = LowestCommonAncestor(root.left, p, q);\n    var right = LowestCommonAncestor(root.right, p, q);\n    if (left != null && right != null) return root;\n    return left ?? right;\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2412,6 +2476,7 @@
       "insight": "the last node dequeued at each level.",
       "approach": "BFS, take the level's final node (or DFS visiting right first, recording first per depth).",
       "complexity": "O(n).",
+      "url": "https://leetcode.com/problems/binary-tree-right-side-view/",
       "source": "original",
       "solution": "```csharp\n// BFS, taking the last node dequeued at each level.\npublic IList<int> RightSideView(TreeNode root) {\n    var res = new List<int>();\n    if (root == null) return res;\n    var q = new Queue<TreeNode>(); q.Enqueue(root);\n    while (q.Count > 0) {\n        int sz = q.Count;\n        for (int i = 0; i < sz; i++) {\n            var node = q.Dequeue();\n            if (i == sz - 1) res.Add(node.val);\n            if (node.left != null) q.Enqueue(node.left);\n            if (node.right != null) q.Enqueue(node.right);\n        }\n    }\n    return res;\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2428,6 +2493,7 @@
       "approach": "recurse on index ranges; a value→index map on inorder makes the split O(1).",
       "complexity": "O(n).",
       "watch": "track preorder cursor and inorder bounds carefully.",
+      "url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/",
       "source": "original",
       "solution": "```csharp\n// Preorder gives the root; its index in inorder splits left/right subtrees. A value→index\n// map makes the split O(1).\npublic TreeNode BuildTree(int[] preorder, int[] inorder) {\n    var idx = new Dictionary<int, int>();\n    for (int i = 0; i < inorder.Length; i++) idx[inorder[i]] = i;\n    int pre = 0;\n    TreeNode Build(int lo, int hi) {\n        if (lo > hi) return null;\n        int rootVal = preorder[pre++];\n        var node = new TreeNode(rootVal);\n        int mid = idx[rootVal];\n        node.left = Build(lo, mid - 1);\n        node.right = Build(mid + 1, hi);\n        return node;\n    }\n    return Build(0, inorder.Length - 1);\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2444,6 +2510,7 @@
       "approach": "post-order returns `node + max(0, L, R)` upward; update global with `node + max(0,L) + max(0,R)`.",
       "complexity": "O(n).",
       "watch": "clamp negative contributions to 0; distinguish \"return value\" from \"answer candidate.\"",
+      "url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
       "source": "original",
       "solution": "```csharp\n// Each node returns the best STRAIGHT downward path (clamping negatives to 0); the answer\n// may BEND at a node = node.val + leftGain + rightGain.\npublic int MaxPathSum(TreeNode root) {\n    int best = int.MinValue;\n    int Gain(TreeNode node) {\n        if (node == null) return 0;\n        int l = Math.Max(0, Gain(node.left));\n        int r = Math.Max(0, Gain(node.right));\n        best = Math.Max(best, node.val + l + r);    // bent path candidate\n        return node.val + Math.Max(l, r);           // straight path returned up\n    }\n    Gain(root);\n    return best;\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2460,6 +2527,7 @@
       "approach": "serialize preorder writing `#` for nulls; deserialize by consuming tokens in the same order.",
       "complexity": "O(n).",
       "watch": "the null markers are mandatory for unambiguous reconstruction.",
+      "url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
       "source": "original",
       "solution": "```csharp\n// Preorder stream with explicit null markers ('#') uniquely encodes a tree.\npublic class Codec {\n    public string serialize(TreeNode root) {\n        var sb = new System.Text.StringBuilder();\n        void Dfs(TreeNode node) {\n            if (node == null) { sb.Append(\"#,\"); return; }\n            sb.Append(node.val).Append(',');\n            Dfs(node.left); Dfs(node.right);\n        }\n        Dfs(root);\n        return sb.ToString();\n    }\n    public TreeNode deserialize(string data) {\n        var tokens = data.Split(',');\n        int i = 0;\n        TreeNode Build() {\n            var t = tokens[i++];\n            if (t == \"#\") return null;\n            var node = new TreeNode(int.Parse(t));\n            node.left = Build();\n            node.right = Build();\n            return node;\n        }\n        return Build();\n    }\n}\n```\n**Complexity:** O(n) each way.\n\n---",
       "needsReview": true
@@ -2476,6 +2544,7 @@
       "approach": "recurse passing down tightening bounds.",
       "complexity": "O(n).",
       "watch": "the classic wrong answer checks only immediate children; use `long` bounds for int-edge values.",
+      "url": "https://leetcode.com/problems/validate-binary-search-tree/",
       "source": "original",
       "solution": "```csharp\n// Every node must lie within an inherited (min, max) range — local left<node<right is not\n// enough. Use long bounds for int-edge values.\npublic bool IsValidBST(TreeNode root) {\n    bool Valid(TreeNode node, long min, long max) {\n        if (node == null) return true;\n        if (node.val <= min || node.val >= max) return false;\n        return Valid(node.left, min, node.val) && Valid(node.right, node.val, max);\n    }\n    return Valid(root, long.MinValue, long.MaxValue);\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2492,6 +2561,7 @@
       "approach": "iterative in-order, decrement k.",
       "complexity": "O(h + k).",
       "watch": "don't traverse the whole tree — stop early.",
+      "url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
       "source": "original",
       "solution": "```csharp\n// In-order yields ascending order; stop at the kth (don't traverse the whole tree).\npublic int KthSmallest(TreeNode root, int k) {\n    var st = new Stack<TreeNode>();\n    var cur = root;\n    while (cur != null || st.Count > 0) {\n        while (cur != null) { st.Push(cur); cur = cur.left; }\n        cur = st.Pop();\n        if (--k == 0) return cur.val;\n        cur = cur.right;\n    }\n    return -1;\n}\n```\n**Complexity:** O(h + k).\n\n---",
       "needsReview": true
@@ -2508,6 +2578,7 @@
       "approach": "walk down comparing.",
       "complexity": "O(h).",
       "watch": "simpler than the general-tree LCA; use the values.",
+      "url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
       "source": "original",
       "solution": "```csharp\n// Use the ordering: both smaller → go left, both larger → go right, else the split is LCA.\npublic TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n    var cur = root;\n    while (cur != null) {\n        if (p.val < cur.val && q.val < cur.val) cur = cur.left;\n        else if (p.val > cur.val && q.val > cur.val) cur = cur.right;\n        else return cur;\n    }\n    return null;\n}\n```\n**Complexity:** O(h).\n\n---",
       "needsReview": true
@@ -2524,6 +2595,7 @@
       "approach": "for two-children delete, replace with in-order successor (min of right subtree), then delete that.",
       "complexity": "O(h).",
       "watch": "the two-children case is the only real difficulty.",
+      "url": "https://leetcode.com/problems/insert-into-a-binary-search-tree/",
       "source": "original",
       "solution": "```csharp\npublic TreeNode InsertIntoBST(TreeNode root, int val) {\n    if (root == null) return new TreeNode(val);\n    if (val < root.val) root.left = InsertIntoBST(root.left, val);\n    else root.right = InsertIntoBST(root.right, val);\n    return root;\n}\n\n// Delete's hard case is two children: replace with the in-order successor (min of the\n// right subtree), then delete that successor.\npublic TreeNode DeleteNode(TreeNode root, int key) {\n    if (root == null) return null;\n    if (key < root.val) root.left = DeleteNode(root.left, key);\n    else if (key > root.val) root.right = DeleteNode(root.right, key);\n    else {\n        if (root.left == null) return root.right;\n        if (root.right == null) return root.left;\n        var succ = root.right;\n        while (succ.left != null) succ = succ.left;\n        root.val = succ.val;\n        root.right = DeleteNode(root.right, succ.val);\n    }\n    return root;\n}\n```\n**Complexity:** O(h).\n\n---",
       "needsReview": true
@@ -2540,6 +2612,7 @@
       "approach": "insert/search walk the children; `startsWith` is search without requiring `isEnd`.",
       "complexity": "O(L) per op.",
       "watch": "the `isEnd` flag distinguishes a stored word from a mere prefix.",
+      "url": "https://leetcode.com/problems/implement-trie-prefix-tree/",
       "source": "original",
       "solution": "```csharp\n// The isEnd flag distinguishes a stored word from a mere prefix.\npublic class Trie {\n    private readonly Trie[] _next = new Trie[26];\n    private bool _isEnd;\n    public void Insert(string word) {\n        var cur = this;\n        foreach (char c in word) cur = cur._next[c - 'a'] ??= new Trie();\n        cur._isEnd = true;\n    }\n    public bool Search(string word) { var n = Walk(word); return n != null && n._isEnd; }\n    public bool StartsWith(string prefix) => Walk(prefix) != null;\n    private Trie Walk(string s) {\n        var cur = this;\n        foreach (char c in s) { cur = cur._next[c - 'a']; if (cur == null) return null; }\n        return cur;\n    }\n}\n```\n**Complexity:** O(L) per operation.\n\n---",
       "needsReview": true
@@ -2556,6 +2629,7 @@
       "approach": "recursive search; on `.`, try every non-null child.",
       "complexity": "O(26^dots · L) worst.",
       "watch": "the wildcard turns a walk into a search.",
+      "url": "https://leetcode.com/problems/design-add-and-search-words-data-structure/",
       "source": "original",
       "solution": "```csharp\n// '.' branches into a DFS over all children; a literal char follows a single edge.\npublic class WordDictionary {\n    private class Node { public Node[] Next = new Node[26]; public bool IsEnd; }\n    private readonly Node _root = new();\n    public void AddWord(string word) {\n        var cur = _root;\n        foreach (char c in word) cur = cur.Next[c - 'a'] ??= new Node();\n        cur.IsEnd = true;\n    }\n    public bool Search(string word) {\n        bool Dfs(Node node, int i) {\n            if (node == null) return false;\n            if (i == word.Length) return node.IsEnd;\n            char c = word[i];\n            if (c == '.') {\n                foreach (var child in node.Next) if (Dfs(child, i + 1)) return true;\n                return false;\n            }\n            return Dfs(node.Next[c - 'a'], i + 1);\n        }\n        return Dfs(_root, 0);\n    }\n}\n```\n**Complexity:** O(26^dots · L) worst case.\n\n---",
       "needsReview": true
@@ -2572,6 +2646,7 @@
       "approach": "grid DFS that advances only along existing Trie edges; mark words found.",
       "complexity": "far better than per-word search.",
       "watch": "prune found words and dead branches; this Trie+DFS combo is a known hard.",
+      "url": "https://leetcode.com/problems/word-search-ii/",
       "source": "original",
       "solution": "```csharp\n// Build a Trie of the target words, then DFS the grid GUIDED by the Trie so dead prefixes\n// are abandoned immediately. Null out a word once found to dedup.\npublic IList<string> FindWords(char[][] board, string[] words) {\n    var root = new TrieNode();\n    foreach (var w in words) {\n        var cur = root;\n        foreach (char c in w) cur = cur.Next[c - 'a'] ??= new TrieNode();\n        cur.Word = w;\n    }\n    int m = board.Length, n = board[0].Length;\n    var res = new List<string>();\n    void Dfs(int r, int c, TrieNode node) {\n        if (r < 0 || r >= m || c < 0 || c >= n) return;\n        char ch = board[r][c];\n        if (ch == '#') return;\n        var nxt = node.Next[ch - 'a'];\n        if (nxt == null) return;                          // prune dead prefix\n        if (nxt.Word != null) { res.Add(nxt.Word); nxt.Word = null; }\n        board[r][c] = '#';\n        Dfs(r+1,c,nxt); Dfs(r-1,c,nxt); Dfs(r,c+1,nxt); Dfs(r,c-1,nxt);\n        board[r][c] = ch;\n    }\n    for (int r = 0; r < m; r++)\n        for (int c = 0; c < n; c++)\n            Dfs(r, c, root);\n    return res;\n}\nclass TrieNode { public TrieNode[] Next = new TrieNode[26]; public string Word; }\n```\n**Complexity:** far better than naive per-word search (Trie prunes shared/dead prefixes).",
       "needsReview": true
@@ -2588,6 +2663,7 @@
       "approach": "template, or quickselect for O(n) average.",
       "complexity": "O(n log k) heap / O(n) avg quickselect.",
       "watch": "know quickselect exists — it's the optimal follow-up.",
+      "url": "https://leetcode.com/problems/kth-largest-element-in-an-array/",
       "source": "original",
       "solution": "```csharp\n// A size-k MIN-heap keeps exactly the k largest; its root is the kth largest.\npublic int FindKthLargest(int[] nums, int k) {\n    var pq = new PriorityQueue<int, int>();\n    foreach (int x in nums) {\n        pq.Enqueue(x, x);\n        if (pq.Count > k) pq.Dequeue();        // drop the smallest\n    }\n    return pq.Peek();\n}\n```\n**Complexity:** O(n log k). (Quickselect is the O(n)-average optimal follow-up.)\n\n---",
       "needsReview": true
@@ -2604,6 +2680,7 @@
       "approach": "count → size-k heap.",
       "complexity": "O(n log k).",
       "watch": "bucket sort is O(n) and the better answer if asked to optimize.",
+      "url": "https://leetcode.com/problems/top-k-frequent-elements/",
       "source": "original",
       "solution": "```csharp\n// Heap variant: count, then keep a size-k min-heap by frequency.\npublic int[] TopKFrequent(int[] nums, int k) {\n    var freq = new Dictionary<int, int>();\n    foreach (int n in nums) freq[n] = freq.GetValueOrDefault(n) + 1;\n    var pq = new PriorityQueue<int, int>();\n    foreach (var kv in freq) {\n        pq.Enqueue(kv.Key, kv.Value);\n        if (pq.Count > k) pq.Dequeue();\n    }\n    var res = new int[k];\n    for (int i = k - 1; i >= 0; i--) res[i] = pq.Dequeue();\n    return res;\n}\n```\n**Complexity:** O(n log k). (Bucket sort, §Arrays, is O(n).)\n\n---",
       "needsReview": true
@@ -2620,6 +2697,7 @@
       "approach": "max-heap by count; run up to (n+1) distinct tasks per cycle, decrement, re-add.",
       "complexity": "O(total).",
       "watch": "the closed-form formula `(maxCount-1)*(n+1) + countOfMax` is the elegant alternative.",
+      "url": "https://leetcode.com/problems/task-scheduler/",
       "source": "original",
       "solution": "```csharp\n// Spread out the most-frequent task. Closed form: arrange (maxCount-1) full cycles of\n// length (n+1), then append the tasks that tie for max.\npublic int LeastInterval(char[] tasks, int n) {\n    var counts = new int[26];\n    foreach (char t in tasks) counts[t - 'A']++;\n    int maxCount = counts.Max();\n    int numMax = counts.Count(c => c == maxCount);\n    int slots = (maxCount - 1) * (n + 1) + numMax;\n    return Math.Max(tasks.Length, slots);     // can't be fewer than the tasks themselves\n}\n```\n**Complexity:** O(total tasks). (A max-heap by remaining count is the simulation alternative.)\n\n---",
       "needsReview": true
@@ -2636,6 +2714,7 @@
       "approach": "push, evict the farthest beyond k.",
       "complexity": "O(n log k).",
       "watch": "compare squared distances — no `sqrt` needed.",
+      "url": "https://leetcode.com/problems/k-closest-points-to-origin/",
       "source": "original",
       "solution": "```csharp\n// Size-k MAX-heap by squared distance (no sqrt needed); evict the farthest beyond k.\npublic int[][] KClosest(int[][] points, int k) {\n    var pq = new PriorityQueue<int[], int>();\n    foreach (var p in points) {\n        int d = p[0] * p[0] + p[1] * p[1];\n        pq.Enqueue(p, -d);                    // negate → max-heap\n        if (pq.Count > k) pq.Dequeue();\n    }\n    var res = new int[k][];\n    for (int i = 0; i < k; i++) res[i] = pq.Dequeue();\n    return res;\n}\n```\n**Complexity:** O(n log k).\n\n---",
       "needsReview": true
@@ -2652,6 +2731,7 @@
       "approach": "push, rebalance so sizes differ by ≤1.",
       "complexity": "O(log n) add, O(1) median.",
       "watch": "the rebalancing (move a root across when sizes skew) is the crux.",
+      "url": "https://leetcode.com/problems/find-median-from-data-stream/",
       "source": "original",
       "solution": "```csharp\n// Two heaps: a max-heap for the lower half and a min-heap for the upper, kept balanced so\n// sizes differ by ≤1. Median is the top(s).\npublic class MedianFinder {\n    private readonly PriorityQueue<int, int> _low = new();    // max-heap (lower half)\n    private readonly PriorityQueue<int, int> _high = new();   // min-heap (upper half)\n    public void AddNum(int num) {\n        _low.Enqueue(num, -num);\n        int top = _low.Dequeue();             // pass the max of low up to high\n        _high.Enqueue(top, top);\n        if (_high.Count > _low.Count) {       // rebalance\n            int t = _high.Dequeue();\n            _low.Enqueue(t, -t);\n        }\n    }\n    public double FindMedian() =>\n        _low.Count > _high.Count ? _low.Peek() : (_low.Peek() + _high.Peek()) / 2.0;\n}\n```\n**Complexity:** O(log n) add, O(1) median.\n\n---",
       "needsReview": true
@@ -2665,6 +2745,7 @@
       "core": false,
       "revisit": false,
       "note": "see §8; heap of heads.",
+      "url": "https://leetcode.com/problems/merge-k-sorted-lists/",
       "source": "original",
       "solution": "```csharp\n// Min-heap of the k current heads; pop the global minimum and push its successor.\npublic ListNode MergeKLists(ListNode[] lists) {\n    var pq = new PriorityQueue<ListNode, int>();\n    foreach (var node in lists) if (node != null) pq.Enqueue(node, node.val);\n    var dummy = new ListNode(); var tail = dummy;\n    while (pq.Count > 0) {\n        var node = pq.Dequeue();\n        tail.next = node; tail = node;\n        if (node.next != null) pq.Enqueue(node.next, node.next.val);\n    }\n    return dummy.next;\n}\n```\n**Complexity:** O(n log k).\n\n---",
       "needsReview": true
@@ -2681,6 +2762,7 @@
       "approach": "one pass, `reach = max(reach, i + nums[i])`, fail if `i > reach`.",
       "complexity": "O(n).",
       "watch": "fail fast when an index is unreachable.",
+      "url": "https://leetcode.com/problems/jump-game/",
       "source": "original",
       "solution": "```csharp\n// Track the furthest reachable index; fail fast the moment an index is unreachable.\npublic bool CanJump(int[] nums) {\n    int reach = 0;\n    for (int i = 0; i < nums.Length; i++) {\n        if (i > reach) return false;\n        reach = Math.Max(reach, i + nums[i]);\n    }\n    return true;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -2697,6 +2779,7 @@
       "approach": "track current-level end; when you pass it, increment jumps and extend.",
       "complexity": "O(n).",
       "watch": "this is implicit level-order, not DP.",
+      "url": "https://leetcode.com/problems/jump-game-ii/",
       "source": "original",
       "solution": "```csharp\n// Implicit BFS by \"jump level\": within the current reach, extend to the furthest next\n// reach; bump the jump count when you exhaust the current level.\npublic int Jump(int[] nums) {\n    int jumps = 0, curEnd = 0, farthest = 0;\n    for (int i = 0; i < nums.Length - 1; i++) {\n        farthest = Math.Max(farthest, i + nums[i]);\n        if (i == curEnd) { jumps++; curEnd = farthest; }\n    }\n    return jumps;\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2713,6 +2796,7 @@
       "approach": "single pass tracking tank and start.",
       "complexity": "O(n).",
       "watch": "prove why resetting start to `i+1` is safe.",
+      "url": "https://leetcode.com/problems/gas-station/",
       "source": "original",
       "solution": "```csharp\n// If total gas ≥ total cost a unique start exists; reset the candidate start to i+1\n// whenever the running tank goes negative.\npublic int CanCompleteCircuit(int[] gas, int[] cost) {\n    int total = 0, tank = 0, start = 0;\n    for (int i = 0; i < gas.Length; i++) {\n        int diff = gas[i] - cost[i];\n        total += diff; tank += diff;\n        if (tank < 0) { start = i + 1; tank = 0; }\n    }\n    return total >= 0 ? start : -1;\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2729,6 +2813,7 @@
       "approach": "counts (sorted/`SortedDictionary`); greedily form consecutive groups from the minimum.",
       "complexity": "O(n log n).",
       "watch": "decrement counts and skip exhausted cards.",
+      "url": "https://leetcode.com/problems/hand-of-straights/",
       "source": "original",
       "solution": "```csharp\n// The smallest available card must begin a group; greedily form consecutive runs from it.\npublic bool IsNStraightHand(int[] hand, int groupSize) {\n    if (hand.Length % groupSize != 0) return false;\n    var count = new SortedDictionary<int, int>();\n    foreach (int c in hand) count[c] = count.GetValueOrDefault(c) + 1;\n    while (count.Count > 0) {\n        int start = count.Keys.First();\n        for (int v = start; v < start + groupSize; v++) {\n            if (!count.TryGetValue(v, out int cnt)) return false;\n            if (cnt == 1) count.Remove(v); else count[v] = cnt - 1;\n        }\n    }\n    return true;\n}\n```\n**Complexity:** O(n log n).\n\n---",
       "needsReview": true
@@ -2745,6 +2830,7 @@
       "approach": "left-to-right pass (rising ratings get +1), right-to-left pass, combine by max.",
       "complexity": "O(n).",
       "watch": "one pass can't satisfy both directions — that's why it's two.",
+      "url": "https://leetcode.com/problems/candy/",
       "source": "original",
       "solution": "```csharp\n// Satisfy the left-neighbor and right-neighbor constraints in two passes, then take the\n// max — one pass can't satisfy both directions.\npublic int Candy(int[] ratings) {\n    int n = ratings.Length;\n    var candy = new int[n];\n    Array.Fill(candy, 1);\n    for (int i = 1; i < n; i++)\n        if (ratings[i] > ratings[i - 1]) candy[i] = candy[i - 1] + 1;\n    for (int i = n - 2; i >= 0; i--)\n        if (ratings[i] > ratings[i + 1]) candy[i] = Math.Max(candy[i], candy[i + 1] + 1);\n    return candy.Sum();\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2761,6 +2847,7 @@
       "approach": "the template.",
       "complexity": "O(n log n).",
       "watch": "compare `prevEnd >= curStart` for overlap; use max for the merged end.",
+      "url": "https://leetcode.com/problems/merge-intervals/",
       "source": "original",
       "solution": "```csharp\n// Sort by start; overlaps become adjacent. Merge when prevEnd >= curStart.\npublic int[][] Merge(int[][] intervals) {\n    Array.Sort(intervals, (a, b) => a[0] - b[0]);\n    var res = new List<int[]>();\n    foreach (var iv in intervals) {\n        if (res.Count == 0 || res[^1][1] < iv[0]) res.Add(new[] { iv[0], iv[1] });\n        else res[^1][1] = Math.Max(res[^1][1], iv[1]);\n    }\n    return res.ToArray();\n}\n```\n**Complexity:** O(n log n).\n\n---",
       "needsReview": true
@@ -2777,6 +2864,7 @@
       "approach": "copy before, merge the overlapping span, copy after.",
       "complexity": "O(n).",
       "watch": "the array is pre-sorted, so no full sort is needed.",
+      "url": "https://leetcode.com/problems/insert-interval/",
       "source": "original",
       "solution": "```csharp\n// Three phases on the already-sorted input: copy those entirely before, merge the\n// overlapping run, copy those entirely after. No full sort needed.\npublic int[][] Insert(int[][] intervals, int[] newInterval) {\n    var res = new List<int[]>();\n    int i = 0, n = intervals.Length;\n    while (i < n && intervals[i][1] < newInterval[0]) res.Add(intervals[i++]);\n    while (i < n && intervals[i][0] <= newInterval[1]) {\n        newInterval[0] = Math.Min(newInterval[0], intervals[i][0]);\n        newInterval[1] = Math.Max(newInterval[1], intervals[i][1]);\n        i++;\n    }\n    res.Add(newInterval);\n    while (i < n) res.Add(intervals[i++]);\n    return res.ToArray();\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -2793,6 +2881,7 @@
       "approach": "sort by end; count keeps where start ≥ last kept end.",
       "complexity": "O(n log n).",
       "watch": "sort by **end**, not start, here.",
+      "url": "https://leetcode.com/problems/non-overlapping-intervals/",
       "source": "original",
       "solution": "```csharp\n// Keep as many as possible → greedily keep the interval that ends earliest. Sort by END.\npublic int EraseOverlapIntervals(int[][] intervals) {\n    Array.Sort(intervals, (a, b) => a[1] - b[1]);\n    int kept = 0, lastEnd = int.MinValue;\n    foreach (var iv in intervals)\n        if (iv[0] >= lastEnd) { kept++; lastEnd = iv[1]; }\n    return intervals.Length - kept;\n}\n```\n**Complexity:** O(n log n).\n\n---",
       "needsReview": true
@@ -2809,6 +2898,7 @@
       "approach": "min-heap of end times (reuse a room when the earliest end ≤ next start), or a sweep of +1/−1 events.",
       "complexity": "O(n log n).",
       "watch": "the heap holds *end times*; the sweep-line counter is the cleaner mental model.",
+      "url": "https://leetcode.com/problems/meeting-rooms-ii/",
       "source": "original",
       "solution": "```csharp\n// Rooms needed = max simultaneous overlaps. Sweep separated start/end events: a meeting\n// that has ended frees a room before the next start claims one.\npublic int MinMeetingRooms(int[][] intervals) {\n    int n = intervals.Length;\n    int[] starts = new int[n], ends = new int[n];\n    for (int i = 0; i < n; i++) { starts[i] = intervals[i][0]; ends[i] = intervals[i][1]; }\n    Array.Sort(starts); Array.Sort(ends);\n    int rooms = 0, maxRooms = 0, e = 0;\n    for (int s = 0; s < n; s++) {\n        while (e < n && ends[e] <= starts[s]) { rooms--; e++; }\n        rooms++;\n        maxRooms = Math.Max(maxRooms, rooms);\n    }\n    return maxRooms;\n}\n```\n**Complexity:** O(n log n).\n\n---",
       "needsReview": true
@@ -2824,6 +2914,7 @@
       "insight": "merge all intervals across everyone, then gaps between merged intervals are free time.",
       "approach": "flatten, sort, merge, emit gaps.",
       "complexity": "O(n log n).",
+      "url": "https://leetcode.com/problems/employee-free-time/",
       "source": "original",
       "solution": "```csharp\n// Flatten all intervals across everyone, sort, merge; the gaps between merged intervals\n// are the shared free time.\npublic IList<int[]> EmployeeFreeTime(int[][][] schedule) {\n    var all = new List<int[]>();\n    foreach (var emp in schedule) foreach (var iv in emp) all.Add(iv);\n    all.Sort((a, b) => a[0] - b[0]);\n    var res = new List<int[]>();\n    int end = all[0][1];\n    foreach (var iv in all) {\n        if (iv[0] > end) res.Add(new[] { end, iv[0] });\n        end = Math.Max(end, iv[1]);\n    }\n    return res;\n}\n```\n**Complexity:** O(n log n).",
       "needsReview": true
@@ -2840,6 +2931,7 @@
       "approach": "iterate cells; on land, BFS/DFS marking the whole component.",
       "complexity": "O(mn).",
       "watch": "mark visited (mutate or a visited set) to avoid recount.",
+      "url": "https://leetcode.com/problems/number-of-islands/",
       "source": "original",
       "solution": "```csharp\n// Each unvisited land cell starts a flood fill that consumes one island. Sink visited\n// cells to avoid recounting.\npublic int NumIslands(char[][] grid) {\n    int m = grid.Length, n = grid[0].Length, count = 0;\n    void Dfs(int r, int c) {\n        if (r < 0 || r >= m || c < 0 || c >= n || grid[r][c] != '1') return;\n        grid[r][c] = '0';\n        Dfs(r+1,c); Dfs(r-1,c); Dfs(r,c+1); Dfs(r,c-1);\n    }\n    for (int r = 0; r < m; r++)\n        for (int c = 0; c < n; c++)\n            if (grid[r][c] == '1') { count++; Dfs(r, c); }\n    return count;\n}\n```\n**Complexity:** O(m·n).\n\n---",
       "needsReview": true
@@ -2856,6 +2948,7 @@
       "approach": "DFS/BFS with a `Dictionary<Node,Node>`; create the clone on first visit.",
       "complexity": "O(V+E).",
       "watch": "check the map *before* recursing into neighbors.",
+      "url": "https://leetcode.com/problems/clone-graph/",
       "source": "original",
       "solution": "```csharp\n// Map original→copy and record the copy BEFORE recursing into neighbors, so cycles don't\n// loop forever.\npublic Node CloneGraph(Node node) {\n    var map = new Dictionary<Node, Node>();\n    Node Dfs(Node cur) {\n        if (cur == null) return null;\n        if (map.TryGetValue(cur, out var copy)) return copy;\n        copy = new Node(cur.val);\n        map[cur] = copy;\n        foreach (var nb in cur.neighbors) copy.neighbors.Add(Dfs(nb));\n        return copy;\n    }\n    return Dfs(node);\n}\n```\n**Complexity:** O(V + E).\n\n---",
       "needsReview": true
@@ -2872,6 +2965,7 @@
       "approach": "Kahn's template.",
       "complexity": "O(V+E).",
       "watch": "\"can finish?\" = no cycle; \"order?\" = the topo order itself.",
+      "url": "https://leetcode.com/problems/course-schedule/",
       "source": "original",
       "solution": "```csharp\n// Prerequisites form a DAG; Kahn's topological sort gives a valid order (and detects the\n// cycle that means \"can't finish\"). Returns the order, or empty if impossible.\npublic int[] FindOrder(int numCourses, int[][] prerequisites) {\n    var adj = new List<int>[numCourses];\n    for (int i = 0; i < numCourses; i++) adj[i] = new List<int>();\n    var indeg = new int[numCourses];\n    foreach (var p in prerequisites) { adj[p[1]].Add(p[0]); indeg[p[0]]++; }   // p[1] → p[0]\n\n    var q = new Queue<int>();\n    for (int i = 0; i < numCourses; i++) if (indeg[i] == 0) q.Enqueue(i);\n    var order = new List<int>();\n    while (q.Count > 0) {\n        int u = q.Dequeue(); order.Add(u);\n        foreach (int v in adj[u]) if (--indeg[v] == 0) q.Enqueue(v);\n    }\n    return order.Count == numCourses ? order.ToArray() : Array.Empty<int>();\n}\n```\n**Complexity:** O(V + E).\n\n---",
       "needsReview": true
@@ -2888,6 +2982,7 @@
       "approach": "enqueue all rotten cells at level 0, BFS outward, count levels.",
       "complexity": "O(mn).",
       "watch": "seed *all* sources before starting; check for unreachable fresh oranges at the end.",
+      "url": "https://leetcode.com/problems/rotting-oranges/",
       "source": "original",
       "solution": "```csharp\n// Multi-source BFS where each BFS level = one minute. Seed ALL rotten cells first; check\n// for unreachable fresh oranges at the end.\npublic int OrangesRotting(int[][] grid) {\n    int m = grid.Length, n = grid[0].Length, fresh = 0;\n    var q = new Queue<(int r, int c)>();\n    for (int r = 0; r < m; r++)\n        for (int c = 0; c < n; c++) {\n            if (grid[r][c] == 2) q.Enqueue((r, c));\n            else if (grid[r][c] == 1) fresh++;\n        }\n    int minutes = 0;\n    int[][] dirs = { new[]{1,0}, new[]{-1,0}, new[]{0,1}, new[]{0,-1} };\n    while (q.Count > 0 && fresh > 0) {\n        int sz = q.Count;\n        for (int i = 0; i < sz; i++) {\n            var (r, c) = q.Dequeue();\n            foreach (var d in dirs) {\n                int nr = r + d[0], nc = c + d[1];\n                if (nr < 0 || nr >= m || nc < 0 || nc >= n || grid[nr][nc] != 1) continue;\n                grid[nr][nc] = 2; fresh--; q.Enqueue((nr, nc));\n            }\n        }\n        minutes++;\n    }\n    return fresh == 0 ? minutes : -1;\n}\n```\n**Complexity:** O(m·n).\n\n---",
       "needsReview": true
@@ -2904,6 +2999,7 @@
       "approach": "two multi-source BFS/DFS from the two border sets, intersect.",
       "complexity": "O(mn).",
       "watch": "reversing the flow direction is the unlock.",
+      "url": "https://leetcode.com/problems/pacific-atlantic-water-flow/",
       "source": "original",
       "solution": "```csharp\n// Reverse the flow: BFS/DFS INLAND from each ocean's border (water can climb to >= height);\n// cells reachable from both oceans are the answer.\npublic IList<IList<int>> PacificAtlantic(int[][] heights) {\n    int m = heights.Length, n = heights[0].Length;\n    var pac = new bool[m, n];\n    var atl = new bool[m, n];\n    void Dfs(int r, int c, bool[,] seen, int prev) {\n        if (r < 0 || r >= m || c < 0 || c >= n || seen[r, c] || heights[r][c] < prev) return;\n        seen[r, c] = true;\n        Dfs(r+1,c,seen,heights[r][c]); Dfs(r-1,c,seen,heights[r][c]);\n        Dfs(r,c+1,seen,heights[r][c]); Dfs(r,c-1,seen,heights[r][c]);\n    }\n    for (int r = 0; r < m; r++) { Dfs(r, 0, pac, int.MinValue); Dfs(r, n-1, atl, int.MinValue); }\n    for (int c = 0; c < n; c++) { Dfs(0, c, pac, int.MinValue); Dfs(m-1, c, atl, int.MinValue); }\n    var res = new List<IList<int>>();\n    for (int r = 0; r < m; r++)\n        for (int c = 0; c < n; c++)\n            if (pac[r, c] && atl[r, c]) res.Add(new List<int> { r, c });\n    return res;\n}\n```\n**Complexity:** O(m·n).\n\n---",
       "needsReview": true
@@ -2920,6 +3016,7 @@
       "approach": "union each edge; a `Union` returning false (already connected) means a cycle.",
       "complexity": "near O(E·α).",
       "watch": "for \"valid tree,\" also verify edge count = n−1.",
+      "url": "https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/",
       "source": "original",
       "solution": "```csharp\n// Union-Find counts components. A valid tree has exactly one component AND n-1 edges\n// (no cycle).\npublic int CountComponents(int n, int[][] edges) {\n    var parent = new int[n];\n    for (int i = 0; i < n; i++) parent[i] = i;\n    int Find(int x) { while (parent[x] != x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }\n    int components = n;\n    foreach (var e in edges) {\n        int a = Find(e[0]), b = Find(e[1]);\n        if (a != b) { parent[a] = b; components--; }\n    }\n    return components;\n}\npublic bool ValidTree(int n, int[][] edges) =>\n    edges.Length == n - 1 && CountComponents(n, edges) == 1;\n```\n**Complexity:** near O(E·α(n)).\n\n---",
       "needsReview": true
@@ -2936,6 +3033,7 @@
       "approach": "BFS, generating neighbors by trying each position × 26 letters.",
       "complexity": "O(words · L · 26).",
       "watch": "precompute or generate neighbors efficiently; bidirectional BFS is the optimization.",
+      "url": "https://leetcode.com/problems/word-ladder/",
       "source": "original",
       "solution": "```csharp\n// Words are nodes; edges connect words differing by one letter. Shortest transformation =\n// BFS; remove a word from the dict when enqueued to mark it visited.\npublic int LadderLength(string beginWord, string endWord, IList<string> wordList) {\n    var dict = new HashSet<string>(wordList);\n    if (!dict.Contains(endWord)) return 0;\n    var q = new Queue<string>(); q.Enqueue(beginWord);\n    int steps = 1;\n    while (q.Count > 0) {\n        int sz = q.Count;\n        for (int i = 0; i < sz; i++) {\n            var word = q.Dequeue();\n            if (word == endWord) return steps;\n            var arr = word.ToCharArray();\n            for (int j = 0; j < arr.Length; j++) {\n                char orig = arr[j];\n                for (char c = 'a'; c <= 'z'; c++) {\n                    arr[j] = c;\n                    var next = new string(arr);\n                    if (dict.Remove(next)) q.Enqueue(next);\n                }\n                arr[j] = orig;\n            }\n        }\n        steps++;\n    }\n    return 0;\n}\n```\n**Complexity:** O(words · L · 26).\n\n---",
       "needsReview": true
@@ -2952,6 +3050,7 @@
       "approach": "Dijkstra template, answer = max finite dist (∞ ⇒ unreachable).",
       "complexity": "O(E log V).",
       "watch": "unreachable node ⇒ return −1.",
+      "url": "https://leetcode.com/problems/network-delay-time/",
       "source": "original",
       "solution": "```csharp\n// Shortest time to reach all nodes = max over single-source shortest paths → Dijkstra.\npublic int NetworkDelayTime(int[][] times, int n, int k) {\n    var adj = new List<(int v, int w)>[n + 1];\n    for (int i = 1; i <= n; i++) adj[i] = new List<(int, int)>();\n    foreach (var t in times) adj[t[0]].Add((t[1], t[2]));\n\n    var dist = new int[n + 1];\n    Array.Fill(dist, int.MaxValue);\n    dist[k] = 0;\n    var pq = new PriorityQueue<int, int>();\n    pq.Enqueue(k, 0);\n    while (pq.TryDequeue(out int u, out int d)) {\n        if (d > dist[u]) continue;                      // stale entry\n        foreach (var (v, w) in adj[u])\n            if (dist[u] + w < dist[v]) { dist[v] = dist[u] + w; pq.Enqueue(v, dist[v]); }\n    }\n    int ans = 0;\n    for (int i = 1; i <= n; i++) {\n        if (dist[i] == int.MaxValue) return -1;\n        ans = Math.Max(ans, dist[i]);\n    }\n    return ans;\n}\n```\n**Complexity:** O(E log V).\n\n---",
       "needsReview": true
@@ -2968,6 +3067,7 @@
       "approach": "Bellman-Ford on a *snapshot* of distances per round so you don't use >K stops in one round.",
       "complexity": "O(K·E).",
       "watch": "relax from a frozen copy each round, or you'll overcount hops.",
+      "url": "https://leetcode.com/problems/cheapest-flights-within-k-stops/",
       "source": "original",
       "solution": "```csharp\n// Shortest path with a hop limit → Bellman-Ford for K+1 rounds, relaxing from a FROZEN\n// snapshot each round so one round never uses more than one extra hop.\npublic int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n    var dist = new int[n];\n    Array.Fill(dist, int.MaxValue);\n    dist[src] = 0;\n    for (int round = 0; round <= k; round++) {\n        var snapshot = (int[])dist.Clone();\n        foreach (var f in flights) {\n            int u = f[0], v = f[1], w = f[2];\n            if (snapshot[u] != int.MaxValue && snapshot[u] + w < dist[v])\n                dist[v] = snapshot[u] + w;\n        }\n    }\n    return dist[dst] == int.MaxValue ? -1 : dist[dst];\n}\n```\n**Complexity:** O(K · E).\n\n---",
       "needsReview": true
@@ -2984,6 +3084,7 @@
       "approach": "build the precedence graph from adjacent pairs, Kahn's.",
       "complexity": "O(total chars).",
       "watch": "the prefix edge case (`\"abc\"` before `\"ab\"` is invalid) and cycle ⇒ no valid order.",
+      "url": "https://leetcode.com/problems/alien-dictionary/",
       "source": "original",
       "solution": "```csharp\n// Each adjacent pair reveals one ordering edge at their first differing char; the alphabet\n// order is a topological sort. The \"abc\" before \"ab\" case is invalid → \"\".\npublic string AlienOrder(string[] words) {\n    var adj = new Dictionary<char, HashSet<char>>();\n    var indeg = new Dictionary<char, int>();\n    foreach (var w in words)\n        foreach (char c in w) { adj.TryAdd(c, new()); indeg.TryAdd(c, 0); }\n\n    for (int i = 0; i + 1 < words.Length; i++) {\n        string a = words[i], b = words[i + 1];\n        int min = Math.Min(a.Length, b.Length), j = 0;\n        while (j < min && a[j] == b[j]) j++;\n        if (j == min) { if (a.Length > b.Length) return \"\"; continue; }\n        if (adj[a[j]].Add(b[j])) indeg[b[j]]++;\n    }\n\n    var q = new Queue<char>();\n    foreach (var kv in indeg) if (kv.Value == 0) q.Enqueue(kv.Key);\n    var sb = new System.Text.StringBuilder();\n    while (q.Count > 0) {\n        char u = q.Dequeue(); sb.Append(u);\n        foreach (char v in adj[u]) if (--indeg[v] == 0) q.Enqueue(v);\n    }\n    return sb.Length == indeg.Count ? sb.ToString() : \"\";   // leftover ⇒ cycle\n}\n```\n**Complexity:** O(total characters).\n\n---",
       "needsReview": true
@@ -3000,6 +3101,7 @@
       "approach": "Prim (heap, grow the tree) or Kruskal (sort edges + Union-Find).",
       "complexity": "Prim O(n² )/O(E log V); Kruskal O(E log E).",
       "watch": "on a dense complete graph (all pairs), Prim with an array is competitive.",
+      "url": "https://leetcode.com/problems/min-cost-to-connect-all-points/",
       "source": "original",
       "solution": "```csharp\n// Connect all nodes at minimum total edge weight = MST. Prim's: grow the tree, always\n// taking the cheapest edge to a node not yet in it (Manhattan distance here).\npublic int MinCostConnectPoints(int[][] points) {\n    int n = points.Length;\n    var inMst = new bool[n];\n    int total = 0, used = 0;\n    var pq = new PriorityQueue<int, int>();      // node keyed by edge cost\n    pq.Enqueue(0, 0);\n    while (used < n && pq.TryDequeue(out int u, out int cost)) {\n        if (inMst[u]) continue;\n        inMst[u] = true; total += cost; used++;\n        for (int v = 0; v < n; v++) {\n            if (inMst[v]) continue;\n            int d = Math.Abs(points[u][0] - points[v][0]) + Math.Abs(points[u][1] - points[v][1]);\n            pq.Enqueue(v, d);\n        }\n    }\n    return total;\n}\n```\n**Complexity:** O(n² log n) with this heap-of-edges formulation.",
       "needsReview": true
@@ -3016,6 +3118,7 @@
       "approach": "`dp[i]` = ways to reach step i.",
       "complexity": "O(n)/O(1) with two vars.",
       "watch": "this is your DP \"hello world\"; internalize state+transition here.",
+      "url": "https://leetcode.com/problems/climbing-stairs/",
       "source": "original",
       "solution": "```csharp\n// ways(n) = ways(n-1) + ways(n-2) — Fibonacci, with two rolling variables.\npublic int ClimbStairs(int n) {\n    int a = 1, b = 1;\n    for (int i = 2; i <= n; i++) { int c = a + b; a = b; b = c; }\n    return b;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -3032,6 +3135,7 @@
       "approach": "`dp[i]` = max loot through house i. `max(dp[i-1], dp[i-2]+a[i])`.",
       "complexity": "O(n)/O(1).",
       "watch": "the include/exclude shape recurs everywhere.",
+      "url": "https://leetcode.com/problems/house-robber/",
       "source": "original",
       "solution": "```csharp\n// At each house: skip it (keep dp[i-1]) or rob it (dp[i-2] + value).\npublic int Rob(int[] nums) {\n    int prev = 0, cur = 0;        // best through i-2, i-1\n    foreach (int x in nums) {\n        int next = Math.Max(cur, prev + x);\n        prev = cur; cur = next;\n    }\n    return cur;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -3047,6 +3151,7 @@
       "insight": "first and last are now adjacent → run the linear version twice, excluding one end each time.",
       "approach": "`max(rob(0..n-2), rob(1..n-1))`.",
       "watch": "the circularity is handled by two linear runs, not new logic.",
+      "url": "https://leetcode.com/problems/house-robber-ii/",
       "source": "original",
       "solution": "```csharp\n// First and last are adjacent (circular) → run the linear version twice, excluding one\n// end each time.\npublic int Rob(int[] nums) {\n    if (nums.Length == 1) return nums[0];\n    return Math.Max(RobLine(nums, 0, nums.Length - 2),\n                    RobLine(nums, 1, nums.Length - 1));\n}\nprivate int RobLine(int[] nums, int lo, int hi) {\n    int prev = 0, cur = 0;\n    for (int i = lo; i <= hi; i++) { int next = Math.Max(cur, prev + nums[i]); prev = cur; cur = next; }\n    return cur;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -3063,6 +3168,7 @@
       "approach": "`dp[i]` = decodings of prefix length i.",
       "complexity": "O(n).",
       "watch": "zeros are the trap (`\"0\"` decodes to nothing; `\"10\"`/`\"20\"` only as pairs).",
+      "url": "https://leetcode.com/problems/decode-ways/",
       "source": "original",
       "solution": "```csharp\n// Like climbing stairs, but transitions are conditional on valid 1- and 2-digit codes.\n// Zeros are the trap.\npublic int NumDecodings(string s) {\n    if (s.Length == 0 || s[0] == '0') return 0;\n    int prev2 = 1, prev1 = 1;       // dp[i-2], dp[i-1]\n    for (int i = 1; i < s.Length; i++) {\n        int cur = 0;\n        if (s[i] != '0') cur += prev1;                       // valid single digit\n        int two = (s[i - 1] - '0') * 10 + (s[i] - '0');\n        if (two >= 10 && two <= 26) cur += prev2;            // valid pair\n        prev2 = prev1; prev1 = cur;\n    }\n    return prev1;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -3079,6 +3185,7 @@
       "approach": "`dp[a]` = min coins for amount a.",
       "complexity": "O(amount·coins).",
       "watch": "unreachable = sentinel; coins reusable ⇒ inner loop over coins, amount ascending.",
+      "url": "https://leetcode.com/problems/coin-change/",
       "source": "original",
       "solution": "```csharp\n// Unbounded knapsack: dp[a] = min coins for amount a. Coins reusable → amount ascending.\npublic int CoinChange(int[] coins, int amount) {\n    var dp = new int[amount + 1];\n    Array.Fill(dp, amount + 1);      // sentinel \"infinity\"\n    dp[0] = 0;\n    for (int a = 1; a <= amount; a++)\n        foreach (int c in coins)\n            if (c <= a) dp[a] = Math.Min(dp[a], dp[a - c] + 1);\n    return dp[amount] > amount ? -1 : dp[amount];\n}\n```\n**Complexity:** O(amount · coins).\n\n---",
       "needsReview": true
@@ -3093,6 +3200,7 @@
       "revisit": false,
       "insight": "loop coins *outer*, amount inner, to count combinations not permutations.",
       "watch": "loop order determines combinations vs permutations — a classic subtlety.",
+      "url": "https://leetcode.com/problems/coin-change-ii/",
       "source": "original",
       "solution": "```csharp\n// Count combinations (not permutations): loop coins OUTER, amount inner.\npublic int Change(int amount, int[] coins) {\n    var dp = new int[amount + 1];\n    dp[0] = 1;\n    foreach (int c in coins)\n        for (int a = c; a <= amount; a++)\n            dp[a] += dp[a - c];\n    return dp[amount];\n}\n```\n**Complexity:** O(amount · coins).\n\n---",
       "needsReview": true
@@ -3109,6 +3217,7 @@
       "approach": "boolean `dp[s]` reachable.",
       "complexity": "O(n·sum).",
       "watch": "0/1 (no reuse) ⇒ iterate the sum dimension *descending*.",
+      "url": "https://leetcode.com/problems/partition-equal-subset-sum/",
       "source": "original",
       "solution": "```csharp\n// \"Can a subset sum to total/2?\" = 0/1 subset-sum. 0/1 (no reuse) → iterate sum DESCENDING.\npublic bool CanPartition(int[] nums) {\n    int sum = nums.Sum();\n    if ((sum & 1) == 1) return false;\n    int target = sum / 2;\n    var dp = new bool[target + 1];\n    dp[0] = true;\n    foreach (int x in nums)\n        for (int s = target; s >= x; s--)\n            dp[s] |= dp[s - x];\n    return dp[target];\n}\n```\n**Complexity:** O(n · sum).\n\n---",
       "needsReview": true
@@ -3123,6 +3232,7 @@
       "revisit": false,
       "insight": "assigning ± signs to reach T reduces to a subset-sum (`P − N = T`, `P + N = total`).",
       "watch": "the algebraic reduction to subset sum is the trick.",
+      "url": "https://leetcode.com/problems/target-sum/",
       "source": "original",
       "solution": "```csharp\n// Assigning ± signs to reach T reduces to subset-sum: P - N = T, P + N = total\n// ⇒ count subsets summing to P = (total + T) / 2.\npublic int FindTargetSumWays(int[] nums, int target) {\n    int total = nums.Sum();\n    if (Math.Abs(target) > total || ((total + target) & 1) == 1) return 0;\n    int p = (total + target) / 2;\n    var dp = new int[p + 1];\n    dp[0] = 1;\n    foreach (int x in nums)\n        for (int s = p; s >= x; s--)\n            dp[s] += dp[s - x];\n    return dp[p];\n}\n```\n**Complexity:** O(n · sum).\n\n---",
       "needsReview": true
@@ -3138,6 +3248,7 @@
       "insight": "`dp[i]` = LIS ending at i = 1 + max dp[j] for j<i with a[j]<a[i].",
       "complexity": "O(n²).",
       "watch": "the O(n log n) \"patience\" version maintains tails via binary search — learn it; it's expected at FAANG.",
+      "url": "https://leetcode.com/problems/longest-increasing-subsequence/",
       "source": "original",
       "solution": "```csharp\n// O(n log n) \"patience\" version: tails[k] = smallest possible tail of an increasing\n// subsequence of length k+1; binary-search the insertion point.\npublic int LengthOfLIS(int[] nums) {\n    var tails = new List<int>();\n    foreach (int x in nums) {\n        int lo = 0, hi = tails.Count;\n        while (lo < hi) { int mid = (lo + hi) / 2; if (tails[mid] < x) lo = mid + 1; else hi = mid; }\n        if (lo == tails.Count) tails.Add(x); else tails[lo] = x;\n    }\n    return tails.Count;\n}\n```\n**Complexity:** O(n log n).\n\n---",
       "needsReview": true
@@ -3154,6 +3265,7 @@
       "approach": "`dp[i][j]` = LCS of prefixes. match ⇒ `dp[i-1][j-1]+1`, else `max(dp[i-1][j], dp[i][j-1])`.",
       "complexity": "O(mn).",
       "watch": "this grid recurrence underlies edit distance, diff tools, etc.",
+      "url": "https://leetcode.com/problems/longest-common-subsequence/",
       "source": "original",
       "solution": "```csharp\n// The 2D-DP archetype: match ⇒ diagonal + 1, else max(up, left).\npublic int LongestCommonSubsequence(string a, string b) {\n    int m = a.Length, n = b.Length;\n    var dp = new int[m + 1, n + 1];\n    for (int i = 1; i <= m; i++)\n        for (int j = 1; j <= n; j++)\n            dp[i, j] = a[i - 1] == b[j - 1] ? dp[i - 1, j - 1] + 1\n                                            : Math.Max(dp[i - 1, j], dp[i, j - 1]);\n    return dp[m, n];\n}\n```\n**Complexity:** O(m·n).\n\n---",
       "needsReview": true
@@ -3169,6 +3281,7 @@
       "insight": "`dp[i]` = prefix of length i is segmentable, if some `dp[j]` true and `s[j..i]` in dict.",
       "complexity": "O(n²) (with set lookups).",
       "watch": "a Trie or hashset for the dictionary keeps the inner check cheap.",
+      "url": "https://leetcode.com/problems/word-break/",
       "source": "original",
       "solution": "```csharp\n// dp[i] = prefix of length i is segmentable if some dp[j] is true and s[j..i] is in dict.\npublic bool WordBreak(string s, IList<string> wordDict) {\n    var dict = new HashSet<string>(wordDict);\n    var dp = new bool[s.Length + 1];\n    dp[0] = true;\n    for (int i = 1; i <= s.Length; i++)\n        for (int j = 0; j < i; j++)\n            if (dp[j] && dict.Contains(s.Substring(j, i - j))) { dp[i] = true; break; }\n    return dp[s.Length];\n}\n```\n**Complexity:** O(n²) with hashset lookups.\n\n---",
       "needsReview": true
@@ -3184,6 +3297,7 @@
       "insight": "a negative flips min↔max, so track *both* running max and min.",
       "complexity": "O(n)/O(1).",
       "watch": "swap max/min when the current number is negative.",
+      "url": "https://leetcode.com/problems/maximum-product-subarray/",
       "source": "original",
       "solution": "```csharp\n// A negative flips min↔max, so track BOTH running max and min.\npublic int MaxProduct(int[] nums) {\n    int max = nums[0], min = nums[0], best = nums[0];\n    for (int i = 1; i < nums.Length; i++) {\n        int x = nums[i];\n        if (x < 0) (max, min) = (min, max);\n        max = Math.Max(x, max * x);\n        min = Math.Min(x, min * x);\n        best = Math.Max(best, max);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
       "needsReview": true
@@ -3199,6 +3313,7 @@
       "insight": "expand around each of the 2n−1 centers, *or* `dp[i][j]` = is s[i..j] a palindrome.",
       "complexity": "O(n²).",
       "watch": "expand-around-center is O(1) space and simpler to code.",
+      "url": "https://leetcode.com/problems/longest-palindromic-substring/",
       "source": "original",
       "solution": "```csharp\n// Expand around each of the 2n-1 centers (odd and even). O(1) space, simpler than DP.\npublic string LongestPalindrome(string s) {\n    if (s.Length < 2) return s;\n    int start = 0, maxLen = 1;\n    void Expand(int l, int r) {\n        while (l >= 0 && r < s.Length && s[l] == s[r]) { l--; r++; }\n        int len = r - l - 1;\n        if (len > maxLen) { maxLen = len; start = l + 1; }\n    }\n    for (int i = 0; i < s.Length; i++) { Expand(i, i); Expand(i, i + 1); }\n    return s.Substring(start, maxLen);\n}\n```\n**Complexity:** O(n²) time, O(1) space.\n\n---",
       "needsReview": true
@@ -3214,6 +3329,7 @@
       "insight": "`dp[i][j]` combines the cell above and to the left.",
       "complexity": "O(mn), O(n) with a rolling row.",
       "watch": "initialize the first row/column correctly.",
+      "url": "https://leetcode.com/problems/unique-paths/",
       "source": "original",
       "solution": "```csharp\n// Grid DP: each cell combines the cell above and to the left. Rolling row → O(n) space.\npublic int UniquePaths(int m, int n) {\n    var dp = new int[n];\n    Array.Fill(dp, 1);\n    for (int i = 1; i < m; i++)\n        for (int j = 1; j < n; j++)\n            dp[j] += dp[j - 1];\n    return dp[n - 1];\n}\n\npublic int MinPathSum(int[][] grid) {\n    int m = grid.Length, n = grid[0].Length;\n    var dp = new int[n];\n    dp[0] = grid[0][0];\n    for (int j = 1; j < n; j++) dp[j] = dp[j - 1] + grid[0][j];\n    for (int i = 1; i < m; i++) {\n        dp[0] += grid[i][0];\n        for (int j = 1; j < n; j++) dp[j] = Math.Min(dp[j], dp[j - 1]) + grid[i][j];\n    }\n    return dp[n - 1];\n}\n```\n**Complexity:** O(m·n) time, O(n) space.\n\n---",
       "needsReview": true
@@ -3230,6 +3346,7 @@
       "approach": "match ⇒ diagonal; else `1 + min(insert, delete, replace)`.",
       "complexity": "O(mn).",
       "watch": "the three-way min and base cases (empty string ⇒ length).",
+      "url": "https://leetcode.com/problems/edit-distance/",
       "source": "original",
       "solution": "```csharp\n// dp[i,j] = min edits to turn a[..i] into b[..j]. Match ⇒ diagonal; else 1 + min(insert,\n// delete, replace).\npublic int MinDistance(string a, string b) {\n    int m = a.Length, n = b.Length;\n    var dp = new int[m + 1, n + 1];\n    for (int i = 0; i <= m; i++) dp[i, 0] = i;     // delete all\n    for (int j = 0; j <= n; j++) dp[0, j] = j;     // insert all\n    for (int i = 1; i <= m; i++)\n        for (int j = 1; j <= n; j++)\n            dp[i, j] = a[i - 1] == b[j - 1]\n                ? dp[i - 1, j - 1]\n                : 1 + Math.Min(dp[i - 1, j - 1], Math.Min(dp[i - 1, j], dp[i, j - 1]));\n    return dp[m, n];\n}\n```\n**Complexity:** O(m·n).\n\n---",
       "needsReview": true
@@ -3246,6 +3363,7 @@
       "approach": "`dp[i][j]` = max coins bursting the open interval (i,j).",
       "complexity": "O(n³).",
       "watch": "\"last to burst,\" not first — counterintuitive but it's what makes the subproblems independent.",
+      "url": "https://leetcode.com/problems/burst-balloons/",
       "source": "original",
       "solution": "```csharp\n// Think which balloon bursts LAST in an open interval (left, right); that fixes the\n// multiplication and splits the range into independent subproblems.\npublic int MaxCoins(int[] nums) {\n    int n = nums.Length;\n    var b = new int[n + 2];\n    b[0] = b[n + 1] = 1;\n    for (int i = 0; i < n; i++) b[i + 1] = nums[i];\n    var dp = new int[n + 2, n + 2];\n    for (int len = 1; len <= n; len++)\n        for (int left = 1; left + len - 1 <= n; left++) {\n            int right = left + len - 1;\n            for (int k = left; k <= right; k++) {          // k = last burst in (left,right)\n                int coins = b[left - 1] * b[k] * b[right + 1] + dp[left, k - 1] + dp[k + 1, right];\n                dp[left, right] = Math.Max(dp[left, right], coins);\n            }\n        }\n    return dp[1, n];\n}\n```\n**Complexity:** O(n³).\n\n---",
       "needsReview": true
@@ -3261,6 +3379,7 @@
       "insight": "2D DP over text/pattern; `*` means \"zero of the preceding\" or \"one more of the preceding.\"",
       "complexity": "O(mn).",
       "watch": "the `*` transition (two branches) and `.` are the whole difficulty.",
+      "url": "https://leetcode.com/problems/regular-expression-matching/",
       "source": "original",
       "solution": "```csharp\n// dp[i,j] = does s[..i] match p[..j]. '*' means zero of the preceding, or one more of it.\npublic bool IsMatch(string s, string p) {\n    int m = s.Length, n = p.Length;\n    var dp = new bool[m + 1, n + 1];\n    dp[0, 0] = true;\n    for (int j = 1; j <= n; j++)\n        if (p[j - 1] == '*') dp[0, j] = dp[0, j - 2];           // x* matches empty\n    for (int i = 1; i <= m; i++)\n        for (int j = 1; j <= n; j++) {\n            if (p[j - 1] == '*') {\n                dp[i, j] = dp[i, j - 2];                         // zero of preceding\n                if (p[j - 2] == '.' || p[j - 2] == s[i - 1]) dp[i, j] |= dp[i - 1, j];  // one more\n            } else if (p[j - 1] == '.' || p[j - 1] == s[i - 1]) {\n                dp[i, j] = dp[i - 1, j - 1];\n            }\n        }\n    return dp[m, n];\n}\n```\n**Complexity:** O(m·n).\n\n---",
       "needsReview": true
@@ -3277,6 +3396,7 @@
       "approach": "track buy/sell profits per allowed transaction.",
       "complexity": "O(nk).",
       "watch": "when k ≥ n/2 it degenerates to unlimited transactions (greedy) — handle that to avoid memory blowup.",
+      "url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/",
       "source": "original",
       "solution": "```csharp\n// State machine over (transaction count, holding?). When k ≥ n/2 it degenerates to\n// unlimited transactions (greedy) — handle that to avoid memory blowup.\npublic int MaxProfit(int k, int[] prices) {\n    int n = prices.Length;\n    if (n == 0) return 0;\n    if (k >= n / 2) {\n        int profit = 0;\n        for (int i = 1; i < n; i++)\n            if (prices[i] > prices[i - 1]) profit += prices[i] - prices[i - 1];\n        return profit;\n    }\n    var buy = new int[k + 1];\n    var sell = new int[k + 1];\n    Array.Fill(buy, int.MinValue);\n    foreach (int price in prices)\n        for (int t = 1; t <= k; t++) {\n            buy[t] = Math.Max(buy[t], sell[t - 1] - price);   // hold after t-th buy\n            sell[t] = Math.Max(sell[t], buy[t] + price);      // profit after t-th sell\n        }\n    return sell[k];\n}\n```\n**Complexity:** O(n·k).\n\n---",
       "needsReview": true
@@ -3293,6 +3413,7 @@
       "approach": "post-order returning a pair.",
       "complexity": "O(n).",
       "watch": "returning a tuple up the tree is the tree-DP signature.",
+      "url": "https://leetcode.com/problems/house-robber-iii/",
       "source": "original",
       "solution": "```csharp\n// Tree DP: each node returns (robThis, skipThis); returning a tuple up is the signature.\npublic int Rob(TreeNode root) {\n    (int rob, int skip) Dfs(TreeNode node) {\n        if (node == null) return (0, 0);\n        var l = Dfs(node.left);\n        var r = Dfs(node.right);\n        int rob = node.val + l.skip + r.skip;     // rob node ⇒ must skip children\n        int skip = Math.Max(l.rob, l.skip) + Math.Max(r.rob, r.skip);\n        return (rob, skip);\n    }\n    var res = Dfs(root);\n    return Math.Max(res.rob, res.skip);\n}\n```\n**Complexity:** O(n).",
       "needsReview": true
@@ -3307,6 +3428,7 @@
       "revisit": false,
       "insight": "substring search; KMP or rolling hash for linear time.",
       "watch": "naive O(nm) is accepted but the linear method is the \"strong\" answer.",
+      "url": "https://leetcode.com/problems/implement-strstr/",
       "source": "original",
       "solution": "```csharp\n// KMP: precompute the failure (lps) array — longest proper prefix that's also a suffix —\n// so on a mismatch we skip ahead without re-examining matched chars.\npublic int StrStr(string haystack, string needle) {\n    if (needle.Length == 0) return 0;\n    var lps = BuildLps(needle);\n    int i = 0, j = 0;\n    while (i < haystack.Length) {\n        if (haystack[i] == needle[j]) {\n            i++; j++;\n            if (j == needle.Length) return i - j;\n        } else if (j > 0) j = lps[j - 1];\n        else i++;\n    }\n    return -1;\n}\nprivate int[] BuildLps(string p) {\n    var lps = new int[p.Length];\n    int len = 0;\n    for (int i = 1; i < p.Length; ) {\n        if (p[i] == p[len]) lps[i++] = ++len;\n        else if (len > 0) len = lps[len - 1];\n        else lps[i++] = 0;\n    }\n    return lps;\n}\n```\n**Complexity:** O(n + m).\n\n---",
       "needsReview": true
@@ -3321,6 +3443,7 @@
       "revisit": false,
       "insight": "the KMP failure value of the whole string reveals the smallest repeating unit.",
       "watch": "the slick check: `s` is repeating iff it's a non-trivial rotation of itself — `(s+s).IndexOf(s, 1) < s.Length`.",
+      "url": "https://leetcode.com/problems/repeated-substring-pattern/",
       "source": "original",
       "solution": "```csharp\n// s is a repeated unit iff it's a non-trivial rotation of itself: drop the first and last\n// char of (s + s) and check it still contains s.\npublic bool RepeatedSubstringPattern(string s) {\n    var doubled = (s + s).Substring(1, 2 * s.Length - 2);\n    return doubled.Contains(s);\n}\n```\n**Complexity:** O(n) (with KMP-based search; the slick rotation check above conveys the insight).\n\n---",
       "needsReview": true
@@ -3336,6 +3459,7 @@
       "insight": "find the longest palindromic *prefix* via KMP on `s + '#' + reverse(s)`.",
       "complexity": "O(n).",
       "watch": "the separator `#` prevents overcounting across the join.",
+      "url": "https://leetcode.com/problems/shortest-palindrome/",
       "source": "original",
       "solution": "```csharp\n// The longest palindromic PREFIX of s = the KMP lps value of s + '#' + reverse(s). Prepend\n// the remaining suffix, reversed.\npublic string ShortestPalindrome(string s) {\n    if (s.Length == 0) return s;\n    string rev = new string(s.Reverse().ToArray());\n    string combined = s + \"#\" + rev;            // '#' prevents overcounting across the join\n    var lps = new int[combined.Length];\n    int len = 0;\n    for (int i = 1; i < combined.Length; ) {\n        if (combined[i] == combined[len]) lps[i++] = ++len;\n        else if (len > 0) len = lps[len - 1];\n        else lps[i++] = 0;\n    }\n    string suffix = s.Substring(lps[^1]);\n    return new string(suffix.Reverse().ToArray()) + s;\n}\n```\n**Complexity:** O(n).\n\n---",
       "needsReview": true
@@ -3351,6 +3475,7 @@
       "insight": "updates + range sums → Fenwick or segment tree.",
       "complexity": "O(log n) each.",
       "watch": "Fenwick is the cleaner choice for pure sums.",
+      "url": "https://leetcode.com/problems/range-sum-query-mutable/",
       "source": "original",
       "solution": "```csharp\n// Fenwick tree (Binary Indexed Tree): prefix sums WITH point updates in O(log n). 1-indexed;\n// i += i & (-i) to update, i -= i & (-i) to query.\npublic class NumArray {\n    private readonly int[] _tree;\n    private readonly int[] _nums;\n    private readonly int _n;\n    public NumArray(int[] nums) {\n        _n = nums.Length;\n        _nums = new int[_n];\n        _tree = new int[_n + 1];\n        for (int i = 0; i < _n; i++) Update(i, nums[i]);\n    }\n    public void Update(int index, int val) {\n        int delta = val - _nums[index];\n        _nums[index] = val;\n        for (int i = index + 1; i <= _n; i += i & (-i)) _tree[i] += delta;\n    }\n    public int SumRange(int left, int right) => Prefix(right + 1) - Prefix(left);\n    private int Prefix(int i) {\n        int sum = 0;\n        for (; i > 0; i -= i & (-i)) sum += _tree[i];\n        return sum;\n    }\n}\n```\n**Complexity:** O(log n) per update and per range query.\n\n---",
       "needsReview": true
@@ -3366,6 +3491,7 @@
       "insight": "process right-to-left, querying \"how many already-seen values are smaller\" → BIT over value-ranks, or a modified merge sort that counts inversions.",
       "complexity": "O(n log n).",
       "watch": "coordinate-compress values first for the BIT.",
+      "url": "https://leetcode.com/problems/count-of-smaller-numbers-after-self/",
       "source": "original",
       "solution": "```csharp\n// Process right-to-left; for each value query \"how many already-seen values are smaller\"\n// via a Fenwick tree over coordinate-compressed ranks.\npublic IList<int> CountSmaller(int[] nums) {\n    var sorted = nums.Distinct().OrderBy(x => x).ToArray();\n    var rank = new Dictionary<int, int>();\n    for (int i = 0; i < sorted.Length; i++) rank[sorted[i]] = i + 1;   // 1-indexed\n    int n = sorted.Length;\n    var tree = new int[n + 1];\n    void Add(int i) { for (; i <= n; i += i & (-i)) tree[i]++; }\n    int Query(int i) { int s = 0; for (; i > 0; i -= i & (-i)) s += tree[i]; return s; }\n\n    var res = new int[nums.Length];\n    for (int i = nums.Length - 1; i >= 0; i--) {\n        int r = rank[nums[i]];\n        res[i] = Query(r - 1);     // strictly-smaller values already seen\n        Add(r);\n    }\n    return res;\n}\n```\n**Complexity:** O(n log n).\n\n---",
       "needsReview": true
@@ -3381,6 +3507,7 @@
       "insight": "iterating digit-square-sums either reaches 1 or cycles → Floyd's cycle detection (fast/slow on the transformation).",
       "complexity": "O(log n) per step.",
       "watch": "reuse the linked-list cycle trick on a numeric sequence.",
+      "url": "https://leetcode.com/problems/happy-number/",
       "source": "original",
       "solution": "```csharp\n// Iterating digit-square-sums either reaches 1 or cycles → Floyd's fast/slow on the\n// numeric transformation.\npublic bool IsHappy(int n) {\n    int slow = n, fast = n;\n    do {\n        slow = Next(slow);\n        fast = Next(Next(fast));\n    } while (slow != fast);\n    return slow == 1;\n}\nprivate int Next(int x) {\n    int sum = 0;\n    while (x > 0) { int d = x % 10; sum += d * d; x /= 10; }\n    return sum;\n}\n```\n**Complexity:** O(log n) per step.\n\n---",
       "needsReview": true
@@ -3396,6 +3523,7 @@
       "insight": "transpose then reverse each row.",
       "complexity": "O(n²)/O(1).",
       "watch": "the transpose+reverse decomposition avoids fiddly index math.",
+      "url": "https://leetcode.com/problems/rotate-image/",
       "source": "original",
       "solution": "```csharp\n// Transpose, then reverse each row → 90° clockwise, in place (avoids fiddly index math).\npublic void Rotate(int[][] matrix) {\n    int n = matrix.Length;\n    for (int i = 0; i < n; i++)\n        for (int j = i + 1; j < n; j++)\n            (matrix[i][j], matrix[j][i]) = (matrix[j][i], matrix[i][j]);\n    foreach (var row in matrix) Array.Reverse(row);\n}\n```\n**Complexity:** O(n²) time, O(1) space.\n\n---",
       "needsReview": true
@@ -3412,6 +3540,7 @@
       "approach": "traverse each edge, then contract that boundary.",
       "complexity": "O(mn).",
       "watch": "re-check boundaries before the bottom and left passes to avoid double-visiting on non-square grids.",
+      "url": "https://leetcode.com/problems/spiral-matrix/",
       "source": "original",
       "solution": "```csharp\n// Maintain four shrinking boundaries; re-check before the bottom and left passes to avoid\n// double-visiting on non-square grids.\npublic IList<int> SpiralOrder(int[][] matrix) {\n    var res = new List<int>();\n    int top = 0, bottom = matrix.Length - 1, left = 0, right = matrix[0].Length - 1;\n    while (top <= bottom && left <= right) {\n        for (int c = left; c <= right; c++) res.Add(matrix[top][c]);\n        top++;\n        for (int r = top; r <= bottom; r++) res.Add(matrix[r][right]);\n        right--;\n        if (top <= bottom) { for (int c = right; c >= left; c--) res.Add(matrix[bottom][c]); bottom--; }\n        if (left <= right) { for (int r = bottom; r >= top; r--) res.Add(matrix[r][left]); left++; }\n    }\n    return res;\n}\n```\n**Complexity:** O(m·n).",
       "needsReview": true

@@ -14,7 +14,7 @@ import { parseConceptFile } from './parsers/concepts';
 import { parseBehavioral } from './parsers/behavioral';
 import { parseCurriculum } from './parsers/curriculum';
 import { parseAllSolutions } from './parsers/solutions';
-import { parseFollowups, parseGeneratedConcepts } from './parsers/generated';
+import { parseFollowups, parseGeneratedConcepts, parseLeetcodeOverrides } from './parsers/generated';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = resolve(__dirname, '..', 'src', 'data');
@@ -161,6 +161,18 @@ function build(): ContentBundle {
   (globalThis as any).__fuCount = fuCount;
   (globalThis as any).__genConcepts = gen.concepts.length;
 
+  // --- Apply LeetCode slug overrides (fix auto-derived links that differ) ---
+  const lcOverrides = parseLeetcodeOverrides();
+  const lcOrphans: string[] = [];
+  for (const [id, slug] of Object.entries(lcOverrides)) {
+    if (!problems[id]) {
+      lcOrphans.push(id);
+      continue;
+    }
+    problems[id].url = slug ? `https://leetcode.com/problems/${slug}/` : undefined;
+  }
+  if (lcOrphans.length) console.warn(`⚠ ${lcOrphans.length} leetcode override id(s) matched nothing:`, lcOrphans.join(', '));
+
   const { allocation } = parseCurriculum();
 
   return {
@@ -195,6 +207,9 @@ function main() {
   console.log(`  solutions merged: ${sols}/${bundle.stats.problems}`);
   console.log(`  generated concepts: ${(globalThis as any).__genConcepts ?? 0}`);
   console.log(`  follow-up probes: ${(globalThis as any).__fuCount ?? 0}`);
+  const linked = Object.values(bundle.problems).filter((p) => p.url).length;
+  const practice = Object.values(bundle.problems).filter((p) => p.practice).length;
+  console.log(`  problems with LeetCode link: ${linked}/${bundle.stats.problems} (${practice} extra-practice)`);
   console.log(`→ src/data/content.json`);
 }
 

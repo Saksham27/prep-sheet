@@ -67,6 +67,12 @@ export function stripLeadConnective(text: string): { paren: string; rest: string
   return { paren, rest: t.trim() };
 }
 
+/** Best-effort LeetCode URL from a problem title (strip parentheticals, then slugify). */
+export function leetcodeUrl(title: string): string {
+  const base = title.replace(/\([^)]*\)/g, ' ');
+  return `https://leetcode.com/problems/${slugify(base)}/`;
+}
+
 /** Find all unique [bracketed] placeholder tokens in a block of text. */
 export function findPlaceholders(text: string): string[] {
   const out = new Set<string>();

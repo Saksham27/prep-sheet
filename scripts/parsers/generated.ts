@@ -13,6 +13,20 @@ function readGen(pattern: RegExp): string[] {
     .map((f) => readFileSync(resolve(GEN_DIR, f), 'utf8'));
 }
 
+// ── LeetCode slug overrides ──────────────────────────────────────────────────
+// File: content/generated/leetcode-overrides.md
+//   <problem-id>: <leetcode-slug>     (empty slug suppresses the link)
+export function parseLeetcodeOverrides(): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const text of readGen(/leetcode-overrides\.md$/)) {
+    for (const line of text.split(/\r?\n/)) {
+      const m = line.match(/^([a-z0-9-]+):\s*([a-z0-9-]*)\s*$/i);
+      if (m) out[m[1]] = m[2].trim();
+    }
+  }
+  return out;
+}
+
 // ── Follow-up probes (step 3) ────────────────────────────────────────────────
 // Files: content/generated/*-followups.md
 //   ### concept: <existingConceptId>

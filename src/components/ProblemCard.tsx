@@ -35,7 +35,7 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
           <h4 className="font-medium text-text">{problem.title}</h4>
           {problem.core && <span title="core (non-negotiable)" className="text-xs text-warn">⭐</span>}
           {problem.revisit && <span title="spaced-repeat weekly" className="text-xs">🔁</span>}
-          {problem.source === 'generated' && (
+          {problem.source === 'generated' && !problem.practice && (
             <span
               title="AI-added — verify before trusting"
               className="rounded border border-gen/50 bg-gen/10 px-1.5 py-0.5 text-[10px] font-semibold text-gen"
@@ -43,14 +43,35 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
               AI-added — verify
             </span>
           )}
+          {problem.practice && (
+            <span
+              title="Extra practice — solve on LeetCode"
+              className="rounded border border-muted/40 bg-panel2 px-1.5 py-0.5 text-[10px] font-semibold text-muted"
+            >
+              practice
+            </span>
+          )}
         </div>
-        <button
-          onClick={() => toggleStar(problem.id)}
-          title="star for revision"
-          className={`shrink-0 text-lg leading-none transition ${starred ? 'text-warn' : 'text-border hover:text-muted'}`}
-        >
-          ★
-        </button>
+        <div className="flex shrink-0 items-center gap-2">
+          {problem.url && (
+            <a
+              href={problem.url}
+              target="_blank"
+              rel="noreferrer"
+              title="Solve on LeetCode"
+              className="rounded-md border border-border px-2 py-0.5 text-xs text-muted transition hover:border-accent hover:text-accent"
+            >
+              LeetCode ↗
+            </a>
+          )}
+          <button
+            onClick={() => toggleStar(problem.id)}
+            title="star for revision"
+            className={`text-lg leading-none transition ${starred ? 'text-warn' : 'text-border hover:text-muted'}`}
+          >
+            ★
+          </button>
+        </div>
       </div>
 
       {problem.prompt && <InlineMd className="mt-2">{problem.prompt}</InlineMd>}
