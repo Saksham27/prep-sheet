@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T21:36:06.170Z",
+  "generatedAt": "2026-06-26T21:37:31.290Z",
   "tracks": [
     {
       "id": "dsa",
@@ -2456,7 +2456,9 @@
       "approach": "iterate cells; on land, BFS/DFS marking the whole component.",
       "complexity": "O(mn).",
       "watch": "mark visited (mutate or a visited set) to avoid recount.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Each unvisited land cell starts a flood fill that consumes one island. Sink visited\n// cells to avoid recounting.\npublic int NumIslands(char[][] grid) {\n    int m = grid.Length, n = grid[0].Length, count = 0;\n    void Dfs(int r, int c) {\n        if (r < 0 || r >= m || c < 0 || c >= n || grid[r][c] != '1') return;\n        grid[r][c] = '0';\n        Dfs(r+1,c); Dfs(r-1,c); Dfs(r,c+1); Dfs(r,c-1);\n    }\n    for (int r = 0; r < m; r++)\n        for (int c = 0; c < n; c++)\n            if (grid[r][c] == '1') { count++; Dfs(r, c); }\n    return count;\n}\n```\n**Complexity:** O(m·n).\n\n---",
+      "needsReview": true
     },
     "graphs-clone-graph": {
       "id": "graphs-clone-graph",
@@ -2470,7 +2472,9 @@
       "approach": "DFS/BFS with a `Dictionary<Node,Node>`; create the clone on first visit.",
       "complexity": "O(V+E).",
       "watch": "check the map *before* recursing into neighbors.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Map original→copy and record the copy BEFORE recursing into neighbors, so cycles don't\n// loop forever.\npublic Node CloneGraph(Node node) {\n    var map = new Dictionary<Node, Node>();\n    Node Dfs(Node cur) {\n        if (cur == null) return null;\n        if (map.TryGetValue(cur, out var copy)) return copy;\n        copy = new Node(cur.val);\n        map[cur] = copy;\n        foreach (var nb in cur.neighbors) copy.neighbors.Add(Dfs(nb));\n        return copy;\n    }\n    return Dfs(node);\n}\n```\n**Complexity:** O(V + E).\n\n---",
+      "needsReview": true
     },
     "graphs-course-schedule-i-ii": {
       "id": "graphs-course-schedule-i-ii",
@@ -2484,7 +2488,9 @@
       "approach": "Kahn's template.",
       "complexity": "O(V+E).",
       "watch": "\"can finish?\" = no cycle; \"order?\" = the topo order itself.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Prerequisites form a DAG; Kahn's topological sort gives a valid order (and detects the\n// cycle that means \"can't finish\"). Returns the order, or empty if impossible.\npublic int[] FindOrder(int numCourses, int[][] prerequisites) {\n    var adj = new List<int>[numCourses];\n    for (int i = 0; i < numCourses; i++) adj[i] = new List<int>();\n    var indeg = new int[numCourses];\n    foreach (var p in prerequisites) { adj[p[1]].Add(p[0]); indeg[p[0]]++; }   // p[1] → p[0]\n\n    var q = new Queue<int>();\n    for (int i = 0; i < numCourses; i++) if (indeg[i] == 0) q.Enqueue(i);\n    var order = new List<int>();\n    while (q.Count > 0) {\n        int u = q.Dequeue(); order.Add(u);\n        foreach (int v in adj[u]) if (--indeg[v] == 0) q.Enqueue(v);\n    }\n    return order.Count == numCourses ? order.ToArray() : Array.Empty<int>();\n}\n```\n**Complexity:** O(V + E).\n\n---",
+      "needsReview": true
     },
     "graphs-rotting-oranges": {
       "id": "graphs-rotting-oranges",
@@ -2498,7 +2504,9 @@
       "approach": "enqueue all rotten cells at level 0, BFS outward, count levels.",
       "complexity": "O(mn).",
       "watch": "seed *all* sources before starting; check for unreachable fresh oranges at the end.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Multi-source BFS where each BFS level = one minute. Seed ALL rotten cells first; check\n// for unreachable fresh oranges at the end.\npublic int OrangesRotting(int[][] grid) {\n    int m = grid.Length, n = grid[0].Length, fresh = 0;\n    var q = new Queue<(int r, int c)>();\n    for (int r = 0; r < m; r++)\n        for (int c = 0; c < n; c++) {\n            if (grid[r][c] == 2) q.Enqueue((r, c));\n            else if (grid[r][c] == 1) fresh++;\n        }\n    int minutes = 0;\n    int[][] dirs = { new[]{1,0}, new[]{-1,0}, new[]{0,1}, new[]{0,-1} };\n    while (q.Count > 0 && fresh > 0) {\n        int sz = q.Count;\n        for (int i = 0; i < sz; i++) {\n            var (r, c) = q.Dequeue();\n            foreach (var d in dirs) {\n                int nr = r + d[0], nc = c + d[1];\n                if (nr < 0 || nr >= m || nc < 0 || nc >= n || grid[nr][nc] != 1) continue;\n                grid[nr][nc] = 2; fresh--; q.Enqueue((nr, nc));\n            }\n        }\n        minutes++;\n    }\n    return fresh == 0 ? minutes : -1;\n}\n```\n**Complexity:** O(m·n).\n\n---",
+      "needsReview": true
     },
     "graphs-pacific-atlantic-water-flow": {
       "id": "graphs-pacific-atlantic-water-flow",
@@ -2512,7 +2520,9 @@
       "approach": "two multi-source BFS/DFS from the two border sets, intersect.",
       "complexity": "O(mn).",
       "watch": "reversing the flow direction is the unlock.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Reverse the flow: BFS/DFS INLAND from each ocean's border (water can climb to >= height);\n// cells reachable from both oceans are the answer.\npublic IList<IList<int>> PacificAtlantic(int[][] heights) {\n    int m = heights.Length, n = heights[0].Length;\n    var pac = new bool[m, n];\n    var atl = new bool[m, n];\n    void Dfs(int r, int c, bool[,] seen, int prev) {\n        if (r < 0 || r >= m || c < 0 || c >= n || seen[r, c] || heights[r][c] < prev) return;\n        seen[r, c] = true;\n        Dfs(r+1,c,seen,heights[r][c]); Dfs(r-1,c,seen,heights[r][c]);\n        Dfs(r,c+1,seen,heights[r][c]); Dfs(r,c-1,seen,heights[r][c]);\n    }\n    for (int r = 0; r < m; r++) { Dfs(r, 0, pac, int.MinValue); Dfs(r, n-1, atl, int.MinValue); }\n    for (int c = 0; c < n; c++) { Dfs(0, c, pac, int.MinValue); Dfs(m-1, c, atl, int.MinValue); }\n    var res = new List<IList<int>>();\n    for (int r = 0; r < m; r++)\n        for (int c = 0; c < n; c++)\n            if (pac[r, c] && atl[r, c]) res.Add(new List<int> { r, c });\n    return res;\n}\n```\n**Complexity:** O(m·n).\n\n---",
+      "needsReview": true
     },
     "graphs-number-of-connected-components-graph-valid-tree": {
       "id": "graphs-number-of-connected-components-graph-valid-tree",
@@ -2526,7 +2536,9 @@
       "approach": "union each edge; a `Union` returning false (already connected) means a cycle.",
       "complexity": "near O(E·α).",
       "watch": "for \"valid tree,\" also verify edge count = n−1.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Union-Find counts components. A valid tree has exactly one component AND n-1 edges\n// (no cycle).\npublic int CountComponents(int n, int[][] edges) {\n    var parent = new int[n];\n    for (int i = 0; i < n; i++) parent[i] = i;\n    int Find(int x) { while (parent[x] != x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }\n    int components = n;\n    foreach (var e in edges) {\n        int a = Find(e[0]), b = Find(e[1]);\n        if (a != b) { parent[a] = b; components--; }\n    }\n    return components;\n}\npublic bool ValidTree(int n, int[][] edges) =>\n    edges.Length == n - 1 && CountComponents(n, edges) == 1;\n```\n**Complexity:** near O(E·α(n)).\n\n---",
+      "needsReview": true
     },
     "graphs-word-ladder": {
       "id": "graphs-word-ladder",
@@ -2540,7 +2552,9 @@
       "approach": "BFS, generating neighbors by trying each position × 26 letters.",
       "complexity": "O(words · L · 26).",
       "watch": "precompute or generate neighbors efficiently; bidirectional BFS is the optimization.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Words are nodes; edges connect words differing by one letter. Shortest transformation =\n// BFS; remove a word from the dict when enqueued to mark it visited.\npublic int LadderLength(string beginWord, string endWord, IList<string> wordList) {\n    var dict = new HashSet<string>(wordList);\n    if (!dict.Contains(endWord)) return 0;\n    var q = new Queue<string>(); q.Enqueue(beginWord);\n    int steps = 1;\n    while (q.Count > 0) {\n        int sz = q.Count;\n        for (int i = 0; i < sz; i++) {\n            var word = q.Dequeue();\n            if (word == endWord) return steps;\n            var arr = word.ToCharArray();\n            for (int j = 0; j < arr.Length; j++) {\n                char orig = arr[j];\n                for (char c = 'a'; c <= 'z'; c++) {\n                    arr[j] = c;\n                    var next = new string(arr);\n                    if (dict.Remove(next)) q.Enqueue(next);\n                }\n                arr[j] = orig;\n            }\n        }\n        steps++;\n    }\n    return 0;\n}\n```\n**Complexity:** O(words · L · 26).\n\n---",
+      "needsReview": true
     },
     "graphs-network-delay-time": {
       "id": "graphs-network-delay-time",
@@ -2554,7 +2568,9 @@
       "approach": "Dijkstra template, answer = max finite dist (∞ ⇒ unreachable).",
       "complexity": "O(E log V).",
       "watch": "unreachable node ⇒ return −1.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Shortest time to reach all nodes = max over single-source shortest paths → Dijkstra.\npublic int NetworkDelayTime(int[][] times, int n, int k) {\n    var adj = new List<(int v, int w)>[n + 1];\n    for (int i = 1; i <= n; i++) adj[i] = new List<(int, int)>();\n    foreach (var t in times) adj[t[0]].Add((t[1], t[2]));\n\n    var dist = new int[n + 1];\n    Array.Fill(dist, int.MaxValue);\n    dist[k] = 0;\n    var pq = new PriorityQueue<int, int>();\n    pq.Enqueue(k, 0);\n    while (pq.TryDequeue(out int u, out int d)) {\n        if (d > dist[u]) continue;                      // stale entry\n        foreach (var (v, w) in adj[u])\n            if (dist[u] + w < dist[v]) { dist[v] = dist[u] + w; pq.Enqueue(v, dist[v]); }\n    }\n    int ans = 0;\n    for (int i = 1; i <= n; i++) {\n        if (dist[i] == int.MaxValue) return -1;\n        ans = Math.Max(ans, dist[i]);\n    }\n    return ans;\n}\n```\n**Complexity:** O(E log V).\n\n---",
+      "needsReview": true
     },
     "graphs-cheapest-flights-within-k-stops": {
       "id": "graphs-cheapest-flights-within-k-stops",
@@ -2568,7 +2584,9 @@
       "approach": "Bellman-Ford on a *snapshot* of distances per round so you don't use >K stops in one round.",
       "complexity": "O(K·E).",
       "watch": "relax from a frozen copy each round, or you'll overcount hops.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Shortest path with a hop limit → Bellman-Ford for K+1 rounds, relaxing from a FROZEN\n// snapshot each round so one round never uses more than one extra hop.\npublic int FindCheapestPrice(int n, int[][] flights, int src, int dst, int k) {\n    var dist = new int[n];\n    Array.Fill(dist, int.MaxValue);\n    dist[src] = 0;\n    for (int round = 0; round <= k; round++) {\n        var snapshot = (int[])dist.Clone();\n        foreach (var f in flights) {\n            int u = f[0], v = f[1], w = f[2];\n            if (snapshot[u] != int.MaxValue && snapshot[u] + w < dist[v])\n                dist[v] = snapshot[u] + w;\n        }\n    }\n    return dist[dst] == int.MaxValue ? -1 : dist[dst];\n}\n```\n**Complexity:** O(K · E).\n\n---",
+      "needsReview": true
     },
     "graphs-alien-dictionary": {
       "id": "graphs-alien-dictionary",
@@ -2582,7 +2600,9 @@
       "approach": "build the precedence graph from adjacent pairs, Kahn's.",
       "complexity": "O(total chars).",
       "watch": "the prefix edge case (`\"abc\"` before `\"ab\"` is invalid) and cycle ⇒ no valid order.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Each adjacent pair reveals one ordering edge at their first differing char; the alphabet\n// order is a topological sort. The \"abc\" before \"ab\" case is invalid → \"\".\npublic string AlienOrder(string[] words) {\n    var adj = new Dictionary<char, HashSet<char>>();\n    var indeg = new Dictionary<char, int>();\n    foreach (var w in words)\n        foreach (char c in w) { adj.TryAdd(c, new()); indeg.TryAdd(c, 0); }\n\n    for (int i = 0; i + 1 < words.Length; i++) {\n        string a = words[i], b = words[i + 1];\n        int min = Math.Min(a.Length, b.Length), j = 0;\n        while (j < min && a[j] == b[j]) j++;\n        if (j == min) { if (a.Length > b.Length) return \"\"; continue; }\n        if (adj[a[j]].Add(b[j])) indeg[b[j]]++;\n    }\n\n    var q = new Queue<char>();\n    foreach (var kv in indeg) if (kv.Value == 0) q.Enqueue(kv.Key);\n    var sb = new System.Text.StringBuilder();\n    while (q.Count > 0) {\n        char u = q.Dequeue(); sb.Append(u);\n        foreach (char v in adj[u]) if (--indeg[v] == 0) q.Enqueue(v);\n    }\n    return sb.Length == indeg.Count ? sb.ToString() : \"\";   // leftover ⇒ cycle\n}\n```\n**Complexity:** O(total characters).\n\n---",
+      "needsReview": true
     },
     "graphs-min-cost-to-connect-all-points": {
       "id": "graphs-min-cost-to-connect-all-points",
@@ -2596,7 +2616,9 @@
       "approach": "Prim (heap, grow the tree) or Kruskal (sort edges + Union-Find).",
       "complexity": "Prim O(n² )/O(E log V); Kruskal O(E log E).",
       "watch": "on a dense complete graph (all pairs), Prim with an array is competitive.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Connect all nodes at minimum total edge weight = MST. Prim's: grow the tree, always\n// taking the cheapest edge to a node not yet in it (Manhattan distance here).\npublic int MinCostConnectPoints(int[][] points) {\n    int n = points.Length;\n    var inMst = new bool[n];\n    int total = 0, used = 0;\n    var pq = new PriorityQueue<int, int>();      // node keyed by edge cost\n    pq.Enqueue(0, 0);\n    while (used < n && pq.TryDequeue(out int u, out int cost)) {\n        if (inMst[u]) continue;\n        inMst[u] = true; total += cost; used++;\n        for (int v = 0; v < n; v++) {\n            if (inMst[v]) continue;\n            int d = Math.Abs(points[u][0] - points[v][0]) + Math.Abs(points[u][1] - points[v][1]);\n            pq.Enqueue(v, d);\n        }\n    }\n    return total;\n}\n```\n**Complexity:** O(n² log n) with this heap-of-edges formulation.",
+      "needsReview": true
     },
     "dynamic-programming-climbing-stairs": {
       "id": "dynamic-programming-climbing-stairs",
