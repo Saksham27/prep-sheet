@@ -1,3 +1,5 @@
+import BackupControls from './BackupControls';
+
 export type View = 'browse' | 'due' | 'dashboard' | 'plan';
 
 const TABS: { v: View; label: string }[] = [
@@ -34,18 +36,21 @@ export default function TopNav({ view, onView, query, onQuery }: Props) {
           </button>
         ))}
       </nav>
-      <div className="ml-auto flex items-center">
-        <input
-          value={query}
-          onChange={(e) => onQuery(e.target.value)}
-          placeholder="Search all content…"
-          className="w-44 rounded-md border border-border bg-bg px-2.5 py-1 text-sm text-text outline-none transition focus:w-64 focus:border-accent"
-        />
-        {query && (
-          <button onClick={() => onQuery('')} className="ml-1 text-muted hover:text-text" title="clear search">
-            ✕
-          </button>
-        )}
+      <div className="ml-auto flex items-center gap-2">
+        <BackupControls />
+        <div className="flex items-center">
+          <input
+            value={query}
+            onChange={(e) => onQuery(e.target.value)}
+            placeholder="Search all content…"
+            className="w-44 rounded-md border border-border bg-bg px-2.5 py-1 text-sm text-text outline-none transition focus:w-64 focus:border-accent"
+          />
+          {query && (
+            <button onClick={() => onQuery('')} className="ml-1 text-muted hover:text-text" title="clear search">
+              ✕
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
