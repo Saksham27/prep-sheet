@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T22:22:08.592Z",
+  "generatedAt": "2026-06-26T22:24:37.703Z",
   "tracks": [
     {
       "id": "dsa",
@@ -83,6 +83,17 @@
       "topicIds": [
         "behavioral-story-bank",
         "behavioral-framework"
+      ]
+    },
+    {
+      "id": "practice",
+      "title": "Coding Practice (applied)",
+      "order": 7,
+      "kind": "lld",
+      "blurb": "The applied rounds: concurrency coding (thread-safe structures, signaling) and LLD machine-coding (working code under time), each an exercise with a hidden C# solution.",
+      "topicIds": [
+        "practice-concurrency",
+        "practice-machine-coding"
       ]
     },
     {
@@ -1028,6 +1039,41 @@
         "fw-9-7",
         "fw-the-corpus-is-complete-how-to-use-all-five-parts-8"
       ],
+      "storyIds": []
+    },
+    "practice-concurrency": {
+      "id": "practice-concurrency",
+      "trackId": "practice",
+      "order": 0,
+      "title": "Concurrency problems",
+      "itemKind": "problem",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [
+        "practice-concurrency-thread-safe-counter-and-why-races-0",
+        "practice-concurrency-bounded-blocking-queue-1",
+        "practice-concurrency-producer-consumer-pipeline-with-backpressure-2",
+        "practice-concurrency-alternate-two-threads-print-foo-bar-in-order-3",
+        "practice-concurrency-thread-safe-lru-cache-4"
+      ],
+      "conceptIds": [],
+      "storyIds": []
+    },
+    "practice-machine-coding": {
+      "id": "practice-machine-coding",
+      "trackId": "practice",
+      "order": 0,
+      "title": "LLD machine-coding",
+      "itemKind": "problem",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [
+        "practice-machine-coding-in-memory-key-value-store-with-ttl-0",
+        "practice-machine-coding-in-memory-pub-sub-1",
+        "practice-machine-coding-logging-framework-level-filter-pluggable-sinks-2",
+        "practice-machine-coding-snake-game-core-3"
+      ],
+      "conceptIds": [],
       "storyIds": []
     },
     "sql-data-modeling": {
@@ -3209,6 +3255,123 @@
       "source": "original",
       "solution": "```csharp\n// Maintain four shrinking boundaries; re-check before the bottom and left passes to avoid\n// double-visiting on non-square grids.\npublic IList<int> SpiralOrder(int[][] matrix) {\n    var res = new List<int>();\n    int top = 0, bottom = matrix.Length - 1, left = 0, right = matrix[0].Length - 1;\n    while (top <= bottom && left <= right) {\n        for (int c = left; c <= right; c++) res.Add(matrix[top][c]);\n        top++;\n        for (int r = top; r <= bottom; r++) res.Add(matrix[r][right]);\n        right--;\n        if (top <= bottom) { for (int c = right; c >= left; c--) res.Add(matrix[bottom][c]); bottom--; }\n        if (left <= right) { for (int r = bottom; r >= top; r--) res.Add(matrix[r][left]); left++; }\n    }\n    return res;\n}\n```\n**Complexity:** O(m·n).",
       "needsReview": true
+    },
+    "practice-concurrency-thread-safe-counter-and-why-races-0": {
+      "id": "practice-concurrency-thread-safe-counter-and-why-races-0",
+      "trackId": "practice",
+      "topicId": "practice-concurrency",
+      "title": "Thread-safe counter — and why `++` races",
+      "difficulty": "Easy",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Implement a counter safe under many threads. Then explain in a comment why `count++` is not safe.",
+      "solution": "```csharp\npublic class Counter {\n    private long _value;\n    public void Increment() => Interlocked.Increment(ref _value);   // single atomic op\n    public long Value => Interlocked.Read(ref _value);\n}\n\n// Why _value++ is unsafe: it's a read-modify-write (load, add 1, store), not atomic.\n// Two threads can both read N, both compute N+1, and both store N+1 — losing an\n// increment (a lost update). Interlocked performs the whole op atomically in hardware\n// (a CAS-based intrinsic), with no lock. A `lock` works too but is heavier for a counter.\n```\n**Note:** for compound state beyond a single primitive, use a `lock`; `Interlocked` only covers single-variable atomics (`Increment`, `Add`, `CompareExchange`)."
+    },
+    "practice-concurrency-bounded-blocking-queue-1": {
+      "id": "practice-concurrency-bounded-blocking-queue-1",
+      "trackId": "practice",
+      "topicId": "practice-concurrency",
+      "title": "Bounded blocking queue",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Implement a fixed-capacity queue where `Enqueue` blocks while full and `Dequeue` blocks while empty, safe for multiple producers and consumers.",
+      "solution": "```csharp\npublic class BlockingQueue<T> {\n    private readonly Queue<T> _q = new();\n    private readonly int _capacity;\n    private readonly object _lock = new();\n    public BlockingQueue(int capacity) => _capacity = capacity;\n\n    public void Enqueue(T item) {\n        lock (_lock) {\n            while (_q.Count == _capacity) Monitor.Wait(_lock);   // full → release lock & wait\n            _q.Enqueue(item);\n            Monitor.PulseAll(_lock);                              // wake any waiting consumers\n        }\n    }\n    public T Dequeue() {\n        lock (_lock) {\n            while (_q.Count == 0) Monitor.Wait(_lock);            // empty → wait\n            var item = _q.Dequeue();\n            Monitor.PulseAll(_lock);                              // wake any waiting producers\n            return item;\n        }\n    }\n}\n```\n**Note:** use `while` (not `if`) around `Monitor.Wait` — a thread can wake spuriously or lose the race to another waiter, so re-check the condition. `PulseAll` (not `Pulse`) because producers and consumers share the one condition variable. The modern idiomatic alternative is `System.Threading.Channels`."
+    },
+    "practice-concurrency-producer-consumer-pipeline-with-backpressure-2": {
+      "id": "practice-concurrency-producer-consumer-pipeline-with-backpressure-2",
+      "trackId": "practice",
+      "topicId": "practice-concurrency",
+      "title": "Producer–consumer pipeline with backpressure",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Build a producer–consumer pipeline that applies **backpressure** (producers slow down when consumers fall behind), using the idiomatic .NET primitive.",
+      "solution": "```csharp\nusing System.Threading.Channels;\n\npublic class Pipeline {\n    private readonly Channel<int> _channel = Channel.CreateBounded<int>(\n        new BoundedChannelOptions(100) { FullMode = BoundedChannelFullMode.Wait });\n\n    public async Task ProduceAsync(IEnumerable<int> items) {\n        foreach (var i in items)\n            await _channel.Writer.WriteAsync(i);   // awaits (backpressure) when full\n        _channel.Writer.Complete();                // signal \"no more items\"\n    }\n\n    public async Task ConsumeAsync() {\n        await foreach (var item in _channel.Reader.ReadAllAsync())\n            Process(item);                          // multiple consumers can run this concurrently\n    }\n    private void Process(int x) { /* ... */ }\n}\n```\n**Note:** a **bounded** channel gives backpressure for free — `WriteAsync` suspends (doesn't block a thread) when the buffer is full. `Complete()` lets `ReadAllAsync` finish cleanly. This replaces hand-rolled `BlockingCollection` + threads and is fully async."
+    },
+    "practice-concurrency-alternate-two-threads-print-foo-bar-in-order-3": {
+      "id": "practice-concurrency-alternate-two-threads-print-foo-bar-in-order-3",
+      "trackId": "practice",
+      "topicId": "practice-concurrency",
+      "title": "Alternate two threads (print Foo/Bar in order)",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Two threads call `Foo` and `Bar` `n` times; coordinate them to print `FooBarFooBar…` (Foo always before its Bar).",
+      "solution": "```csharp\npublic class FooBar {\n    private readonly int _n;\n    private readonly SemaphoreSlim _foo = new(1, 1);   // starts available → Foo goes first\n    private readonly SemaphoreSlim _bar = new(0, 1);   // starts blocked\n    public FooBar(int n) => _n = n;\n\n    public async Task Foo(Action printFoo) {\n        for (int i = 0; i < _n; i++) {\n            await _foo.WaitAsync();\n            printFoo();\n            _bar.Release();          // hand control to Bar\n        }\n    }\n    public async Task Bar(Action printBar) {\n        for (int i = 0; i < _n; i++) {\n            await _bar.WaitAsync();\n            printBar();\n            _foo.Release();          // hand control back to Foo\n        }\n    }\n}\n```\n**Note:** two semaphores ping-pong the turn. `_foo` starts at 1 and `_bar` at 0, so Foo prints first and each side blocks until the other releases it. This signaling pattern (a semaphore per turn) generalizes to N-way ordering."
+    },
+    "practice-concurrency-thread-safe-lru-cache-4": {
+      "id": "practice-concurrency-thread-safe-lru-cache-4",
+      "trackId": "practice",
+      "topicId": "practice-concurrency",
+      "title": "Thread-safe LRU cache",
+      "difficulty": "Hard",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Make an LRU cache (O(1) get/put) safe for concurrent access. Note the limitation of just using `ConcurrentDictionary`.",
+      "solution": "```csharp\npublic class ThreadSafeLru<TKey, TVal> where TKey : notnull {\n    private readonly int _cap;\n    private readonly Dictionary<TKey, LinkedListNode<(TKey k, TVal v)>> _map = new();\n    private readonly LinkedList<(TKey k, TVal v)> _order = new();   // front = most recent\n    private readonly object _lock = new();\n    public ThreadSafeLru(int capacity) => _cap = capacity;\n\n    public bool TryGet(TKey key, out TVal val) {\n        lock (_lock) {\n            if (_map.TryGetValue(key, out var node)) {\n                _order.Remove(node); _order.AddFirst(node);   // touch → most recent\n                val = node.Value.v; return true;\n            }\n            val = default!; return false;\n        }\n    }\n    public void Put(TKey key, TVal val) {\n        lock (_lock) {\n            if (_map.TryGetValue(key, out var node)) {\n                node.Value = (key, val); _order.Remove(node); _order.AddFirst(node); return;\n            }\n            if (_map.Count == _cap) {\n                var lru = _order.Last!;                         // evict least-recent\n                _order.RemoveLast(); _map.Remove(lru.Value.k);\n            }\n            var n = new LinkedListNode<(TKey, TVal)>((key, val));\n            _order.AddFirst(n); _map[key] = n;\n        }\n    }\n}\n```\n**Note:** a single coarse `lock` is the correct, simple answer — get/put each touch *both* the map and the recency list, so they must move together atomically. `ConcurrentDictionary` alone can't help because it gives no **recency ordering**. For high contention, **shard** the cache by `key.GetHashCode() % N` so independent keys don't contend (lock striping)."
+    },
+    "practice-machine-coding-in-memory-key-value-store-with-ttl-0": {
+      "id": "practice-machine-coding-in-memory-key-value-store-with-ttl-0",
+      "trackId": "practice",
+      "topicId": "practice-machine-coding",
+      "title": "In-memory key-value store with TTL",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Implement a KV store with `Put(key, value, ttl?)` and `TryGet` where expired entries are not returned.",
+      "solution": "```csharp\npublic class TtlStore<TKey, TVal> where TKey : notnull {\n    private readonly record struct Entry(TVal Value, long ExpiresAtTicks);\n    private readonly Dictionary<TKey, Entry> _map = new();\n    private readonly object _lock = new();\n\n    public void Put(TKey key, TVal val, TimeSpan? ttl = null) {\n        long expires = ttl.HasValue ? DateTime.UtcNow.Add(ttl.Value).Ticks : long.MaxValue;\n        lock (_lock) _map[key] = new Entry(val, expires);\n    }\n    public bool TryGet(TKey key, out TVal val) {\n        lock (_lock) {\n            if (_map.TryGetValue(key, out var e)) {\n                if (DateTime.UtcNow.Ticks < e.ExpiresAtTicks) { val = e.Value; return true; }\n                _map.Remove(key);                    // lazy expiry on read\n            }\n            val = default!; return false;\n        }\n    }\n}\n```\n**Note:** **lazy expiry** (drop on read) is simple and avoids a timer per key; pair it with a periodic background sweeper to reclaim memory from keys that are never read again — exactly how Redis does it (lazy + sampled active expiry)."
+    },
+    "practice-machine-coding-in-memory-pub-sub-1": {
+      "id": "practice-machine-coding-in-memory-pub-sub-1",
+      "trackId": "practice",
+      "topicId": "practice-machine-coding",
+      "title": "In-memory Pub/Sub",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Implement topic-based publish/subscribe: subscribers register a handler for a topic; publishing a message invokes all that topic's handlers. Support unsubscribe.",
+      "solution": "```csharp\npublic class PubSub<T> {\n    private readonly Dictionary<string, List<Action<T>>> _subs = new();\n    private readonly object _lock = new();\n\n    public IDisposable Subscribe(string topic, Action<T> handler) {\n        lock (_lock) {\n            if (!_subs.TryGetValue(topic, out var list)) _subs[topic] = list = new();\n            list.Add(handler);\n        }\n        return new Unsub(() => { lock (_lock) { if (_subs.TryGetValue(topic, out var l)) l.Remove(handler); } });\n    }\n\n    public void Publish(string topic, T message) {\n        List<Action<T>> snapshot;\n        lock (_lock) {\n            if (!_subs.TryGetValue(topic, out var list) || list.Count == 0) return;\n            snapshot = new List<Action<T>>(list);     // copy so we don't hold the lock while invoking\n        }\n        foreach (var h in snapshot) h(message);       // a handler may (un)subscribe safely\n    }\n\n    private sealed class Unsub : IDisposable {\n        private readonly Action _dispose;\n        public Unsub(Action d) => _dispose = d;\n        public void Dispose() => _dispose();\n    }\n}\n```\n**Note:** **snapshot** the subscriber list before invoking handlers — otherwise a handler that subscribes/unsubscribes during dispatch mutates the collection you're iterating (and you'd be invoking user code while holding a lock, risking deadlock). Returning an `IDisposable` for unsubscribe is the idiomatic .NET pattern (`IObservable`/`IDisposable`)."
+    },
+    "practice-machine-coding-logging-framework-level-filter-pluggable-sinks-2": {
+      "id": "practice-machine-coding-logging-framework-level-filter-pluggable-sinks-2",
+      "trackId": "practice",
+      "topicId": "practice-machine-coding",
+      "title": "Logging framework (level filter + pluggable sinks)",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Design a logger with level filtering and multiple output sinks (console/file/…), extensible without editing the logger.",
+      "solution": "```csharp\npublic enum LogLevel { Debug, Info, Warn, Error }\n\npublic interface ILogSink { void Write(LogLevel level, string message); }   // Strategy\n\npublic class ConsoleSink : ILogSink {\n    public void Write(LogLevel level, string msg) => Console.WriteLine($\"[{level}] {msg}\");\n}\npublic class FileSink : ILogSink {\n    private readonly object _lock = new();\n    public void Write(LogLevel level, string msg) {\n        lock (_lock) { /* File.AppendAllText(path, $\"[{level}] {msg}\\n\"); */ }\n    }\n}\n\npublic class Logger {\n    private readonly LogLevel _min;\n    private readonly IReadOnlyList<ILogSink> _sinks;\n    public Logger(LogLevel min, params ILogSink[] sinks) { _min = min; _sinks = sinks; }\n\n    public void Log(LogLevel level, string message) {\n        if (level < _min) return;                    // level filter\n        foreach (var s in _sinks) s.Write(level, message);   // fan-out\n    }\n    public void Debug(string m) => Log(LogLevel.Debug, m);\n    public void Info(string m)  => Log(LogLevel.Info, m);\n    public void Warn(string m)  => Log(LogLevel.Warn, m);\n    public void Error(string m) => Log(LogLevel.Error, m);\n}\n```\n**Note:** **Strategy** for sinks → add a `DbSink` or `SeqSink` without touching `Logger` (OCP). Level filtering short-circuits cheap. For high throughput, make logging async by pushing formatted records onto a `Channel<T>` that a single background writer drains (decouples callers from slow I/O)."
+    },
+    "practice-machine-coding-snake-game-core-3": {
+      "id": "practice-machine-coding-snake-game-core-3",
+      "trackId": "practice",
+      "topicId": "practice-machine-coding",
+      "title": "Snake game core",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Model the core logic of Snake: a board, a moving/growing snake, food, and game-over on wall or self collision. Skip rendering/input.",
+      "solution": "```csharp\npublic class SnakeGame {\n    private readonly int _w, _h;\n    private readonly LinkedList<(int r, int c)> _snake = new();   // head = First\n    private readonly HashSet<(int, int)> _occupied = new();      // O(1) collision check\n    private (int r, int c) _food;\n    private readonly Random _rng = new();\n    public bool GameOver { get; private set; }\n    public int Score { get; private set; }\n\n    public SnakeGame(int w, int h) {\n        _w = w; _h = h;\n        var head = (0, 0);\n        _snake.AddFirst(head); _occupied.Add(head);\n        SpawnFood();\n    }\n\n    public void Move((int dr, int dc) dir) {\n        if (GameOver) return;\n        var head = _snake.First!.Value;\n        var next = (head.r + dir.dr, head.c + dir.dc);\n\n        if (next.Item1 < 0 || next.Item1 >= _h || next.Item2 < 0 || next.Item2 >= _w) {\n            GameOver = true; return;                            // hit a wall\n        }\n        bool eating = next == _food;\n        if (!eating) {                                          // tail vacates unless we grow\n            var tail = _snake.Last!.Value;\n            _snake.RemoveLast(); _occupied.Remove(tail);\n        }\n        if (!_occupied.Add(next)) { GameOver = true; return; }  // self-collision\n        _snake.AddFirst(next);\n        if (eating) { Score++; SpawnFood(); }\n    }\n\n    private void SpawnFood() {\n        do { _food = (_rng.Next(_h), _rng.Next(_w)); } while (_occupied.Contains(_food));\n    }\n}\n```\n**Note:** a deque (`LinkedList`) for the body gives O(1) head-add/tail-remove; a parallel `HashSet` gives O(1) collision tests. Crucial ordering: **remove the tail before the self-collision check** when not eating — the cell the tail just vacated is a legal destination."
     },
     "sql-schema-exercises-design-a-schema-for-an-e-commerce-orders-system-0": {
       "id": "sql-schema-exercises-design-a-schema-for-an-e-commerce-orders-system-0",
@@ -5499,7 +5662,7 @@
     }
   ],
   "stats": {
-    "problems": 138,
+    "problems": 147,
     "concepts": 134,
     "stories": 9
   }

@@ -53,7 +53,13 @@ export default function Dashboard({ onOpenTopic }: { onOpenTopic: (id: string) =
           const total = topics.reduce((a, t) => a + topicCount(t), 0);
           const done = topics.reduce((a, t) => a + doneCount(t, items), 0);
           const pct = total ? Math.round((done / total) * 100) : 0;
-          const unit = tr.kind === 'dsa' ? 'cold' : tr.kind === 'behavioral' ? 'drill-ready' : 'can explain';
+          const itemKinds = new Set(topics.map((t) => t.itemKind));
+          const unit =
+            itemKinds.size === 1 && itemKinds.has('problem')
+              ? 'cold'
+              : itemKinds.has('story')
+                ? 'drill-ready'
+                : 'can explain';
           return (
             <div key={tr.id} className="rounded-lg border border-border bg-panel p-4">
               <div className="mb-2 flex items-baseline justify-between">
