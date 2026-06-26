@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { CONTENT_DIR } from './util';
 
@@ -14,14 +14,10 @@ import { CONTENT_DIR } from './util';
  *   …
  *
  * Everything from one `### id:` marker until the next becomes that problem's solution.
- * The orchestrator merges these onto problems and flags them generated/needs-review.
  */
-export function parseSolutions(file: string): Record<string, string> {
-  const path = resolve(CONTENT_DIR, 'generated', file);
-  if (!existsSync(path)) return {};
+function parseOne(path: string): Record<string, string> {
   const md = readFileSync(path, 'utf8');
   const lines = md.split(/\r?\n/);
-
   const out: Record<string, string> = {};
   let id: string | null = null;
   let buf: string[] = [];
@@ -39,5 +35,17 @@ export function parseSolutions(file: string): Record<string, string> {
     if (id) buf.push(line);
   }
   flush();
+  return out;
+}
+
+/** Merge every `*.md` solutions file under content/generated into one id → solution map. */
+export function parseAllSolutions(): Record<string, string> {
+  const dir = resolve(CONTENT_DIR, 'generated');
+  if (!existsSync(dir)) return {};
+  const out: Record<string, string> = {};
+  for (const f of readdirSync(dir).sort()) {
+    if (!f.endsWith('.md')) continue;
+    Object.assign(out, parseOne(resolve(dir, f)));
+  }
   return out;
 }

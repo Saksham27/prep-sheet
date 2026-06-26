@@ -13,7 +13,7 @@ import { parseDsa } from './parsers/dsa';
 import { parseConceptFile } from './parsers/concepts';
 import { parseBehavioral } from './parsers/behavioral';
 import { parseCurriculum } from './parsers/curriculum';
-import { parseSolutions } from './parsers/solutions';
+import { parseAllSolutions } from './parsers/solutions';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = resolve(__dirname, '..', 'src', 'data');
@@ -107,7 +107,7 @@ function build(): ContentBundle {
   });
 
   // --- Merge generated DSA solutions (kept in /content/generated, originals pristine) ---
-  const solutions = parseSolutions('dsa-solutions.md');
+  const solutions = parseAllSolutions();
   let merged = 0;
   const orphans: string[] = [];
   for (const [id, body] of Object.entries(solutions)) {

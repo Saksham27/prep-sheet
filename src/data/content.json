@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T21:23:49.737Z",
+  "generatedAt": "2026-06-26T21:30:58.336Z",
   "tracks": [
     {
       "id": "dsa",
@@ -1200,7 +1200,9 @@
       "approach": "skip non-alphanumerics, lowercase, compare l/r inward.",
       "complexity": "O(n)/O(1).",
       "watch": "the filtering (`char.IsLetterOrDigit`) is where bugs hide, not the pointer logic.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Converge from both ends, skipping non-alphanumerics; compare case-insensitively.\npublic bool IsPalindrome(string s) {\n    int l = 0, r = s.Length - 1;\n    while (l < r) {\n        while (l < r && !char.IsLetterOrDigit(s[l])) l++;\n        while (l < r && !char.IsLetterOrDigit(s[r])) r--;\n        if (char.ToLowerInvariant(s[l]) != char.ToLowerInvariant(s[r])) return false;\n        l++; r--;\n    }\n    return true;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "two-pointers-two-sum-ii-sorted": {
       "id": "two-pointers-two-sum-ii-sorted",
@@ -1214,7 +1216,9 @@
       "approach": "see template.",
       "complexity": "O(n)/O(1).",
       "watch": "1-indexed output in the classic version.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Converging pointers on a sorted array; raise the floor or lower the ceiling by the sum.\npublic int[] TwoSum(int[] numbers, int target) {\n    int l = 0, r = numbers.Length - 1;\n    while (l < r) {\n        int sum = numbers[l] + numbers[r];\n        if (sum == target) return new[] { l + 1, r + 1 };   // problem is 1-indexed\n        if (sum < target) l++; else r--;\n    }\n    return Array.Empty<int>();\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "two-pointers-3sum": {
       "id": "two-pointers-3sum",
@@ -1228,7 +1232,9 @@
       "approach": "sort; for each i, run converging pointers on (i+1, end) for target `-a[i]`; **skip duplicates** at i and after each match.",
       "complexity": "O(n²)/O(1) (excluding output).",
       "watch": "duplicate handling is the whole difficulty — skip equal values at all three positions.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Sort, fix one number, then it's Two-Sum-sorted on the rest. Skip duplicates at all\n// three positions — that dedup is the whole difficulty.\npublic IList<IList<int>> ThreeSum(int[] nums) {\n    Array.Sort(nums);\n    var res = new List<IList<int>>();\n    for (int i = 0; i < nums.Length - 2; i++) {\n        if (i > 0 && nums[i] == nums[i - 1]) continue;          // skip duplicate anchor\n        int l = i + 1, r = nums.Length - 1;\n        while (l < r) {\n            int sum = nums[i] + nums[l] + nums[r];\n            if (sum < 0) l++;\n            else if (sum > 0) r--;\n            else {\n                res.Add(new List<int> { nums[i], nums[l], nums[r] });\n                l++; r--;\n                while (l < r && nums[l] == nums[l - 1]) l++;     // skip duplicates\n                while (l < r && nums[r] == nums[r + 1]) r--;\n            }\n        }\n    }\n    return res;\n}\n```\n**Complexity:** O(n²) time, O(1) extra space (excluding output).\n\n---",
+      "needsReview": true
     },
     "two-pointers-container-with-most-water": {
       "id": "two-pointers-container-with-most-water",
@@ -1242,7 +1248,9 @@
       "approach": "converge; always move the shorter pointer inward, track max area.",
       "complexity": "O(n)/O(1).",
       "watch": "prove why moving the shorter wall is safe — that's the interview question behind the question.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Area is bounded by the SHORTER wall, so moving the taller pointer can never help —\n// always advance the shorter one.\npublic int MaxArea(int[] height) {\n    int l = 0, r = height.Length - 1, best = 0;\n    while (l < r) {\n        best = Math.Max(best, Math.Min(height[l], height[r]) * (r - l));\n        if (height[l] < height[r]) l++; else r--;\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "two-pointers-sort-colors-dutch-flag": {
       "id": "two-pointers-sort-colors-dutch-flag",
@@ -1256,7 +1264,9 @@
       "approach": "`low`, `mid`, `high`; mid scans, swap 0s to front, 2s to back; don't advance mid after swapping with high.",
       "complexity": "O(n)/O(1), single pass.",
       "watch": "after swapping `mid` with `high`, *don't* increment mid (the swapped-in value is unexamined).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Three regions (0s | 1s | 2s) via low/mid/high. After swapping mid with high, DON'T\n// advance mid — the swapped-in value is unexamined.\npublic void SortColors(int[] nums) {\n    int low = 0, mid = 0, high = nums.Length - 1;\n    while (mid <= high) {\n        if (nums[mid] == 0) { (nums[low], nums[mid]) = (nums[mid], nums[low]); low++; mid++; }\n        else if (nums[mid] == 2) { (nums[mid], nums[high]) = (nums[high], nums[mid]); high--; }\n        else mid++;\n    }\n}\n```\n**Complexity:** O(n) time, O(1) space, single pass.\n\n---",
+      "needsReview": true
     },
     "two-pointers-trapping-rain-water": {
       "id": "two-pointers-trapping-rain-water",
@@ -1270,7 +1280,9 @@
       "approach": "two pointers tracking running maxLeft/maxRight; advance the side with the smaller wall (it bounds the water).",
       "complexity": "O(n)/O(1).",
       "watch": "know all three solutions (DP-prefix-max, stack, two-pointer); two-pointer is the O(1)-space flex.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Water above i = min(maxLeft, maxRight) - height[i]. Advance the side with the smaller\n// wall, since that wall bounds the water there.\npublic int Trap(int[] height) {\n    int l = 0, r = height.Length - 1, leftMax = 0, rightMax = 0, water = 0;\n    while (l < r) {\n        if (height[l] < height[r]) {\n            leftMax = Math.Max(leftMax, height[l]);\n            water += leftMax - height[l];\n            l++;\n        } else {\n            rightMax = Math.Max(rightMax, height[r]);\n            water += rightMax - height[r];\n            r--;\n        }\n    }\n    return water;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "sliding-window-longest-substring-without-repeating-characters": {
       "id": "sliding-window-longest-substring-without-repeating-characters",
@@ -1284,7 +1296,9 @@
       "approach": "on duplicate, shrink left past the previous occurrence.",
       "complexity": "O(n)/O(min(n,charset)).",
       "watch": "using a last-seen-index map lets you jump left in O(1) instead of shrinking one step at a time.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Window valid while all chars unique. On a duplicate, jump `left` past the previous\n// occurrence (O(1)) using a last-seen-index map.\npublic int LengthOfLongestSubstring(string s) {\n    var last = new Dictionary<char, int>();\n    int left = 0, best = 0;\n    for (int right = 0; right < s.Length; right++) {\n        char c = s[right];\n        if (last.TryGetValue(c, out int j) && j >= left) left = j + 1;\n        last[c] = right;\n        best = Math.Max(best, right - left + 1);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(min(n, charset)) space.\n\n---",
+      "needsReview": true
     },
     "sliding-window-longest-repeating-character-replacement": {
       "id": "sliding-window-longest-repeating-character-replacement",
@@ -1298,7 +1312,9 @@
       "approach": "track char counts and the running max frequency; shrink when the replacement budget is exceeded.",
       "complexity": "O(n).",
       "watch": "you don't need to recompute maxFreq on shrink — a slightly stale max still yields a correct answer (classic subtlety).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Window valid while (windowLen - maxFreq) <= k. maxFreq need not be decreased on shrink:\n// a slightly stale max still yields a correct answer (classic subtlety).\npublic int CharacterReplacement(string s, int k) {\n    var count = new int[26];\n    int left = 0, maxFreq = 0, best = 0;\n    for (int right = 0; right < s.Length; right++) {\n        maxFreq = Math.Max(maxFreq, ++count[s[right] - 'A']);\n        while (right - left + 1 - maxFreq > k) count[s[left++] - 'A']--;\n        best = Math.Max(best, right - left + 1);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "sliding-window-minimum-window-substring": {
       "id": "sliding-window-minimum-window-substring",
@@ -1312,7 +1328,9 @@
       "approach": "need-map of target counts + a `have/need` counter; expand right, and while satisfied, record length and shrink left.",
       "complexity": "O(n).",
       "watch": "this is the hardest standard window — get the `have==need` bookkeeping exactly right.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Expand right until the window covers all required chars (have == need), then contract\n// from the left while it still covers, recording the minimum.\npublic string MinWindow(string s, string t) {\n    if (t.Length == 0 || s.Length < t.Length) return \"\";\n    var need = new Dictionary<char, int>();\n    foreach (char c in t) need[c] = need.GetValueOrDefault(c) + 1;\n    int required = need.Count, formed = 0, left = 0;\n    var window = new Dictionary<char, int>();\n    int bestLen = int.MaxValue, bestL = 0;\n    for (int right = 0; right < s.Length; right++) {\n        char c = s[right];\n        window[c] = window.GetValueOrDefault(c) + 1;\n        if (need.ContainsKey(c) && window[c] == need[c]) formed++;\n        while (formed == required) {\n            if (right - left + 1 < bestLen) { bestLen = right - left + 1; bestL = left; }\n            char lc = s[left++];\n            window[lc]--;\n            if (need.ContainsKey(lc) && window[lc] < need[lc]) formed--;\n        }\n    }\n    return bestLen == int.MaxValue ? \"\" : s.Substring(bestL, bestLen);\n}\n```\n**Complexity:** O(|s| + |t|) time.\n\n---",
+      "needsReview": true
     },
     "sliding-window-best-time-to-buy-sell-stock": {
       "id": "sliding-window-best-time-to-buy-sell-stock",
@@ -1325,7 +1343,9 @@
       "insight": "it's a degenerate window — track the minimum price seen and the best profit against it.",
       "approach": "one pass, `min = Math.Min(min, price)`, `best = Math.Max(best, price - min)`.",
       "complexity": "O(n)/O(1).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// A degenerate window: track the minimum price seen and the best profit against it.\npublic int MaxProfit(int[] prices) {\n    int min = int.MaxValue, best = 0;\n    foreach (int p in prices) {\n        min = Math.Min(min, p);\n        best = Math.Max(best, p - min);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "sliding-window-permutation-in-string": {
       "id": "sliding-window-permutation-in-string",
@@ -1339,7 +1359,9 @@
       "approach": "fixed window of len(target); slide and compare count vectors.",
       "complexity": "O(n).",
       "watch": "compare 26-length vectors, not sorted strings, to stay O(1) per check.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// A permutation = a fixed-size window whose 26-length char-count vector matches s1's.\npublic bool CheckInclusion(string s1, string s2) {\n    if (s1.Length > s2.Length) return false;\n    int[] need = new int[26], win = new int[26];\n    foreach (char c in s1) need[c - 'a']++;\n    for (int i = 0; i < s2.Length; i++) {\n        win[s2[i] - 'a']++;\n        if (i >= s1.Length) win[s2[i - s1.Length] - 'a']--;   // slide\n        if (i >= s1.Length - 1 && win.SequenceEqual(need)) return true;\n    }\n    return false;\n}\n```\n**Complexity:** O(26·n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "sliding-window-sliding-window-maximum": {
       "id": "sliding-window-sliding-window-maximum",
@@ -1353,7 +1375,9 @@
       "approach": "pop smaller values from the back before pushing; pop the front when it slides out of range.",
       "complexity": "O(n).",
       "watch": "store indices (to detect expiry), not values; this is the bridge into monotonic structures.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Maintain a deque of INDICES whose values are decreasing; the front is the window max.\n// Pop smaller values from the back, and pop the front when it slides out of range.\npublic int[] MaxSlidingWindow(int[] nums, int k) {\n    var dq = new LinkedList<int>();                  // indices\n    var res = new int[nums.Length - k + 1];\n    for (int i = 0; i < nums.Length; i++) {\n        if (dq.Count > 0 && dq.First!.Value <= i - k) dq.RemoveFirst();   // expired\n        while (dq.Count > 0 && nums[dq.Last!.Value] <= nums[i]) dq.RemoveLast();\n        dq.AddLast(i);\n        if (i >= k - 1) res[i - k + 1] = nums[dq.First!.Value];\n    }\n    return res;\n}\n```\n**Complexity:** O(n) time, O(k) space.\n\n---",
+      "needsReview": true
     },
     "prefix-sum-and-difference-arrays-subarray-sum-equals-k": {
       "id": "prefix-sum-and-difference-arrays-subarray-sum-equals-k",
@@ -1367,7 +1391,9 @@
       "approach": "the template above.",
       "complexity": "O(n)/O(n).",
       "watch": "seed the map with `{0:1}` for subarrays starting at index 0; handles negatives where sliding window can't.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// A subarray sums to k iff some earlier prefix equals (currentPrefix - k). Seed {0:1}\n// for subarrays starting at index 0. Handles negatives (sliding window can't).\npublic int SubarraySum(int[] nums, int k) {\n    var seen = new Dictionary<long, int> { [0] = 1 };   // prefix sum -> count\n    long sum = 0; int count = 0;\n    foreach (int x in nums) {\n        sum += x;\n        count += seen.GetValueOrDefault(sum - k);\n        seen[sum] = seen.GetValueOrDefault(sum) + 1;\n    }\n    return count;\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
+      "needsReview": true
     },
     "prefix-sum-and-difference-arrays-range-sum-query-2d-immutable": {
       "id": "prefix-sum-and-difference-arrays-range-sum-query-2d-immutable",
@@ -1381,7 +1407,9 @@
       "approach": "inclusion-exclusion to build and to query.",
       "complexity": "O(mn) build, O(1) query.",
       "watch": "the four-term inclusion-exclusion (add two, subtract two… plus the corner) is the only tricky part.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// 2D prefix sums with inclusion-exclusion. pre[r,c] = sum of the rectangle from origin.\npublic class NumMatrix {\n    private readonly int[,] pre;\n    public NumMatrix(int[][] matrix) {\n        int m = matrix.Length, n = matrix[0].Length;\n        pre = new int[m + 1, n + 1];\n        for (int r = 0; r < m; r++)\n            for (int c = 0; c < n; c++)\n                pre[r + 1, c + 1] = matrix[r][c] + pre[r, c + 1] + pre[r + 1, c] - pre[r, c];\n    }\n    public int SumRegion(int r1, int c1, int r2, int c2) =>\n        pre[r2 + 1, c2 + 1] - pre[r1, c2 + 1] - pre[r2 + 1, c1] + pre[r1, c1];\n}\n```\n**Complexity:** O(mn) build, O(1) per query.\n\n---",
+      "needsReview": true
     },
     "prefix-sum-and-difference-arrays-corporate-flight-bookings-car-pooling": {
       "id": "prefix-sum-and-difference-arrays-corporate-flight-bookings-car-pooling",
@@ -1395,7 +1423,9 @@
       "approach": "apply all updates as endpoints, sweep once.",
       "complexity": "O(n + updates).",
       "watch": "the `r+1` boundary and array sizing.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Difference array: a range +v over [l, r] becomes diff[l] += v; diff[r+1] -= v. One\n// prefix-sum pass materializes the per-seat totals.\npublic int[] CorpFlightBookings(int[][] bookings, int n) {\n    var diff = new int[n + 1];\n    foreach (var b in bookings) {       // b = [first, last, seats] (1-indexed flights)\n        diff[b[0] - 1] += b[2];\n        diff[b[1]] -= b[2];\n    }\n    var res = new int[n];\n    int running = 0;\n    for (int i = 0; i < n; i++) { running += diff[i]; res[i] = running; }\n    return res;\n}\n```\n**Complexity:** O(n + bookings) time.\n\n---",
+      "needsReview": true
     },
     "binary-search-binary-search": {
       "id": "binary-search-binary-search",
@@ -1409,7 +1439,9 @@
       "approach": "standard.",
       "complexity": "O(log n).",
       "watch": "memorize the half-open template so you never re-derive it under pressure.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// The canonical inclusive-bounds loop. Always use lo + (hi-lo)/2 to avoid overflow.\npublic int Search(int[] nums, int target) {\n    int lo = 0, hi = nums.Length - 1;\n    while (lo <= hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (nums[mid] == target) return mid;\n        if (nums[mid] < target) lo = mid + 1; else hi = mid - 1;\n    }\n    return -1;\n}\n```\n**Complexity:** O(log n).\n\n---",
+      "needsReview": true
     },
     "binary-search-search-in-rotated-sorted-array": {
       "id": "binary-search-search-in-rotated-sorted-array",
@@ -1423,7 +1455,9 @@
       "approach": "compare `a[mid]` to `a[lo]` to identify the sorted half; narrow accordingly.",
       "complexity": "O(log n).",
       "watch": "duplicates break the \"which half is sorted\" test (that's the harder II variant).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// At any mid, one half is sorted — identify it, then decide if target lies within it.\npublic int Search(int[] nums, int target) {\n    int lo = 0, hi = nums.Length - 1;\n    while (lo <= hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (nums[mid] == target) return mid;\n        if (nums[lo] <= nums[mid]) {                        // left half sorted\n            if (nums[lo] <= target && target < nums[mid]) hi = mid - 1;\n            else lo = mid + 1;\n        } else {                                            // right half sorted\n            if (nums[mid] < target && target <= nums[hi]) lo = mid + 1;\n            else hi = mid - 1;\n        }\n    }\n    return -1;\n}\n```\n**Complexity:** O(log n).\n\n---",
+      "needsReview": true
     },
     "binary-search-find-first-and-last-position": {
       "id": "binary-search-find-first-and-last-position",
@@ -1437,7 +1471,9 @@
       "approach": "run LowerBound twice.",
       "complexity": "O(log n).",
       "watch": "reuse the exact template; don't write two bespoke searches.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Two boundary searches: lower_bound(target) and lower_bound(target+1) - 1.\npublic int[] SearchRange(int[] nums, int target) {\n    int lo = LowerBound(nums, target);\n    if (lo == nums.Length || nums[lo] != target) return new[] { -1, -1 };\n    return new[] { lo, LowerBound(nums, target + 1) - 1 };\n}\nprivate int LowerBound(int[] a, int t) {\n    int lo = 0, hi = a.Length;                    // half-open [lo, hi)\n    while (lo < hi) { int mid = lo + (hi - lo) / 2; if (a[mid] < t) lo = mid + 1; else hi = mid; }\n    return lo;\n}\n```\n**Complexity:** O(log n).\n\n---",
+      "needsReview": true
     },
     "binary-search-koko-eating-bananas": {
       "id": "binary-search-koko-eating-bananas",
@@ -1451,7 +1487,9 @@
       "approach": "feasible(speed) = total hours ≤ H; search [1, max pile].",
       "complexity": "O(n log maxPile).",
       "watch": "hours per pile = `ceil(pile/speed)` = `(pile + speed - 1)/speed`.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// \"Min speed to finish in h hours\" is monotonic in speed → binary-search the speed.\npublic int MinEatingSpeed(int[] piles, int h) {\n    int lo = 1, hi = piles.Max();\n    while (lo < hi) {\n        int mid = lo + (hi - lo) / 2;\n        long hours = 0;\n        foreach (int p in piles) hours += (p + mid - 1) / mid;   // ceil(p/mid)\n        if (hours <= h) hi = mid; else lo = mid + 1;             // feasible → try slower\n    }\n    return lo;\n}\n```\n**Complexity:** O(n log(maxPile)).\n\n---",
+      "needsReview": true
     },
     "binary-search-find-minimum-in-rotated-sorted-array": {
       "id": "binary-search-find-minimum-in-rotated-sorted-array",
@@ -1465,7 +1503,9 @@
       "approach": "compare `a[mid]` to `a[hi]`; if greater, min is right of mid, else at/left.",
       "complexity": "O(log n).",
       "watch": "compare against `a[hi]`, not `a[lo]`, to handle the no-rotation case cleanly.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Compare against a[hi] (not a[lo]) to handle the no-rotation case cleanly.\npublic int FindMin(int[] nums) {\n    int lo = 0, hi = nums.Length - 1;\n    while (lo < hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (nums[mid] > nums[hi]) lo = mid + 1;   // min is strictly right of mid\n        else hi = mid;                            // min is at mid or to its left\n    }\n    return nums[lo];\n}\n```\n**Complexity:** O(log n).\n\n---",
+      "needsReview": true
     },
     "binary-search-split-array-largest-sum": {
       "id": "binary-search-split-array-largest-sum",
@@ -1479,7 +1519,9 @@
       "approach": "search [max element, total sum]; greedily count pieces.",
       "complexity": "O(n log(sum)).",
       "watch": "this archetype (\"minimize the max / maximize the min\") is a top-tier FAANG pattern — recognize it instantly.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// \"Minimize the largest subarray sum across k splits\" → binary-search that value;\n// feasible(x) = the array cuts into <= k pieces each with sum <= x. The archetype.\npublic int SplitArray(int[] nums, int k) {\n    int lo = nums.Max(), hi = nums.Sum();\n    while (lo < hi) {\n        int mid = lo + (hi - lo) / 2;\n        if (Pieces(nums, mid) <= k) hi = mid; else lo = mid + 1;\n    }\n    return lo;\n}\nprivate int Pieces(int[] nums, int cap) {\n    int pieces = 1, cur = 0;\n    foreach (int x in nums) {\n        if (cur + x > cap) { pieces++; cur = x; } else cur += x;\n    }\n    return pieces;\n}\n```\n**Complexity:** O(n log(sum)).\n\n---",
+      "needsReview": true
     },
     "binary-search-median-of-two-sorted-arrays": {
       "id": "binary-search-median-of-two-sorted-arrays",
@@ -1493,7 +1535,9 @@
       "approach": "partition search on the shorter array.",
       "complexity": "O(log min(m,n)).",
       "watch": "the ±∞ sentinels for empty partitions; this is genuinely hard — learn it cold, it's a known filter.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Binary-search the partition of the SHORTER array so both left halves together hold\n// half the elements, with maxLeft <= minRight. ±∞ sentinels guard empty partitions.\npublic double FindMedianSortedArrays(int[] a, int[] b) {\n    if (a.Length > b.Length) (a, b) = (b, a);\n    int m = a.Length, n = b.Length, half = (m + n + 1) / 2;\n    int lo = 0, hi = m;\n    while (lo <= hi) {\n        int i = lo + (hi - lo) / 2;   // cut in a\n        int j = half - i;            // cut in b\n        int aL = i == 0 ? int.MinValue : a[i - 1];\n        int aR = i == m ? int.MaxValue : a[i];\n        int bL = j == 0 ? int.MinValue : b[j - 1];\n        int bR = j == n ? int.MaxValue : b[j];\n        if (aL <= bR && bL <= aR) {\n            if (((m + n) & 1) == 1) return Math.Max(aL, bL);\n            return (Math.Max(aL, bL) + Math.Min(aR, bR)) / 2.0;\n        }\n        if (aL > bR) hi = i - 1; else lo = i + 1;\n    }\n    return 0.0;\n}\n```\n**Complexity:** O(log min(m, n)).",
+      "needsReview": true
     },
     "stacks-and-monotonic-stack-valid-parentheses": {
       "id": "stacks-and-monotonic-stack-valid-parentheses",
