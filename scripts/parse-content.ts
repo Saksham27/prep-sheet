@@ -13,6 +13,7 @@ import { parseDsa } from './parsers/dsa';
 import { parseConceptFile } from './parsers/concepts';
 import { parseBehavioral } from './parsers/behavioral';
 import { parseCurriculum } from './parsers/curriculum';
+import { parseSolutions } from './parsers/solutions';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = resolve(__dirname, '..', 'src', 'data');
@@ -105,6 +106,25 @@ function build(): ContentBundle {
     topicIds: beh.topics.map((t) => t.id),
   });
 
+  // --- Merge generated DSA solutions (kept in /content/generated, originals pristine) ---
+  const solutions = parseSolutions('dsa-solutions.md');
+  let merged = 0;
+  const orphans: string[] = [];
+  for (const [id, body] of Object.entries(solutions)) {
+    const p = problems[id];
+    if (!p) {
+      orphans.push(id);
+      continue;
+    }
+    p.solution = body;
+    p.needsReview = true; // every AI-added solution must be verified
+    merged++;
+  }
+  if (orphans.length) {
+    console.warn(`⚠ ${orphans.length} solution id(s) matched no problem:`, orphans.join(', '));
+  }
+  (globalThis as any).__solMerged = merged;
+
   const { allocation } = parseCurriculum();
 
   return {
@@ -135,6 +155,8 @@ function main() {
   console.log(`  concepts: ${bundle.stats.concepts}`);
   console.log(`  stories:  ${bundle.stats.stories}`);
   console.log(`  allocation rows: ${bundle.allocation.length}`);
+  const sols = Object.values(bundle.problems).filter((p) => p.solution).length;
+  console.log(`  solutions merged: ${sols}/${bundle.stats.problems}`);
   console.log(`→ src/data/content.json`);
 }
 

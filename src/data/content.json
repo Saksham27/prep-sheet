@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T20:56:51.280Z",
+  "generatedAt": "2026-06-26T21:23:49.737Z",
   "tracks": [
     {
       "id": "dsa",
@@ -1008,7 +1008,9 @@
       "approach": "fold XOR across the array.",
       "complexity": "O(n)/O(1).",
       "watch": "don't reach for a hashmap; XOR is the O(1)-space answer they want.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// XOR cancels equal pairs (a ^ a = 0; a ^ 0 = a), leaving only the unique element.\npublic int SingleNumber(int[] nums) {\n    int x = 0;\n    foreach (int n in nums) x ^= n;\n    return x;\n}\n```\n**Complexity:** O(n) time, O(1) space — the O(1)-space answer they want (no hashmap).\n\n---",
+      "needsReview": true
     },
     "foundations-number-of-1-bits": {
       "id": "foundations-number-of-1-bits",
@@ -1022,7 +1024,9 @@
       "approach": "loop, count, until 0.",
       "complexity": "O(set bits).",
       "watch": "in C# use `uint` to avoid sign issues, or `BitOperations.PopCount`.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Brian Kernighan: n & (n-1) clears the lowest set bit, so the loop runs once per 1-bit.\npublic int HammingWeight(uint n) {\n    int count = 0;\n    while (n != 0) { n &= n - 1; count++; }\n    return count;\n}\n```\n**Complexity:** O(number of set bits) time, O(1) space. Use `uint` (or `BitOperations.PopCount`) to avoid sign issues.\n\n---",
+      "needsReview": true
     },
     "foundations-counting-bits": {
       "id": "foundations-counting-bits",
@@ -1036,7 +1040,9 @@
       "approach": "DP using the already-computed half.",
       "complexity": "O(n).",
       "watch": "this is secretly a DP problem.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// DP: a number i has the same set bits as i>>1, plus 1 if its lowest bit is set.\npublic int[] CountBits(int n) {\n    var bits = new int[n + 1];\n    for (int i = 1; i <= n; i++)\n        bits[i] = bits[i >> 1] + (i & 1);\n    return bits;\n}\n```\n**Complexity:** O(n) time, O(n) space (for the output array).\n\n---",
+      "needsReview": true
     },
     "foundations-single-number-ii": {
       "id": "foundations-single-number-ii",
@@ -1050,7 +1056,9 @@
       "approach": "sum bits per position across all numbers; bits with count%3≠0 belong to the answer.",
       "complexity": "O(32n).",
       "watch": "the elegant version uses two accumulators (ones/twos) — know it exists.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Every value appears 3× except one. For each bit position, the count of 1s across all\n// numbers is a multiple of 3 unless the unique number sets that bit.\npublic int SingleNumber(int[] nums) {\n    int result = 0;\n    for (int b = 0; b < 32; b++) {\n        int sum = 0;\n        foreach (int n in nums) sum += (n >> b) & 1;\n        if (sum % 3 != 0) result |= 1 << b;\n    }\n    return result;\n}\n\n// O(1)-space alternative: two accumulators tracking bits seen once / twice.\npublic int SingleNumberOnesTwos(int[] nums) {\n    int ones = 0, twos = 0;\n    foreach (int n in nums) {\n        ones = (ones ^ n) & ~twos;   // add to 'ones' unless already in 'twos'\n        twos = (twos ^ n) & ~ones;   // add to 'twos' unless now in 'ones'\n    }\n    return ones;                      // appears exactly once\n}\n```\n**Complexity:** O(32·n) for the bit-count version, O(n)/O(1) for the ones/twos version.\n\n---",
+      "needsReview": true
     },
     "arrays-and-hashing-two-sum": {
       "id": "arrays-and-hashing-two-sum",
@@ -1064,7 +1072,9 @@
       "approach": "one pass; before inserting x, check if its complement is already in the map.",
       "complexity": "O(n)/O(n).",
       "watch": "check complement *before* inserting current, or you'll match an element with itself.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// For each x, the partner we need is target - x. Remember values we've already passed;\n// check the complement BEFORE inserting x so we never pair an element with itself.\npublic int[] TwoSum(int[] nums, int target) {\n    var seen = new Dictionary<int, int>();         // value -> index\n    for (int i = 0; i < nums.Length; i++) {\n        int need = target - nums[i];\n        if (seen.TryGetValue(need, out int j)) return new[] { j, i };\n        seen[nums[i]] = i;\n    }\n    return Array.Empty<int>();\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
+      "needsReview": true
     },
     "arrays-and-hashing-contains-duplicate": {
       "id": "arrays-and-hashing-contains-duplicate",
@@ -1078,7 +1088,9 @@
       "approach": "add as you go, return true on first re-add.",
       "complexity": "O(n)/O(n).",
       "watch": "O(1)-space alternative is sort-then-scan at O(n log n) — mention the trade.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// HashSet.Add returns false if the element was already present — first false = duplicate.\npublic bool ContainsDuplicate(int[] nums) {\n    var seen = new HashSet<int>();\n    foreach (int n in nums)\n        if (!seen.Add(n)) return true;\n    return false;\n}\n```\n**Complexity:** O(n) time, O(n) space. (O(1)-space alternative: sort then scan neighbours, O(n log n).)\n\n---",
+      "needsReview": true
     },
     "arrays-and-hashing-group-anagrams": {
       "id": "arrays-and-hashing-group-anagrams",
@@ -1092,7 +1104,9 @@
       "approach": "key = sorted string *or* a 26-length count vector; group into a `Dictionary<string, List<string>>`.",
       "complexity": "O(n·k log k) with sorted key, O(n·k) with count key (k = word length).",
       "watch": "the count-vector key avoids the sort and is the better answer.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Anagrams share a canonical key. A 26-length character-count vector beats a sorted\n// string (no O(k log k) sort) and is the stronger answer.\npublic IList<IList<string>> GroupAnagrams(string[] strs) {\n    var groups = new Dictionary<string, IList<string>>();\n    foreach (var s in strs) {\n        var count = new int[26];\n        foreach (char c in s) count[c - 'a']++;\n        string key = string.Join(',', count);\n        if (!groups.TryGetValue(key, out var list))\n            groups[key] = list = new List<string>();\n        list.Add(s);\n    }\n    return groups.Values.ToList();\n}\n```\n**Complexity:** O(n·k) time (k = word length), O(n·k) space.\n\n---",
+      "needsReview": true
     },
     "arrays-and-hashing-top-k-frequent-elements": {
       "id": "arrays-and-hashing-top-k-frequent-elements",
@@ -1106,7 +1120,9 @@
       "approach": "frequency map → bucket array indexed by count (bucket sort), collect from high counts; O(n). Or a size-k min-heap, O(n log k).",
       "complexity": "O(n) bucket / O(n log k) heap.",
       "watch": "bucket sort beats the heap here and surprises interviewers.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Bucket sort by frequency: index a bucket array by count, then read from high counts\n// down. Beats a size-k heap (O(n log k)) and surprises interviewers.\npublic int[] TopKFrequent(int[] nums, int k) {\n    var freq = new Dictionary<int, int>();\n    foreach (int n in nums) freq[n] = freq.GetValueOrDefault(n) + 1;\n\n    var buckets = new List<int>[nums.Length + 1];   // buckets[c] = values seen c times\n    foreach (var kv in freq)\n        (buckets[kv.Value] ??= new List<int>()).Add(kv.Key);\n\n    var res = new List<int>();\n    for (int c = nums.Length; c >= 1 && res.Count < k; c--)\n        if (buckets[c] != null) res.AddRange(buckets[c]);\n    return res.Take(k).ToArray();\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
+      "needsReview": true
     },
     "arrays-and-hashing-product-of-array-except-self": {
       "id": "arrays-and-hashing-product-of-array-except-self",
@@ -1120,7 +1136,9 @@
       "approach": "prefix pass storing left-products, suffix pass multiplying right-products in place.",
       "complexity": "O(n)/O(1) extra.",
       "watch": "division is banned (and breaks on zeros) — that's the whole point.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// answer[i] = (product of everything left of i) * (product of everything right of i).\n// Two passes, no division (which would break on zeros). Output array doesn't count as\n// extra space.\npublic int[] ProductExceptSelf(int[] nums) {\n    int n = nums.Length;\n    var res = new int[n];\n    res[0] = 1;\n    for (int i = 1; i < n; i++) res[i] = res[i - 1] * nums[i - 1];   // prefix products\n    int suffix = 1;\n    for (int i = n - 1; i >= 0; i--) {                               // multiply suffixes\n        res[i] *= suffix;\n        suffix *= nums[i];\n    }\n    return res;\n}\n```\n**Complexity:** O(n) time, O(1) extra space.\n\n---",
+      "needsReview": true
     },
     "arrays-and-hashing-valid-sudoku": {
       "id": "arrays-and-hashing-valid-sudoku",
@@ -1134,7 +1152,9 @@
       "approach": "9 sets each for rows/cols/boxes; box index = `(r/3)*3 + c/3`.",
       "complexity": "O(1) (fixed 81 cells).",
       "watch": "the box-index formula is the only tricky part.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Validity = no duplicate within any row, column, or 3×3 box. One set per row/col/box.\n// Box index = (r/3)*3 + c/3.\npublic bool IsValidSudoku(char[][] board) {\n    var rows = new HashSet<char>[9];\n    var cols = new HashSet<char>[9];\n    var boxes = new HashSet<char>[9];\n    for (int i = 0; i < 9; i++) { rows[i] = new(); cols[i] = new(); boxes[i] = new(); }\n\n    for (int r = 0; r < 9; r++)\n        for (int c = 0; c < 9; c++) {\n            char v = board[r][c];\n            if (v == '.') continue;\n            int b = (r / 3) * 3 + c / 3;\n            if (!rows[r].Add(v) || !cols[c].Add(v) || !boxes[b].Add(v)) return false;\n        }\n    return true;\n}\n```\n**Complexity:** O(1) — the board is a fixed 81 cells.\n\n---",
+      "needsReview": true
     },
     "arrays-and-hashing-longest-consecutive-sequence": {
       "id": "arrays-and-hashing-longest-consecutive-sequence",
@@ -1148,7 +1168,9 @@
       "approach": "dump into a set; for each x with no `x-1` in set, walk x, x+1, x+2… counting.",
       "complexity": "O(n) (each number visited at most twice).",
       "watch": "without the \"only start at run-beginnings\" guard it degrades to O(n²).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Dump into a set; only START counting from a number whose predecessor is absent, so\n// each run is walked exactly once → O(n) overall.\npublic int LongestConsecutive(int[] nums) {\n    var set = new HashSet<int>(nums);\n    int best = 0;\n    foreach (int n in set) {\n        if (set.Contains(n - 1)) continue;          // not a run beginning\n        int len = 1;\n        while (set.Contains(n + len)) len++;\n        best = Math.Max(best, len);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(n) space. (Without the run-beginning guard it degrades to O(n²).)\n\n---",
+      "needsReview": true
     },
     "arrays-and-hashing-first-missing-positive": {
       "id": "arrays-and-hashing-first-missing-positive",
@@ -1162,7 +1184,9 @@
       "approach": "place each value v into slot v-1 by swapping (cyclic sort); then the first slot where `a[i] != i+1` gives the answer.",
       "complexity": "O(n)/O(1).",
       "watch": "ignore values ≤0 or >n; the in-place swap loop is the trick that achieves O(1) space.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// The answer lies in [1, n+1]. Use the array as a hash: place value v into slot v-1 via\n// cyclic-sort swaps, then the first slot where a[i] != i+1 is the answer.\npublic int FirstMissingPositive(int[] nums) {\n    int n = nums.Length;\n    for (int i = 0; i < n; i++) {\n        while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {\n            int j = nums[i] - 1;                     // home slot for nums[i]\n            (nums[i], nums[j]) = (nums[j], nums[i]);\n        }\n    }\n    for (int i = 0; i < n; i++)\n        if (nums[i] != i + 1) return i + 1;\n    return n + 1;\n}\n```\n**Complexity:** O(n) time, O(1) space.",
+      "needsReview": true
     },
     "two-pointers-valid-palindrome": {
       "id": "two-pointers-valid-palindrome",

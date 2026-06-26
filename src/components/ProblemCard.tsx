@@ -63,7 +63,12 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
 
       {problem.solution && (
         <details className="mt-2 rounded border border-border bg-panel2/40">
-          <summary className="cursor-pointer px-3 py-1.5 text-xs text-accent">C# solution</summary>
+          <summary className="flex cursor-pointer items-center gap-2 px-3 py-1.5 text-xs text-accent">
+            C# solution
+            <span className="rounded border border-gen/50 bg-gen/10 px-1.5 py-0.5 text-[10px] font-semibold text-gen">
+              AI-added — verify
+            </span>
+          </summary>
           <div className="px-3 pb-2">
             <InlineMd>{problem.solution}</InlineMd>
           </div>
