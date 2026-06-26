@@ -56,6 +56,11 @@ export function allProblems(): Problem[] {
   return Object.values(content.problems);
 }
 
+/** Only DSA-track problems (excludes SQL/practice/concurrency exercises). */
+export function dsaProblems(): Problem[] {
+  return Object.values(content.problems).filter((p) => p.trackId === 'dsa');
+}
+
 export function allConcepts(): Concept[] {
   return Object.values(content.concepts);
 }

@@ -1,11 +1,11 @@
-import { allProblems } from '../lib/content';
+import { dsaProblems } from '../lib/content';
 import { useProgress } from '../store/progress';
 
 export default function ProgressHeader() {
   const items = useProgress((s) => s.items);
   const streak = useProgress((s) => s.streak);
 
-  const probs = allProblems();
+  const probs = dsaProblems();
   const total = probs.length;
   const by = (s: string) => probs.filter((p) => items[p.id]?.status === s).length;
   const cold = by('cold');
@@ -18,7 +18,7 @@ export default function ProgressHeader() {
     <header className="sticky top-0 z-10 border-b border-border bg-bg/90 px-5 py-2.5 backdrop-blur">
       <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-text">{pct}% cold</span>
+          <span className="text-sm font-semibold text-text">{pct}% DSA cold</span>
           <div className="h-1.5 w-40 overflow-hidden rounded-full bg-panel2">
             <div className="h-full rounded-full bg-cold transition-all" style={{ width: `${pct}%` }} />
           </div>
@@ -27,7 +27,7 @@ export default function ProgressHeader() {
         <Stat label="solved" value={solved} cls="text-good" />
         <Stat label="read" value={read} cls="text-accent" />
         <Stat label="starred" value={starred} cls="text-warn" />
-        <Stat label="total" value={total} cls="text-muted" />
+        <Stat label="DSA total" value={total} cls="text-muted" />
         <div className="ml-auto flex items-center gap-1 text-sm">
           <span title="day streak">🔥</span>
           <span className="font-semibold text-text">{streak.count}</span>

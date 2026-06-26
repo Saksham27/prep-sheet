@@ -1,4 +1,4 @@
-import { tracks, topicsForTrack, topicCount, allProblems } from '../lib/content';
+import { tracks, topicsForTrack, topicCount, dsaProblems } from '../lib/content';
 import type { Topic } from '../types';
 import { useProgress, type ItemProgress } from '../store/progress';
 
@@ -12,7 +12,7 @@ export default function Dashboard({ onOpenTopic }: { onOpenTopic: (id: string) =
   const items = useProgress((s) => s.items);
   const streak = useProgress((s) => s.streak);
 
-  const probs = allProblems();
+  const probs = dsaProblems();
   const byStatus = (s: string) => probs.filter((p) => items[p.id]?.status === s).length;
   const cold = byStatus('cold');
   const solved = byStatus('solved');
