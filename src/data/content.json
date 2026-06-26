@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T21:32:39.212Z",
+  "generatedAt": "2026-06-26T21:34:42.849Z",
   "tracks": [
     {
       "id": "dsa",
@@ -1837,7 +1837,9 @@
       "approach": "the combinations template.",
       "complexity": "O(n·2ⁿ).",
       "watch": "copy `path` when adding (it's mutated as you backtrack).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Every node of the recursion tree is a valid subset. Copy `path` when adding (it mutates).\npublic IList<IList<int>> Subsets(int[] nums) {\n    var res = new List<IList<int>>();\n    var path = new List<int>();\n    void Backtrack(int start) {\n        res.Add(new List<int>(path));\n        for (int i = start; i < nums.Length; i++) {\n            path.Add(nums[i]);\n            Backtrack(i + 1);                  // i+1 = no reuse\n            path.RemoveAt(path.Count - 1);     // un-choose\n        }\n    }\n    Backtrack(0);\n    return res;\n}\n```\n**Complexity:** O(n·2ⁿ).\n\n---",
+      "needsReview": true
     },
     "recursion-and-backtracking-permutations": {
       "id": "recursion-and-backtracking-permutations",
@@ -1851,7 +1853,9 @@
       "approach": "the used[] template.",
       "complexity": "O(n·n!).",
       "watch": "reset `used[i]=false` on the way back up.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Fill positions, marking used elements; reset used[i] on the way back up.\npublic IList<IList<int>> Permute(int[] nums) {\n    var res = new List<IList<int>>();\n    var path = new List<int>();\n    var used = new bool[nums.Length];\n    void Backtrack() {\n        if (path.Count == nums.Length) { res.Add(new List<int>(path)); return; }\n        for (int i = 0; i < nums.Length; i++) {\n            if (used[i]) continue;\n            used[i] = true; path.Add(nums[i]);\n            Backtrack();\n            path.RemoveAt(path.Count - 1); used[i] = false;\n        }\n    }\n    Backtrack();\n    return res;\n}\n```\n**Complexity:** O(n·n!).\n\n---",
+      "needsReview": true
     },
     "recursion-and-backtracking-combination-sum": {
       "id": "recursion-and-backtracking-combination-sum",
@@ -1865,7 +1869,9 @@
       "approach": "sort; prune when the remaining target goes negative.",
       "complexity": "exponential, pruned.",
       "watch": "`i` (not `i+1`) on the recursive call allows reuse; sorting enables early break.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Unlimited reuse → recurse with the SAME start index. Sort enables an early break (prune).\npublic IList<IList<int>> CombinationSum(int[] candidates, int target) {\n    Array.Sort(candidates);\n    var res = new List<IList<int>>();\n    var path = new List<int>();\n    void Backtrack(int start, int remain) {\n        if (remain == 0) { res.Add(new List<int>(path)); return; }\n        for (int i = start; i < candidates.Length; i++) {\n            if (candidates[i] > remain) break;          // sorted → no point continuing\n            path.Add(candidates[i]);\n            Backtrack(i, remain - candidates[i]);       // i, not i+1 → reuse allowed\n            path.RemoveAt(path.Count - 1);\n        }\n    }\n    Backtrack(0, target);\n    return res;\n}\n```\n**Complexity:** exponential, heavily pruned.\n\n---",
+      "needsReview": true
     },
     "recursion-and-backtracking-word-search": {
       "id": "recursion-and-backtracking-word-search",
@@ -1879,7 +1885,9 @@
       "approach": "4-directional DFS matching the next letter; temporarily overwrite the visited cell, restore on backtrack.",
       "complexity": "O(m·n·4^L).",
       "watch": "restore the cell after recursion — the classic \"mark and unmark.\"",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// DFS from each cell, temporarily overwriting visited cells; restore on backtrack.\npublic bool Exist(char[][] board, string word) {\n    int m = board.Length, n = board[0].Length;\n    bool Dfs(int r, int c, int k) {\n        if (k == word.Length) return true;\n        if (r < 0 || r >= m || c < 0 || c >= n || board[r][c] != word[k]) return false;\n        char tmp = board[r][c];\n        board[r][c] = '#';\n        bool found = Dfs(r+1,c,k+1) || Dfs(r-1,c,k+1) || Dfs(r,c+1,k+1) || Dfs(r,c-1,k+1);\n        board[r][c] = tmp;\n        return found;\n    }\n    for (int r = 0; r < m; r++)\n        for (int c = 0; c < n; c++)\n            if (Dfs(r, c, 0)) return true;\n    return false;\n}\n```\n**Complexity:** O(m·n·4ᴸ).\n\n---",
+      "needsReview": true
     },
     "recursion-and-backtracking-letter-combinations-of-a-phone-number": {
       "id": "recursion-and-backtracking-letter-combinations-of-a-phone-number",
@@ -1893,7 +1901,9 @@
       "approach": "recurse one digit deep per level.",
       "complexity": "O(4ⁿ·n).",
       "watch": "the empty-input edge case.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Cartesian product across digit→letters maps; one digit deep per recursion level.\npublic IList<string> LetterCombinations(string digits) {\n    var res = new List<string>();\n    if (digits.Length == 0) return res;       // empty-input edge case\n    string[] map = { \"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\" };\n    var sb = new System.Text.StringBuilder();\n    void Backtrack(int i) {\n        if (i == digits.Length) { res.Add(sb.ToString()); return; }\n        foreach (char c in map[digits[i] - '0']) { sb.Append(c); Backtrack(i + 1); sb.Length--; }\n    }\n    Backtrack(0);\n    return res;\n}\n```\n**Complexity:** O(4ⁿ·n).\n\n---",
+      "needsReview": true
     },
     "recursion-and-backtracking-palindrome-partitioning": {
       "id": "recursion-and-backtracking-palindrome-partitioning",
@@ -1907,7 +1917,9 @@
       "approach": "backtrack over cut points with a palindrome check.",
       "complexity": "O(2ⁿ·n).",
       "watch": "precompute palindrome DP to avoid re-checking.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Try every prefix; recurse on the rest only when the prefix is a palindrome.\npublic IList<IList<string>> Partition(string s) {\n    var res = new List<IList<string>>();\n    var path = new List<string>();\n    bool IsPalin(int l, int r) { while (l < r) if (s[l++] != s[r--]) return false; return true; }\n    void Backtrack(int start) {\n        if (start == s.Length) { res.Add(new List<string>(path)); return; }\n        for (int end = start; end < s.Length; end++) {\n            if (!IsPalin(start, end)) continue;\n            path.Add(s.Substring(start, end - start + 1));\n            Backtrack(end + 1);\n            path.RemoveAt(path.Count - 1);\n        }\n    }\n    Backtrack(0);\n    return res;\n}\n```\n**Complexity:** O(2ⁿ·n).\n\n---",
+      "needsReview": true
     },
     "recursion-and-backtracking-n-queens": {
       "id": "recursion-and-backtracking-n-queens",
@@ -1921,7 +1933,9 @@
       "approach": "recurse row by row; a cell is safe if its column, `r−c`, and `r+c` are all free.",
       "complexity": "O(n!).",
       "watch": "the two diagonal keys (`r−c` and `r+c`) are the elegant part.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// One queen per row; track attacked columns and both diagonals (r−c and r+c) as sets.\npublic IList<IList<string>> SolveNQueens(int n) {\n    var res = new List<IList<string>>();\n    var cols = new bool[n];\n    var diag1 = new bool[2 * n];   // r - c + n\n    var diag2 = new bool[2 * n];   // r + c\n    var col = new int[n];\n    void Backtrack(int r) {\n        if (r == n) {\n            var sol = new List<string>();\n            for (int i = 0; i < n; i++)\n                sol.Add(new string('.', col[i]) + \"Q\" + new string('.', n - col[i] - 1));\n            res.Add(sol);\n            return;\n        }\n        for (int c = 0; c < n; c++) {\n            if (cols[c] || diag1[r - c + n] || diag2[r + c]) continue;\n            cols[c] = diag1[r - c + n] = diag2[r + c] = true; col[r] = c;\n            Backtrack(r + 1);\n            cols[c] = diag1[r - c + n] = diag2[r + c] = false;\n        }\n    }\n    Backtrack(0);\n    return res;\n}\n```\n**Complexity:** O(n!).\n\n---",
+      "needsReview": true
     },
     "recursion-and-backtracking-sudoku-solver": {
       "id": "recursion-and-backtracking-sudoku-solver",
@@ -1935,7 +1949,9 @@
       "approach": "find an empty cell, try 1–9 that don't violate row/col/box, recurse, undo on failure.",
       "complexity": "exponential, heavily pruned.",
       "watch": "track row/col/box availability incrementally instead of rescanning.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Backtracking constraint satisfaction: find an empty cell, try 1–9 that don't violate\n// row/col/box, recurse, undo on failure.\npublic void SolveSudoku(char[][] board) {\n    bool Valid(int r, int c, char v) {\n        for (int i = 0; i < 9; i++) {\n            if (board[r][i] == v || board[i][c] == v) return false;\n            if (board[(r / 3) * 3 + i / 3][(c / 3) * 3 + i % 3] == v) return false;\n        }\n        return true;\n    }\n    bool Solve() {\n        for (int r = 0; r < 9; r++)\n            for (int c = 0; c < 9; c++)\n                if (board[r][c] == '.') {\n                    for (char v = '1'; v <= '9'; v++) {\n                        if (!Valid(r, c, v)) continue;\n                        board[r][c] = v;\n                        if (Solve()) return true;\n                        board[r][c] = '.';\n                    }\n                    return false;            // no valid digit here → backtrack\n                }\n        return true;                          // no empty cell → solved\n    }\n    Solve();\n}\n```\n**Complexity:** exponential, heavily pruned.\n\n---",
+      "needsReview": true
     },
     "trees-binary-trees-max-depth-invert-tree-same-tree": {
       "id": "trees-binary-trees-max-depth-invert-tree-same-tree",
@@ -1949,7 +1965,9 @@
       "approach": "e.g. depth = `1 + max(L, R)`.",
       "complexity": "O(n).",
       "watch": "these build the reflex; do them until trivial.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Three one-line recursions that build the \"combine left and right\" reflex.\npublic int MaxDepth(TreeNode root) =>\n    root == null ? 0 : 1 + Math.Max(MaxDepth(root.left), MaxDepth(root.right));\n\npublic TreeNode InvertTree(TreeNode root) {\n    if (root == null) return null;\n    (root.left, root.right) = (InvertTree(root.right), InvertTree(root.left));\n    return root;\n}\n\npublic bool IsSameTree(TreeNode p, TreeNode q) {\n    if (p == null || q == null) return p == q;\n    return p.val == q.val && IsSameTree(p.left, q.left) && IsSameTree(p.right, q.right);\n}\n```\n**Complexity:** O(n) each.\n\n---",
+      "needsReview": true
     },
     "trees-binary-trees-level-order-traversal": {
       "id": "trees-binary-trees-level-order-traversal",
@@ -1963,7 +1981,9 @@
       "approach": "BFS template.",
       "complexity": "O(n).",
       "watch": "the per-level size snapshot is what groups nodes correctly.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Freeze q.Count at the start of each level to separate levels.\npublic IList<IList<int>> LevelOrder(TreeNode root) {\n    var res = new List<IList<int>>();\n    if (root == null) return res;\n    var q = new Queue<TreeNode>(); q.Enqueue(root);\n    while (q.Count > 0) {\n        int sz = q.Count;\n        var level = new List<int>();\n        for (int i = 0; i < sz; i++) {\n            var node = q.Dequeue(); level.Add(node.val);\n            if (node.left != null) q.Enqueue(node.left);\n            if (node.right != null) q.Enqueue(node.right);\n        }\n        res.Add(level);\n    }\n    return res;\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "trees-binary-trees-diameter-of-binary-tree": {
       "id": "trees-binary-trees-diameter-of-binary-tree",
@@ -1977,7 +1997,9 @@
       "approach": "return depth up, side-effect a max.",
       "complexity": "O(n).",
       "watch": "return depth, but *track* diameter separately — they're different quantities.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Return depth up the tree, but side-effect the global max of (leftDepth + rightDepth).\npublic int DiameterOfBinaryTree(TreeNode root) {\n    int best = 0;\n    int Depth(TreeNode node) {\n        if (node == null) return 0;\n        int l = Depth(node.left), r = Depth(node.right);\n        best = Math.Max(best, l + r);\n        return 1 + Math.Max(l, r);\n    }\n    Depth(root);\n    return best;\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "trees-binary-trees-lowest-common-ancestor-general-binary-tree": {
       "id": "trees-binary-trees-lowest-common-ancestor-general-binary-tree",
@@ -1991,7 +2013,9 @@
       "approach": "post-order; if left and right both return non-null, this node is the LCA; else bubble up whichever is non-null.",
       "complexity": "O(n).",
       "watch": "a node is its own ancestor (handle when a target equals the current node).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Post-order: if both sides return non-null, this node is the LCA; else bubble up the\n// non-null one. A node is its own ancestor (handled by the root==p||root==q base case).\npublic TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n    if (root == null || root == p || root == q) return root;\n    var left = LowestCommonAncestor(root.left, p, q);\n    var right = LowestCommonAncestor(root.right, p, q);\n    if (left != null && right != null) return root;\n    return left ?? right;\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "trees-binary-trees-right-side-view": {
       "id": "trees-binary-trees-right-side-view",
@@ -2004,7 +2028,9 @@
       "insight": "the last node dequeued at each level.",
       "approach": "BFS, take the level's final node (or DFS visiting right first, recording first per depth).",
       "complexity": "O(n).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// BFS, taking the last node dequeued at each level.\npublic IList<int> RightSideView(TreeNode root) {\n    var res = new List<int>();\n    if (root == null) return res;\n    var q = new Queue<TreeNode>(); q.Enqueue(root);\n    while (q.Count > 0) {\n        int sz = q.Count;\n        for (int i = 0; i < sz; i++) {\n            var node = q.Dequeue();\n            if (i == sz - 1) res.Add(node.val);\n            if (node.left != null) q.Enqueue(node.left);\n            if (node.right != null) q.Enqueue(node.right);\n        }\n    }\n    return res;\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "trees-binary-trees-construct-from-preorder-inorder": {
       "id": "trees-binary-trees-construct-from-preorder-inorder",
@@ -2018,7 +2044,9 @@
       "approach": "recurse on index ranges; a value→index map on inorder makes the split O(1).",
       "complexity": "O(n).",
       "watch": "track preorder cursor and inorder bounds carefully.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Preorder gives the root; its index in inorder splits left/right subtrees. A value→index\n// map makes the split O(1).\npublic TreeNode BuildTree(int[] preorder, int[] inorder) {\n    var idx = new Dictionary<int, int>();\n    for (int i = 0; i < inorder.Length; i++) idx[inorder[i]] = i;\n    int pre = 0;\n    TreeNode Build(int lo, int hi) {\n        if (lo > hi) return null;\n        int rootVal = preorder[pre++];\n        var node = new TreeNode(rootVal);\n        int mid = idx[rootVal];\n        node.left = Build(lo, mid - 1);\n        node.right = Build(mid + 1, hi);\n        return node;\n    }\n    return Build(0, inorder.Length - 1);\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "trees-binary-trees-binary-tree-maximum-path-sum": {
       "id": "trees-binary-trees-binary-tree-maximum-path-sum",
@@ -2032,7 +2060,9 @@
       "approach": "post-order returns `node + max(0, L, R)` upward; update global with `node + max(0,L) + max(0,R)`.",
       "complexity": "O(n).",
       "watch": "clamp negative contributions to 0; distinguish \"return value\" from \"answer candidate.\"",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Each node returns the best STRAIGHT downward path (clamping negatives to 0); the answer\n// may BEND at a node = node.val + leftGain + rightGain.\npublic int MaxPathSum(TreeNode root) {\n    int best = int.MinValue;\n    int Gain(TreeNode node) {\n        if (node == null) return 0;\n        int l = Math.Max(0, Gain(node.left));\n        int r = Math.Max(0, Gain(node.right));\n        best = Math.Max(best, node.val + l + r);    // bent path candidate\n        return node.val + Math.Max(l, r);           // straight path returned up\n    }\n    Gain(root);\n    return best;\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "trees-binary-trees-serialize-deserialize": {
       "id": "trees-binary-trees-serialize-deserialize",
@@ -2046,7 +2076,9 @@
       "approach": "serialize preorder writing `#` for nulls; deserialize by consuming tokens in the same order.",
       "complexity": "O(n).",
       "watch": "the null markers are mandatory for unambiguous reconstruction.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Preorder stream with explicit null markers ('#') uniquely encodes a tree.\npublic class Codec {\n    public string serialize(TreeNode root) {\n        var sb = new System.Text.StringBuilder();\n        void Dfs(TreeNode node) {\n            if (node == null) { sb.Append(\"#,\"); return; }\n            sb.Append(node.val).Append(',');\n            Dfs(node.left); Dfs(node.right);\n        }\n        Dfs(root);\n        return sb.ToString();\n    }\n    public TreeNode deserialize(string data) {\n        var tokens = data.Split(',');\n        int i = 0;\n        TreeNode Build() {\n            var t = tokens[i++];\n            if (t == \"#\") return null;\n            var node = new TreeNode(int.Parse(t));\n            node.left = Build();\n            node.right = Build();\n            return node;\n        }\n        return Build();\n    }\n}\n```\n**Complexity:** O(n) each way.\n\n---",
+      "needsReview": true
     },
     "binary-search-trees-validate-bst": {
       "id": "binary-search-trees-validate-bst",
@@ -2060,7 +2092,9 @@
       "approach": "recurse passing down tightening bounds.",
       "complexity": "O(n).",
       "watch": "the classic wrong answer checks only immediate children; use `long` bounds for int-edge values.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Every node must lie within an inherited (min, max) range — local left<node<right is not\n// enough. Use long bounds for int-edge values.\npublic bool IsValidBST(TreeNode root) {\n    bool Valid(TreeNode node, long min, long max) {\n        if (node == null) return true;\n        if (node.val <= min || node.val >= max) return false;\n        return Valid(node.left, min, node.val) && Valid(node.right, node.val, max);\n    }\n    return Valid(root, long.MinValue, long.MaxValue);\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "binary-search-trees-kth-smallest-in-bst": {
       "id": "binary-search-trees-kth-smallest-in-bst",
@@ -2074,7 +2108,9 @@
       "approach": "iterative in-order, decrement k.",
       "complexity": "O(h + k).",
       "watch": "don't traverse the whole tree — stop early.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// In-order yields ascending order; stop at the kth (don't traverse the whole tree).\npublic int KthSmallest(TreeNode root, int k) {\n    var st = new Stack<TreeNode>();\n    var cur = root;\n    while (cur != null || st.Count > 0) {\n        while (cur != null) { st.Push(cur); cur = cur.left; }\n        cur = st.Pop();\n        if (--k == 0) return cur.val;\n        cur = cur.right;\n    }\n    return -1;\n}\n```\n**Complexity:** O(h + k).\n\n---",
+      "needsReview": true
     },
     "binary-search-trees-lca-of-bst": {
       "id": "binary-search-trees-lca-of-bst",
@@ -2088,7 +2124,9 @@
       "approach": "walk down comparing.",
       "complexity": "O(h).",
       "watch": "simpler than the general-tree LCA; use the values.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Use the ordering: both smaller → go left, both larger → go right, else the split is LCA.\npublic TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n    var cur = root;\n    while (cur != null) {\n        if (p.val < cur.val && q.val < cur.val) cur = cur.left;\n        else if (p.val > cur.val && q.val > cur.val) cur = cur.right;\n        else return cur;\n    }\n    return null;\n}\n```\n**Complexity:** O(h).\n\n---",
+      "needsReview": true
     },
     "binary-search-trees-insert-delete-in-bst": {
       "id": "binary-search-trees-insert-delete-in-bst",
@@ -2102,7 +2140,9 @@
       "approach": "for two-children delete, replace with in-order successor (min of right subtree), then delete that.",
       "complexity": "O(h).",
       "watch": "the two-children case is the only real difficulty.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\npublic TreeNode InsertIntoBST(TreeNode root, int val) {\n    if (root == null) return new TreeNode(val);\n    if (val < root.val) root.left = InsertIntoBST(root.left, val);\n    else root.right = InsertIntoBST(root.right, val);\n    return root;\n}\n\n// Delete's hard case is two children: replace with the in-order successor (min of the\n// right subtree), then delete that successor.\npublic TreeNode DeleteNode(TreeNode root, int key) {\n    if (root == null) return null;\n    if (key < root.val) root.left = DeleteNode(root.left, key);\n    else if (key > root.val) root.right = DeleteNode(root.right, key);\n    else {\n        if (root.left == null) return root.right;\n        if (root.right == null) return root.left;\n        var succ = root.right;\n        while (succ.left != null) succ = succ.left;\n        root.val = succ.val;\n        root.right = DeleteNode(root.right, succ.val);\n    }\n    return root;\n}\n```\n**Complexity:** O(h).\n\n---",
+      "needsReview": true
     },
     "tries-prefix-trees-implement-trie": {
       "id": "tries-prefix-trees-implement-trie",
@@ -2116,7 +2156,9 @@
       "approach": "insert/search walk the children; `startsWith` is search without requiring `isEnd`.",
       "complexity": "O(L) per op.",
       "watch": "the `isEnd` flag distinguishes a stored word from a mere prefix.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// The isEnd flag distinguishes a stored word from a mere prefix.\npublic class Trie {\n    private readonly Trie[] _next = new Trie[26];\n    private bool _isEnd;\n    public void Insert(string word) {\n        var cur = this;\n        foreach (char c in word) cur = cur._next[c - 'a'] ??= new Trie();\n        cur._isEnd = true;\n    }\n    public bool Search(string word) { var n = Walk(word); return n != null && n._isEnd; }\n    public bool StartsWith(string prefix) => Walk(prefix) != null;\n    private Trie Walk(string s) {\n        var cur = this;\n        foreach (char c in s) { cur = cur._next[c - 'a']; if (cur == null) return null; }\n        return cur;\n    }\n}\n```\n**Complexity:** O(L) per operation.\n\n---",
+      "needsReview": true
     },
     "tries-prefix-trees-add-and-search-words-with-wildcard": {
       "id": "tries-prefix-trees-add-and-search-words-with-wildcard",
@@ -2130,7 +2172,9 @@
       "approach": "recursive search; on `.`, try every non-null child.",
       "complexity": "O(26^dots · L) worst.",
       "watch": "the wildcard turns a walk into a search.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// '.' branches into a DFS over all children; a literal char follows a single edge.\npublic class WordDictionary {\n    private class Node { public Node[] Next = new Node[26]; public bool IsEnd; }\n    private readonly Node _root = new();\n    public void AddWord(string word) {\n        var cur = _root;\n        foreach (char c in word) cur = cur.Next[c - 'a'] ??= new Node();\n        cur.IsEnd = true;\n    }\n    public bool Search(string word) {\n        bool Dfs(Node node, int i) {\n            if (node == null) return false;\n            if (i == word.Length) return node.IsEnd;\n            char c = word[i];\n            if (c == '.') {\n                foreach (var child in node.Next) if (Dfs(child, i + 1)) return true;\n                return false;\n            }\n            return Dfs(node.Next[c - 'a'], i + 1);\n        }\n        return Dfs(_root, 0);\n    }\n}\n```\n**Complexity:** O(26^dots · L) worst case.\n\n---",
+      "needsReview": true
     },
     "tries-prefix-trees-word-search-ii": {
       "id": "tries-prefix-trees-word-search-ii",
@@ -2144,7 +2188,9 @@
       "approach": "grid DFS that advances only along existing Trie edges; mark words found.",
       "complexity": "far better than per-word search.",
       "watch": "prune found words and dead branches; this Trie+DFS combo is a known hard.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Build a Trie of the target words, then DFS the grid GUIDED by the Trie so dead prefixes\n// are abandoned immediately. Null out a word once found to dedup.\npublic IList<string> FindWords(char[][] board, string[] words) {\n    var root = new TrieNode();\n    foreach (var w in words) {\n        var cur = root;\n        foreach (char c in w) cur = cur.Next[c - 'a'] ??= new TrieNode();\n        cur.Word = w;\n    }\n    int m = board.Length, n = board[0].Length;\n    var res = new List<string>();\n    void Dfs(int r, int c, TrieNode node) {\n        if (r < 0 || r >= m || c < 0 || c >= n) return;\n        char ch = board[r][c];\n        if (ch == '#') return;\n        var nxt = node.Next[ch - 'a'];\n        if (nxt == null) return;                          // prune dead prefix\n        if (nxt.Word != null) { res.Add(nxt.Word); nxt.Word = null; }\n        board[r][c] = '#';\n        Dfs(r+1,c,nxt); Dfs(r-1,c,nxt); Dfs(r,c+1,nxt); Dfs(r,c-1,nxt);\n        board[r][c] = ch;\n    }\n    for (int r = 0; r < m; r++)\n        for (int c = 0; c < n; c++)\n            Dfs(r, c, root);\n    return res;\n}\nclass TrieNode { public TrieNode[] Next = new TrieNode[26]; public string Word; }\n```\n**Complexity:** far better than naive per-word search (Trie prunes shared/dead prefixes).",
+      "needsReview": true
     },
     "heaps-priority-queues-kth-largest-element": {
       "id": "heaps-priority-queues-kth-largest-element",
