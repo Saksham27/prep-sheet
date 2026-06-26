@@ -80,7 +80,7 @@ export function parseGeneratedConcepts(): GeneratedContent {
   const topics: Topic[] = [];
   const concepts: Concept[] = [];
 
-  for (const text of readGen(/concepts\.md$/)) {
+  for (const text of readGen(/concepts.*\.md$/)) {
     const lines = text.split(/\r?\n/);
     let topic: Topic | null = null;
     let concept: Concept | null = null;

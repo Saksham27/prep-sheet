@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T21:56:23.091Z",
+  "generatedAt": "2026-06-26T22:01:14.241Z",
   "tracks": [
     {
       "id": "dsa",
@@ -83,6 +83,20 @@
       "topicIds": [
         "behavioral-story-bank",
         "behavioral-framework"
+      ]
+    },
+    {
+      "id": "tech",
+      "title": "Tech Deep-Dives (your stack)",
+      "order": 5,
+      "kind": "fundamentals",
+      "blurb": "RabbitMQ, Redis, PostgreSQL, .NET/C#, and JavaScript at the depth a principal engineer expects you to own your own stack.",
+      "topicIds": [
+        "tech-rabbitmq",
+        "tech-redis",
+        "tech-postgres",
+        "tech-dotnet",
+        "tech-javascript"
       ]
     }
   ],
@@ -996,6 +1010,96 @@
         "fw-8-6",
         "fw-9-7",
         "fw-the-corpus-is-complete-how-to-use-all-five-parts-8"
+      ],
+      "storyIds": []
+    },
+    "tech-rabbitmq": {
+      "id": "tech-rabbitmq",
+      "trackId": "tech",
+      "order": 0,
+      "title": "RabbitMQ",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "tech-rabbitmq-core-model-exchanges-queues-bindings-0",
+        "tech-rabbitmq-acknowledgements-prefetch-and-at-least-once-1",
+        "tech-rabbitmq-not-losing-a-message-end-to-end-2",
+        "tech-rabbitmq-dead-letter-exchanges-ttl-and-retry-with-backoff-3",
+        "tech-rabbitmq-rabbitmq-vs-kafka-pick-by-the-access-pattern-4"
+      ],
+      "storyIds": []
+    },
+    "tech-redis": {
+      "id": "tech-redis",
+      "trackId": "tech",
+      "order": 0,
+      "title": "Redis",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "tech-redis-its-single-threaded-and-thats-a-feature-0",
+        "tech-redis-data-structures-and-what-they-unlock-1",
+        "tech-redis-persistence-rdb-vs-aof-2",
+        "tech-redis-eviction-big-keys-and-hot-keys-3",
+        "tech-redis-cache-aside-and-stampede-protection-4"
+      ],
+      "storyIds": []
+    },
+    "tech-postgres": {
+      "id": "tech-postgres",
+      "trackId": "tech",
+      "order": 0,
+      "title": "PostgreSQL",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "tech-postgres-mvcc-dead-tuples-and-vacuum-0",
+        "tech-postgres-index-types-beyond-the-b-tree-1",
+        "tech-postgres-the-planner-and-explain-analyze-2",
+        "tech-postgres-partitioning-and-pruning-3",
+        "tech-postgres-connections-are-expensive-pool-them-4"
+      ],
+      "storyIds": []
+    },
+    "tech-dotnet": {
+      "id": "tech-dotnet",
+      "trackId": "tech",
+      "order": 0,
+      "title": ".NET / C#",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "tech-dotnet-value-vs-reference-types-struct-vs-class-0",
+        "tech-dotnet-span-t-memory-t-and-zero-copy-1",
+        "tech-dotnet-async-await-is-a-state-machine-2",
+        "tech-dotnet-linq-deferred-execution-and-ienumerable-vs-iqueryable-3",
+        "tech-dotnet-di-lifetimes-and-the-captive-dependency-4"
+      ],
+      "storyIds": []
+    },
+    "tech-javascript": {
+      "id": "tech-javascript",
+      "trackId": "tech",
+      "order": 0,
+      "title": "JavaScript / TypeScript",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "tech-javascript-the-event-loop-microtasks-vs-macrotasks-0",
+        "tech-javascript-closures-scope-and-the-classic-loop-bug-1",
+        "tech-javascript-this-binding-and-arrow-functions-2",
+        "tech-javascript-promises-and-async-await-error-handling-3",
+        "tech-javascript-typescript-structural-typing-unknown-vs-any-type-vs-interface-4"
       ],
       "storyIds": []
     }
@@ -4340,6 +4444,431 @@
       "followups": [],
       "source": "original"
     },
+    "tech-rabbitmq-core-model-exchanges-queues-bindings-0": {
+      "id": "tech-rabbitmq-core-model-exchanges-queues-bindings-0",
+      "trackId": "tech",
+      "topicId": "tech-rabbitmq",
+      "section": "",
+      "title": "Core model — exchanges, queues, bindings",
+      "body": "Publishers never write to a queue directly — they publish to an **exchange** with a **routing key**. The exchange routes to bound **queues** per its type: **direct** (exact routing-key match), **topic** (wildcard patterns like `order.*.created`), **fanout** (broadcast to all bound queues, ignoring the key), and **headers** (match on message headers). A **binding** is the rule connecting an exchange to a queue. This indirection is what lets you add or re-route consumers without touching publishers.",
+      "probes": [
+        {
+          "question": "How does a message get from a publisher to the right queue?",
+          "answer": "The publisher sends to an exchange with a routing key; it never names a queue. The exchange consults its **bindings** and type — e.g. a topic exchange matches the routing key against each binding pattern — and copies the message to every matching queue (zero, one, or many). If nothing matches, the message is dropped (or sent to an alternate exchange if configured). Consumers then pull from their queue. The decoupling means producers don't know who consumes."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-rabbitmq-acknowledgements-prefetch-and-at-least-once-1": {
+      "id": "tech-rabbitmq-acknowledgements-prefetch-and-at-least-once-1",
+      "trackId": "tech",
+      "topicId": "tech-rabbitmq",
+      "section": "",
+      "title": "Acknowledgements, prefetch, and at-least-once",
+      "body": "With **manual acks**, a message is redelivered unless the consumer explicitly acks it — so a consumer that crashes mid-processing causes redelivery, giving **at-least-once** delivery (hence: make consumers idempotent). **Prefetch (QoS / `basicQos`)** caps how many unacked messages a consumer holds, preventing one greedy consumer from grabbing the whole queue and enabling fair round-robin across workers. Auto-ack (ack on delivery) is faster but loses messages on a crash — avoid it for work you can't lose.",
+      "probes": [
+        {
+          "question": "A consumer crashes after receiving a message but before finishing — is it lost?",
+          "answer": "Not with manual acks. The broker holds the message as \"unacked\"; when the consumer's connection/channel drops without an ack, RabbitMQ **requeues** it for another consumer. That's at-least-once delivery — the message survives, but it may be processed twice (the original consumer might have done partial work), so processing must be **idempotent**. With auto-ack it would be lost, because the broker considers it delivered the moment it's sent."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-rabbitmq-not-losing-a-message-end-to-end-2": {
+      "id": "tech-rabbitmq-not-losing-a-message-end-to-end-2",
+      "trackId": "tech",
+      "topicId": "tech-rabbitmq",
+      "section": "",
+      "title": "Not losing a message end-to-end",
+      "body": "A message can be lost at three points; closing all three gives durability: (1) **durable queue** + (2) **persistent message** (`delivery_mode=2`) so the broker survives a restart, and (3) **publisher confirms** so the publisher knows the broker actually persisted it (a plain publish is fire-and-forget). On the consumer side, **manual ack** after the work is committed. Miss any one — e.g. persistent messages to a non-durable queue, or no publisher confirms — and there's still a window where a message vanishes.",
+      "probes": [
+        {
+          "question": "What does it take to guarantee a message isn't lost?",
+          "answer": "End to end: publisher confirms (broker acked the persist) + durable queue + persistent message (survives broker restart) + consumer manual-ack only after the side effect is durably committed. And because that whole chain is at-least-once, the consumer must dedupe. People often set \"durable queue\" and assume safety, but without publisher confirms a broker crash between accept and disk loses the message silently."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-rabbitmq-dead-letter-exchanges-ttl-and-retry-with-backoff-3": {
+      "id": "tech-rabbitmq-dead-letter-exchanges-ttl-and-retry-with-backoff-3",
+      "trackId": "tech",
+      "topicId": "tech-rabbitmq",
+      "section": "",
+      "title": "Dead-letter exchanges, TTL, and retry with backoff",
+      "body": "A queue can declare a **dead-letter exchange (DLX)**: messages that are rejected/nacked, expire (per-message or queue **TTL**), or exceed a length limit get routed there instead of being dropped — your **poison-message** quarantine. The idiomatic **retry-with-backoff** uses a *wait queue*: nack the message to a delay queue with a TTL (e.g. 30s); when it expires, the DLX routes it back to the work queue for another attempt, tracking an attempt count in headers and giving up to a parking/DLQ after N tries.",
+      "probes": [
+        {
+          "question": "How do you implement retry-with-backoff and a poison-message queue?",
+          "answer": "Set the work queue's DLX to a retry exchange. On a processing failure, nack (no requeue) so the message dead-letters into a **delay queue** that has a message TTL and *its own* DLX pointing back at the work queue. After the TTL it re-enters the work queue — that's the backoff. Carry a retry count in a header; once it hits the limit, route to a permanent **dead-letter/parking queue** for human inspection instead of looping forever."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-rabbitmq-rabbitmq-vs-kafka-pick-by-the-access-pattern-4": {
+      "id": "tech-rabbitmq-rabbitmq-vs-kafka-pick-by-the-access-pattern-4",
+      "trackId": "tech",
+      "topicId": "tech-rabbitmq",
+      "section": "",
+      "title": "RabbitMQ vs Kafka — pick by the access pattern",
+      "body": "**RabbitMQ** is a smart broker: flexible routing, per-message ack/redelivery, priorities, TTL/DLX — ideal for **task queues** and RPC-style work distribution where each message is handled once and then gone. **Kafka** is a partitioned, append-only **log**: messages are retained and **replayable**, consumers track their own offset, ordering is per-partition, and throughput is enormous — ideal for event streaming, event sourcing, and multiple independent consumers re-reading the same stream. Rule of thumb: transient work that's consumed and discarded → RabbitMQ; a durable, replayable event stream with many consumers → Kafka.",
+      "probes": [
+        {
+          "question": "When would you pick Kafka over RabbitMQ?",
+          "answer": "When you need **retention and replay** (re-process history, add a new consumer that reads from the beginning), very high sustained throughput, or strict **per-key ordering** at scale (partition by key). Kafka keeps messages after consumption; RabbitMQ deletes on ack. So event sourcing, stream processing, and audit/replay pipelines lean Kafka; per-message routing, priorities, complex retry topologies, and \"do this job once\" task queues lean RabbitMQ."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-redis-its-single-threaded-and-thats-a-feature-0": {
+      "id": "tech-redis-its-single-threaded-and-thats-a-feature-0",
+      "trackId": "tech",
+      "topicId": "tech-redis",
+      "section": "",
+      "title": "It's single-threaded — and that's a feature",
+      "body": "Redis executes commands on a **single thread** (an event loop), so every command is **atomic** with respect to others — no locks needed, no races between commands. It's fast because everything is in memory and there's no lock contention or context switching on the command path. The danger is the flip side: a single **O(N) command on a big collection** (`KEYS *`, `SMEMBERS` on a huge set, `HGETALL` on a giant hash) **blocks every other client** for the duration. Use `SCAN`/`HSCAN` cursors and avoid unbounded operations.",
+      "probes": [
+        {
+          "question": "Redis is single-threaded — why is that fine, and what's the danger?",
+          "answer": "It's fine because operations are in-memory and microsecond-scale, and the single thread gives free atomicity (no inter-command races). The danger is that one slow command stalls the whole server — there's no parallelism to absorb it. A `KEYS *` over millions of keys, a big `ZRANGE`, or deleting a huge collection with `DEL` can spike latency for everyone. Mitigate with `SCAN`, `UNLINK` (async delete), and keeping value/collection sizes bounded."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-redis-data-structures-and-what-they-unlock-1": {
+      "id": "tech-redis-data-structures-and-what-they-unlock-1",
+      "trackId": "tech",
+      "topicId": "tech-redis",
+      "section": "",
+      "title": "Data structures and what they unlock",
+      "body": "Beyond strings: **hashes** (objects/fields), **lists** (queues/stacks via LPUSH/RPOP), **sets** (membership, intersections), **sorted sets** (leaderboards, priority queues, sliding-window rate limits via score=timestamp), **streams** (an append-only log with consumer groups), plus HyperLogLog, bitmaps, and geo. Picking the right structure turns app logic into one atomic server-side command — e.g. a leaderboard is `ZADD` + `ZREVRANGE`, a token-bucket limiter is a tiny Lua script over a hash.",
+      "probes": [
+        {
+          "question": "How would you build a rate limiter or leaderboard in Redis?",
+          "answer": "**Leaderboard:** a sorted set keyed by score; `ZADD board score member`, read the top with `ZREVRANGE board 0 9 WITHSCORES`, a player's rank with `ZREVRANK` — all O(log N). **Rate limiter (sliding window):** a sorted set per client with score = timestamp; on each request `ZREMRANGEBYSCORE` to drop entries older than the window, `ZCARD` to count, add the new one, set a TTL — wrapped in a **Lua script** so the read-modify-write is atomic. Token bucket is similar with a hash holding tokens + last-refill."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-redis-persistence-rdb-vs-aof-2": {
+      "id": "tech-redis-persistence-rdb-vs-aof-2",
+      "trackId": "tech",
+      "topicId": "tech-redis",
+      "section": "",
+      "title": "Persistence — RDB vs AOF",
+      "body": "**RDB** takes point-in-time **snapshots** (fork + dump): compact, fast to restore, low runtime overhead — but you lose everything written since the last snapshot on a crash. **AOF** logs every write command and replays it on restart: far better durability (with `appendfsync everysec` you lose ≤1s), but a larger file and slower restart. They're combinable (AOF for durability + periodic RDB for fast restore). Redis is often used as a cache where losing data is acceptable — then you may disable both.",
+      "probes": [
+        {
+          "question": "RDB vs AOF — which and why?",
+          "answer": "If Redis is a **cache**, durability barely matters — RDB (or nothing) is fine and cheap. If it's a **source of truth** (sessions, a queue, counters you can't lose), use **AOF with `everysec`** for a ≤1-second loss window, optionally plus RDB for fast restarts. The tradeoff is durability vs write overhead and restart time. Many setups run both: AOF guarantees recency, RDB gives a quick-loading baseline."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-redis-eviction-big-keys-and-hot-keys-3": {
+      "id": "tech-redis-eviction-big-keys-and-hot-keys-3",
+      "trackId": "tech",
+      "topicId": "tech-redis",
+      "section": "",
+      "title": "Eviction, big keys, and hot keys",
+      "body": "With `maxmemory` set, Redis evicts per policy — usually **allkeys-lru** (or **lfu**), or **volatile-ttl**/**noeviction**. Two operational hazards: a **big key** (your 24 MB value lesson) fragments memory, makes every fetch a latency spike, and amplifies eviction pressure — cap value sizes and chunk large blobs. A **hot key** (one key with disproportionate traffic) can saturate a single shard — mitigate with client-side/local caching of that key, or splitting it across replicas/sub-keys.",
+      "probes": [
+        {
+          "question": "What's the danger of a large value, and how do you handle a hot key?",
+          "answer": "A large value (tens of MB) means each `GET` transfers and allocates that much, spiking latency and memory, and in a constrained pod can trigger OOM/eviction churn that destabilizes the whole cache — exactly the failure mode behind the 24 MB-key incident. Cap value sizes, chunk or store big blobs elsewhere, and add guardrails. For a **hot key**, the bottleneck is one shard, not memory — fix it with a short-TTL **local cache** in front of Redis, request coalescing, or replicating/sharding the key so reads spread across nodes."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-redis-cache-aside-and-stampede-protection-4": {
+      "id": "tech-redis-cache-aside-and-stampede-protection-4",
+      "trackId": "tech",
+      "topicId": "tech-redis",
+      "section": "",
+      "title": "Cache-aside and stampede protection",
+      "body": "The default pattern is **cache-aside**: read cache; on miss, load from the DB and populate the cache with a TTL. Its failure mode is the **thundering herd** — a hot key expires and thousands of concurrent misses hammer the DB to recompute the same value. Fixes: a **lock/semaphore so only one caller recomputes** while others wait or serve stale (your `SemaphoreSlim` + `IMemoryCache` fix), **TTL jitter** (randomize expiry so keys don't expire together), probabilistic early recomputation, or request coalescing.",
+      "probes": [
+        {
+          "question": "How do you prevent a thundering herd on a hot key's expiry?",
+          "answer": "Serialize the recompute: on a miss, the first caller takes a per-key lock (a `SemaphoreSlim(1)` locally, or a short Redis lock distributed), recomputes and repopulates, while everyone else awaits the result or serves the slightly-stale value — so the DB sees one query, not thousands. Complement it with **TTL jitter** so a batch of keys doesn't all expire at the same instant, and consider probabilistic early refresh (recompute slightly before expiry under load). That's the production-hardened cache-aside."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-postgres-mvcc-dead-tuples-and-vacuum-0": {
+      "id": "tech-postgres-mvcc-dead-tuples-and-vacuum-0",
+      "trackId": "tech",
+      "topicId": "tech-postgres",
+      "section": "",
+      "title": "MVCC, dead tuples, and VACUUM",
+      "body": "Postgres never updates a row in place — an UPDATE/DELETE writes a **new version** and marks the old one dead (tagged with `xmin`/`xmax`), so readers see a consistent snapshot without blocking writers. The cost is **bloat**: dead tuples accumulate and must be reclaimed by **VACUUM** (autovacuum normally), which also updates the visibility map and prevents transaction-ID **wraparound**. Neglected vacuuming on a high-churn table (like your purged `dr_transaction`) bloats tables/indexes and degrades performance and disk usage — operationally real.",
+      "probes": [
+        {
+          "question": "Why does Postgres need VACUUM, and what happens without it?",
+          "answer": "Because MVCC leaves dead row versions behind on every update/delete; VACUUM reclaims that space, refreshes planner statistics, and freezes old transaction ids to avoid wraparound. Without it, tables and indexes **bloat** (more pages to scan → slower queries, more disk), the planner works off stale stats and picks bad plans, and in the extreme, anti-wraparound failure can force the database read-only. High-write/high-delete tables need autovacuum tuned aggressively."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-postgres-index-types-beyond-the-b-tree-1": {
+      "id": "tech-postgres-index-types-beyond-the-b-tree-1",
+      "trackId": "tech",
+      "topicId": "tech-postgres",
+      "section": "",
+      "title": "Index types beyond the B-tree",
+      "body": "The default **B-tree** serves equality and range on scalar columns. But Postgres has more: **GIN** for \"contains\" queries over composite values — JSONB keys, array elements, full-text `tsvector` — by indexing each element to its rows; **GiST** for geometric/range/nearest-neighbor; **partial** indexes (`WHERE status='active'`) that index only the rows you query, staying small; **expression** indexes (`lower(email)`) so a functional predicate stays sargable; and `INCLUDE` **covering** indexes for index-only scans. Matching the index type to the query is a senior signal.",
+      "probes": [
+        {
+          "question": "When would you use a GIN index instead of a B-tree?",
+          "answer": "When the column holds a **composite value you query by membership** rather than by equality/range: JSONB (`data @> '{\"k\":\"v\"}'` or key existence), arrays (`tags @> ARRAY['x']`), or full-text search (`tsvector @@ query`). A B-tree indexes the whole scalar value and can't answer \"contains this element\"; GIN inverts the structure — element → list of rows — so containment queries are fast. The trade is slower writes and a larger index, so use it where those containment queries are the access pattern."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-postgres-the-planner-and-explain-analyze-2": {
+      "id": "tech-postgres-the-planner-and-explain-analyze-2",
+      "trackId": "tech",
+      "topicId": "tech-postgres",
+      "section": "",
+      "title": "The planner and EXPLAIN ANALYZE",
+      "body": "The **cost-based planner** uses table statistics to pick scan types (sequential / index / bitmap heap) and join strategies (nested loop / hash / merge). `EXPLAIN ANALYZE` runs the query and shows estimated vs **actual** rows and time per node — the gap is your main diagnostic: a large mismatch means stale stats and likely a bad plan. Watch for an unexpected **seq scan** (missing/unusable index, non-sargable predicate, or low selectivity) and a **nested loop** over a huge set (bad row estimate).",
+      "probes": [
+        {
+          "question": "A query is suddenly slow — walk me through diagnosing it.",
+          "answer": "Run `EXPLAIN ANALYZE` and compare estimated vs actual rows; a big gap → `ANALYZE` to refresh stats (or check autovacuum). Look for a seq scan where an index should apply — missing index, a function/implicit cast making the predicate non-sargable, or low selectivity. For partitioned tables, confirm **partition pruning** fired (else it scans every partition — the 45s→sub-second case). Check the join strategy, lock waits (`pg_stat_activity`), and whether the result set ballooned. Fix is usually: add/repair an index, make the predicate sargable, ensure pruning, or refresh stats."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-postgres-partitioning-and-pruning-3": {
+      "id": "tech-postgres-partitioning-and-pruning-3",
+      "trackId": "tech",
+      "topicId": "tech-postgres",
+      "section": "",
+      "title": "Partitioning and pruning",
+      "body": "**Declarative partitioning** splits a big table into child partitions by range/list/hash (e.g. one partition per month). The win is **partition pruning**: when a query's predicate matches the partition key, the planner skips irrelevant partitions entirely — turning a scan of 120 partitions into a scan of one. Pruning only fires when the predicate is **sargable on the partition key** (no wrapping function, and the key is actually in the WHERE/JOIN). It also makes bulk deletes cheap (drop a whole partition instead of `DELETE`).",
+      "probes": [
+        {
+          "question": "How does partition pruning help, and when does it fail to fire?",
+          "answer": "It lets the planner (or executor, for runtime pruning) eliminate partitions that can't contain matching rows, so a time-bounded query touches one monthly partition instead of all of them — the core of the 45s→sub-second fix. It **fails** when the query doesn't filter on the partition key, when a function/cast hides it (`date_trunc('day', ts)=...` instead of a range), or when the key is parameterized in a way the planner can't prune at plan time (then runtime pruning may still help). Keep predicates sargable on the partition key."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-postgres-connections-are-expensive-pool-them-4": {
+      "id": "tech-postgres-connections-are-expensive-pool-them-4",
+      "trackId": "tech",
+      "topicId": "tech-postgres",
+      "section": "",
+      "title": "Connections are expensive — pool them",
+      "body": "A Postgres connection is a **forked backend process** with its own memory; opening one is costly and each idle connection consumes RAM. Thousands of app threads each holding a connection will exhaust the server (and `max_connections` is modest). The fix is **pooling**: an app-side pool (Npgsql's built-in pool) reuses connections, and for many app instances a server-side pooler like **PgBouncer** (transaction-mode) multiplexes thousands of client connections onto a small set of real backends. This is essential under Kubernetes where many pods each have their own pool.",
+      "probes": [
+        {
+          "question": "Why pool connections, and what does PgBouncer add?",
+          "answer": "Because establishing a Postgres connection spawns a backend process and round-trips auth — too slow to do per request — and idle connections cost server memory, so you reuse a bounded pool. An app pool helps within one process; but with N pods × M pooled connections you can still blow past `max_connections`. **PgBouncer** sits in front and, in transaction mode, hands a real backend to a client only for the duration of a transaction, multiplexing thousands of clients onto a few dozen backends — decoupling app concurrency from database backend count."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-dotnet-value-vs-reference-types-struct-vs-class-0": {
+      "id": "tech-dotnet-value-vs-reference-types-struct-vs-class-0",
+      "trackId": "tech",
+      "topicId": "tech-dotnet",
+      "section": "",
+      "title": "Value vs reference types, struct vs class",
+      "body": "**Value types** (`struct`, `int`, `DateTime`) hold their data inline — on the stack if local, or embedded in the containing object — and **copy on assignment**. **Reference types** (`class`) live on the heap; the variable holds a pointer, and assignment copies the reference. **Boxing** wraps a value type in a heap object to treat it as `object`/an interface — it allocates and copies, a hidden source of GC pressure in hot paths. Prefer a small, immutable `struct` for short-lived data (coordinates, a key) to avoid heap allocations; prefer a `class` for larger or identity-bearing objects.",
+      "probes": [
+        {
+          "question": "When would you choose a struct over a class?",
+          "answer": "For small, immutable, short-lived data where avoiding a heap allocation matters — e.g. a 2D point, a money value, a dictionary key in a hot loop. Structs avoid GC pressure and improve cache locality when packed in arrays (struct-of-arrays). But large structs are costly to copy, mutable structs are bug-prone (copies don't share state), and a struct used through an interface or non-generic collection **boxes** — so keep them small (≲16–24 bytes), immutable, and avoid boxing."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-dotnet-span-t-memory-t-and-zero-copy-1": {
+      "id": "tech-dotnet-span-t-memory-t-and-zero-copy-1",
+      "trackId": "tech",
+      "topicId": "tech-dotnet",
+      "section": "",
+      "title": "Span<T>, Memory<T>, and zero-copy",
+      "body": "**`Span<T>`** is a stack-only `ref struct` giving a typed, bounds-checked **window over contiguous memory** — an array, a `stackalloc` buffer, or native memory — with **zero allocation and zero copy**. It's ideal for slicing and parsing in hot paths: `text.AsSpan().Slice(...)` instead of `Substring` (which allocates). Because it's stack-only it **can't live on the heap or cross an `await`**; for that there's **`Memory<T>`**, its heap-storable cousin. Together with `ArrayPool<T>` they're how high-performance .NET code avoids per-operation allocations.",
+      "probes": [
+        {
+          "question": "Why can't a Span<T> cross an await or live in a field?",
+          "answer": "`Span<T>` is a `ref struct`, which the runtime guarantees lives only on the **stack** — it may point at `stackalloc` memory or carry a managed pointer the GC must track precisely, neither of which is safe to park on the heap. An `await` can suspend the method and resume on another thread, which would require capturing locals into a heap state-machine object — impossible for a stack-only type. Same reason it can't be a class field or boxed. Use `Memory<T>` when the buffer must survive an await or live on the heap."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-dotnet-async-await-is-a-state-machine-2": {
+      "id": "tech-dotnet-async-await-is-a-state-machine-2",
+      "trackId": "tech",
+      "topicId": "tech-dotnet",
+      "section": "",
+      "title": "async/await is a state machine",
+      "body": "The compiler rewrites an `async` method into a **state machine**: at an `await` on an incomplete task, it registers the rest of the method as a **continuation** and **returns**, freeing the thread — no thread is consumed during I/O waits, which is why async scales I/O-bound servers. By default the continuation resumes on the captured **SynchronizationContext** (UI/classic ASP.NET) or the thread pool (ASP.NET Core has none). Blocking on async (`.Result`/`.Wait()`) on a captured context **deadlocks**; even where it can't deadlock, sync-over-async causes **thread-pool starvation**.",
+      "probes": [
+        {
+          "question": "Why does `.Result` on an async method sometimes deadlock?",
+          "answer": "On a single-threaded SynchronizationContext (a UI thread, classic ASP.NET), you block that thread on `.Result`; inside, the awaited continuation is scheduled back **onto that same context thread** — which is blocked waiting for the result. Circular wait → deadlock. Fixes: await all the way up (\"async all the way\"), or in library code use `ConfigureAwait(false)` so the continuation resumes on the thread pool instead of the captured context. ASP.NET Core removed the context, so it's rare there — but sync-over-async still starves the thread pool."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-dotnet-linq-deferred-execution-and-ienumerable-vs-iqueryable-3": {
+      "id": "tech-dotnet-linq-deferred-execution-and-ienumerable-vs-iqueryable-3",
+      "trackId": "tech",
+      "topicId": "tech-dotnet",
+      "section": "",
+      "title": "LINQ — deferred execution and IEnumerable vs IQueryable",
+      "body": "LINQ query operators are **deferred**: `Where`/`Select` build an expression that executes only when enumerated (`foreach`, `ToList`, `First`). Two consequences: **multiple enumeration** re-runs the whole pipeline (and re-hits the DB/IO) — materialize once with `ToList` if you'll iterate twice; and a query can capture a variable whose value changes before enumeration. **`IEnumerable<T>`** runs in memory (LINQ-to-Objects); **`IQueryable<T>`** builds an expression tree the provider (EF Core) translates to SQL — so calling a non-translatable C# method, or `.AsEnumerable()` too early, silently pulls the whole table into memory and filters client-side.",
+      "probes": [
+        {
+          "question": "What's the gotcha with deferred execution and IQueryable?",
+          "answer": "Deferred execution means the query hasn't run yet, so enumerating it twice executes it twice (two DB round-trips), and predicates capture variables by reference at enumeration time. With `IQueryable`, the bigger trap is **where filtering happens**: as long as you stay in `IQueryable`, EF translates `Where`/`Select` to SQL; but switching to `IEnumerable` (e.g. `.AsEnumerable().Where(x => SomeCSharpMethod(x))`) makes the rest run **client-side** — EF fetches every row, then filters in memory. So a missing index or an accidental client-eval turns a cheap query into a full-table pull."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-dotnet-di-lifetimes-and-the-captive-dependency-4": {
+      "id": "tech-dotnet-di-lifetimes-and-the-captive-dependency-4",
+      "trackId": "tech",
+      "topicId": "tech-dotnet",
+      "section": "",
+      "title": "DI lifetimes and the captive dependency",
+      "body": "The container offers **Singleton** (one for the app), **Scoped** (one per request/scope), and **Transient** (new per resolution). The classic bug is the **captive dependency**: inject a *shorter*-lived service into a *longer*-lived one and the short one is captured for the longer's lifetime — a scoped `DbContext` injected into a singleton becomes a single shared, non-thread-safe context across all requests. .NET validates scopes at startup (Development) and throws. The fix: inject **`IServiceScopeFactory`** and create a scope per unit of work — exactly what a `BackgroundService` must do to use a `DbContext`.",
+      "probes": [
+        {
+          "question": "What breaks if you inject a Scoped service into a Singleton?",
+          "answer": "The scoped service is **promoted to singleton lifetime** — constructed once and held forever, never refreshed per request. For a `DbContext` (scoped, stateful, not thread-safe) that's a correctness disaster: one shared context used concurrently across requests, causing race conditions, stale tracked entities, and connection issues. The container's scope validation throws on this in Development. The correct pattern is to inject `IServiceScopeFactory` into the singleton and `CreateScope()` per operation to resolve the scoped dependency freshly."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-javascript-the-event-loop-microtasks-vs-macrotasks-0": {
+      "id": "tech-javascript-the-event-loop-microtasks-vs-macrotasks-0",
+      "trackId": "tech",
+      "topicId": "tech-javascript",
+      "section": "",
+      "title": "The event loop — microtasks vs macrotasks",
+      "body": "JavaScript is single-threaded with an **event loop**. Synchronous code runs to completion on the call stack; async callbacks wait in queues. **Microtasks** (Promise `.then`/`await` continuations, `queueMicrotask`) and **macrotasks** (`setTimeout`, I/O, events) are *different* queues, and the rule is: after each macrotask (and the initial script), the engine **drains the entire microtask queue** before the next macrotask or render. So a resolved Promise's `.then` always runs **before** a `setTimeout(…, 0)` scheduled at the same time.",
+      "probes": [
+        {
+          "question": "What's the output order of a setTimeout vs a Promise.then?",
+          "answer": "```js\nconsole.log('A');\nsetTimeout(() => console.log('B'), 0);\nPromise.resolve().then(() => console.log('C'));\nconsole.log('D');\n```\nOutput: **A, D, C, B**. The synchronous `A` and `D` run first. Then the microtask queue drains — `C` (the Promise continuation) runs before any macrotask. Only after microtasks are empty does the event loop pick up the `setTimeout` macrotask, printing `B`. The takeaway: promises/`await` always resolve ahead of timers queued in the same tick."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-javascript-closures-scope-and-the-classic-loop-bug-1": {
+      "id": "tech-javascript-closures-scope-and-the-classic-loop-bug-1",
+      "trackId": "tech",
+      "topicId": "tech-javascript",
+      "section": "",
+      "title": "Closures, scope, and the classic loop bug",
+      "body": "A **closure** is a function that captures variables from its lexical scope and keeps them alive after the outer function returns. `var` is function-scoped and **hoisted**; `let`/`const` are block-scoped with a **temporal dead zone** (referencing before declaration throws). The classic bug: a `for (var i...)` loop with an async callback captures the *single* shared `i`, so all callbacks see the final value; `let` creates a **fresh binding per iteration**, fixing it.",
+      "probes": [
+        {
+          "question": "Why does a `var` loop with setTimeout print the wrong numbers, and how does `let` fix it?",
+          "answer": "```js\nfor (var i = 0; i < 3; i++) setTimeout(() => console.log(i), 0);   // 3, 3, 3\nfor (let i = 0; i < 3; i++) setTimeout(() => console.log(i), 0);   // 0, 1, 2\n```\nWith `var`, there's one function-scoped `i`; all three closures capture the *same* variable, and by the time the timers fire (after the loop) it's 3. With `let`, each iteration gets a **new block-scoped binding** of `i`, so each closure captures its own value — 0, 1, 2. It's the canonical demonstration of closures capturing variables (not values) plus block vs function scope."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-javascript-this-binding-and-arrow-functions-2": {
+      "id": "tech-javascript-this-binding-and-arrow-functions-2",
+      "trackId": "tech",
+      "topicId": "tech-javascript",
+      "section": "",
+      "title": "`this` binding and arrow functions",
+      "body": "In JS `this` is determined by **how a function is called**, not where it's defined: as a method (`obj.fn()` → `this` = `obj`), standalone (`fn()` → `undefined` in strict mode / global otherwise), with `new` (a fresh object), or explicitly via **`call`/`apply`/`bind`**. **Arrow functions** don't have their own `this` — they capture it **lexically** from the enclosing scope, which is exactly why they're used for callbacks (event handlers, `setTimeout`, array methods) where you want the surrounding `this` instead of a dynamically-rebound one.",
+      "probes": [
+        {
+          "question": "How is `this` determined, and why do arrow functions help in callbacks?",
+          "answer": "`this` is set at call time by the call form: method call → the receiver; plain call → undefined/global; `new` → the new instance; `call/apply/bind` → the explicit value. A normal function passed as a callback loses its intended `this` (it's called plainly), causing the classic \"`this` is undefined in my handler\" bug. An **arrow function** has no own `this` — it lexically inherits the surrounding `this` — so an arrow used as a callback keeps the enclosing object's `this`, which is why class methods often use arrow fields for handlers."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-javascript-promises-and-async-await-error-handling-3": {
+      "id": "tech-javascript-promises-and-async-await-error-handling-3",
+      "trackId": "tech",
+      "topicId": "tech-javascript",
+      "section": "",
+      "title": "Promises and async/await error handling",
+      "body": "`async` functions return a Promise; `await` pauses until it settles, and a rejected awaited promise **throws**, caught with `try/catch`. For concurrency: **`Promise.all`** runs in parallel and rejects fast on the first failure (losing the others' results); **`Promise.allSettled`** waits for all and reports each as fulfilled/rejected; **`Promise.race`** settles on the first to finish (timeouts); **`Promise.any`** resolves on the first *success*. A common bug is sequential `await`s in a loop when the calls are independent — use `Promise.all` to parallelize.",
+      "probes": [
+        {
+          "question": "Promise.all vs Promise.allSettled — when each?",
+          "answer": "Use **`Promise.all`** when you need *all* to succeed and want to **fail fast** — if any rejects, the whole thing rejects immediately and you don't care about partial results (e.g. load everything required to render a page). Use **`Promise.allSettled`** when you want **every** result regardless of individual failures — e.g. fan out to several services and show whichever succeeded, or run independent jobs and report which failed. `all` throws away successful siblings on the first rejection; `allSettled` never rejects and hands you per-promise status."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-javascript-typescript-structural-typing-unknown-vs-any-type-vs-interface-4": {
+      "id": "tech-javascript-typescript-structural-typing-unknown-vs-any-type-vs-interface-4",
+      "trackId": "tech",
+      "topicId": "tech-javascript",
+      "section": "",
+      "title": "TypeScript — structural typing, unknown vs any, type vs interface",
+      "body": "TypeScript is **structurally typed**: compatibility is by shape, not by name — anything with the right members fits. **`any`** opts out of checking entirely (it infects everything it touches); **`unknown`** is the safe top type — you can hold anything but must **narrow** it (typeof/instanceof/guards) before using it, so prefer `unknown` at boundaries (parsed JSON, `catch` clauses). **`interface`** vs **`type`**: interfaces are extendable/mergeable and ideal for object/class contracts; type aliases also express unions, intersections, tuples, and mapped/conditional types. Generics keep functions type-safe across types without `any`.",
+      "probes": [
+        {
+          "question": "`unknown` vs `any` — why prefer unknown?",
+          "answer": "`any` disables type checking — you can call anything on it and it silently spreads, defeating the type system. `unknown` is the type-safe counterpart: it accepts any value, but the compiler **forbids using it** until you narrow it to a concrete type via a guard (`typeof x === 'string'`, `instanceof`, a custom type predicate). So `unknown` forces you to prove the shape before access — exactly what you want for external/untrusted data like `JSON.parse` results or a `catch (e: unknown)`. Reach for `unknown` at the boundary and narrow inward; reserve `any` for genuine escape hatches."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
     "design-4-fully-worked-designs-pastebin-worked-design-0": {
       "id": "design-4-fully-worked-designs-pastebin-worked-design-0",
       "trackId": "design",
@@ -4632,7 +5161,7 @@
   ],
   "stats": {
     "problems": 129,
-    "concepts": 100,
+    "concepts": 125,
     "stories": 9
   }
 }
