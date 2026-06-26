@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T21:30:58.336Z",
+  "generatedAt": "2026-06-26T21:32:39.212Z",
   "tracks": [
     {
       "id": "dsa",
@@ -1551,7 +1551,9 @@
       "approach": "push opens, on a close pop and verify the pair.",
       "complexity": "O(n).",
       "watch": "reject if the stack is empty on a close, or non-empty at the end.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// A close must match the most recent open. Reject on a close with empty/mismatched stack,\n// or a non-empty stack at the end.\npublic bool IsValid(string s) {\n    var st = new Stack<char>();\n    var match = new Dictionary<char, char> { [')'] = '(', [']'] = '[', ['}'] = '{' };\n    foreach (char c in s) {\n        if (match.TryGetValue(c, out char open)) {\n            if (st.Count == 0 || st.Pop() != open) return false;\n        } else st.Push(c);\n    }\n    return st.Count == 0;\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
+      "needsReview": true
     },
     "stacks-and-monotonic-stack-min-stack": {
       "id": "stacks-and-monotonic-stack-min-stack",
@@ -1565,7 +1567,9 @@
       "approach": "on push, store `min(value, currentMin)`; pop both together.",
       "complexity": "O(1) per op.",
       "watch": "the parallel-min stack must push on *every* push, even when min doesn't change.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// A parallel stack of running minimums; push on EVERY push (even when min is unchanged).\npublic class MinStack {\n    private readonly Stack<int> _stack = new();\n    private readonly Stack<int> _mins = new();\n    public void Push(int val) {\n        _stack.Push(val);\n        _mins.Push(_mins.Count == 0 ? val : Math.Min(val, _mins.Peek()));\n    }\n    public void Pop() { _stack.Pop(); _mins.Pop(); }\n    public int Top() => _stack.Peek();\n    public int GetMin() => _mins.Peek();\n}\n```\n**Complexity:** O(1) per operation.\n\n---",
+      "needsReview": true
     },
     "stacks-and-monotonic-stack-daily-temperatures": {
       "id": "stacks-and-monotonic-stack-daily-temperatures",
@@ -1579,7 +1583,9 @@
       "approach": "monotonic decreasing stack of indices; on a warmer day, pop and set the gap.",
       "complexity": "O(n).",
       "watch": "store indices to compute the distance.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// \"Days until warmer\" = distance to next-greater. Monotonic decreasing stack of indices.\npublic int[] DailyTemperatures(int[] temps) {\n    var res = new int[temps.Length];\n    var st = new Stack<int>();                      // indices\n    for (int i = 0; i < temps.Length; i++) {\n        while (st.Count > 0 && temps[st.Peek()] < temps[i]) {\n            int j = st.Pop();\n            res[j] = i - j;\n        }\n        st.Push(i);\n    }\n    return res;\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
+      "needsReview": true
     },
     "stacks-and-monotonic-stack-evaluate-reverse-polish-notation": {
       "id": "stacks-and-monotonic-stack-evaluate-reverse-polish-notation",
@@ -1593,7 +1599,9 @@
       "approach": "push numbers, on operator pop two (order matters for `-` and `/`).",
       "complexity": "O(n).",
       "watch": "operand order: `b` is popped first, compute `a op b`.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Operands wait on a stack until an operator consumes two. Order matters: b is popped\n// first, so compute a op b.\npublic int EvalRPN(string[] tokens) {\n    var st = new Stack<int>();\n    foreach (var t in tokens) {\n        if (t is \"+\" or \"-\" or \"*\" or \"/\") {\n            int b = st.Pop(), a = st.Pop();\n            st.Push(t switch { \"+\" => a + b, \"-\" => a - b, \"*\" => a * b, _ => a / b });\n        } else st.Push(int.Parse(t));\n    }\n    return st.Pop();\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
+      "needsReview": true
     },
     "stacks-and-monotonic-stack-generate-parentheses": {
       "id": "stacks-and-monotonic-stack-generate-parentheses",
@@ -1607,7 +1615,9 @@
       "approach": "recurse adding `(` if available, `)` if it keeps balance.",
       "complexity": "O(Catalan(n)).",
       "watch": "listed here because the validity rule is stack-shaped; the algorithm is backtracking (see §9).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Backtracking with a validity invariant: add '(' while opens < n, add ')' while it keeps\n// balance (closes < opens).\npublic IList<string> GenerateParenthesis(int n) {\n    var res = new List<string>();\n    var sb = new System.Text.StringBuilder();\n    void Backtrack(int open, int close) {\n        if (sb.Length == 2 * n) { res.Add(sb.ToString()); return; }\n        if (open < n) { sb.Append('('); Backtrack(open + 1, close); sb.Length--; }\n        if (close < open) { sb.Append(')'); Backtrack(open, close + 1); sb.Length--; }\n    }\n    Backtrack(0, 0);\n    return res;\n}\n```\n**Complexity:** O(Catalan(n)) — the nth Catalan number of valid strings.\n\n---",
+      "needsReview": true
     },
     "stacks-and-monotonic-stack-largest-rectangle-in-histogram": {
       "id": "stacks-and-monotonic-stack-largest-rectangle-in-histogram",
@@ -1621,7 +1631,9 @@
       "approach": "monotonic increasing stack; when a shorter bar arrives, pop and compute area `height × width` using the new boundaries.",
       "complexity": "O(n).",
       "watch": "the boss of this pattern; \"Maximal Rectangle\" (2D) reduces to running this per row.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Monotonic increasing stack of indices. When a shorter bar arrives, pop and compute area\n// = poppedHeight × width, where width spans to the new left/right boundaries. A sentinel\n// 0 at the end flushes the stack.\npublic int LargestRectangleArea(int[] heights) {\n    var st = new Stack<int>();\n    int best = 0, n = heights.Length;\n    for (int i = 0; i <= n; i++) {\n        int h = i == n ? 0 : heights[i];\n        while (st.Count > 0 && heights[st.Peek()] >= h) {\n            int height = heights[st.Pop()];\n            int left = st.Count == 0 ? -1 : st.Peek();\n            best = Math.Max(best, height * (i - left - 1));\n        }\n        st.Push(i);\n    }\n    return best;\n}\n```\n**Complexity:** O(n) time, O(n) space.\n\n---",
+      "needsReview": true
     },
     "queues-and-deque-implement-queue-using-stacks": {
       "id": "queues-and-deque-implement-queue-using-stacks",
@@ -1635,7 +1647,9 @@
       "approach": "push to `in`; when popping, if `out` empty, drain `in`→`out`.",
       "complexity": "amortized O(1).",
       "watch": "only transfer when `out` is empty, or you scramble order.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Two stacks; only transfer in→out when out is empty, or you scramble order.\npublic class MyQueue {\n    private readonly Stack<int> _in = new(), _out = new();\n    public void Push(int x) => _in.Push(x);\n    public int Pop() { Shift(); return _out.Pop(); }\n    public int Peek() { Shift(); return _out.Peek(); }\n    public bool Empty() => _in.Count == 0 && _out.Count == 0;\n    private void Shift() { if (_out.Count == 0) while (_in.Count > 0) _out.Push(_in.Pop()); }\n}\n```\n**Complexity:** amortized O(1) per operation.\n\n---",
+      "needsReview": true
     },
     "queues-and-deque-design-circular-deque": {
       "id": "queues-and-deque-design-circular-deque",
@@ -1649,7 +1663,9 @@
       "approach": "track size; `(idx + cap) % cap` for wraparound.",
       "complexity": "O(1).",
       "watch": "distinguishing full vs empty (keep an explicit count).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Fixed array + head/tail with modular wraparound; an explicit size disambiguates\n// full vs empty.\npublic class MyCircularDeque {\n    private readonly int[] _buf;\n    private readonly int _cap;\n    private int _head, _tail, _size;\n    public MyCircularDeque(int k) { _cap = k; _buf = new int[k]; }\n    public bool InsertFront(int v) {\n        if (IsFull()) return false;\n        _head = (_head - 1 + _cap) % _cap; _buf[_head] = v; _size++; return true;\n    }\n    public bool InsertLast(int v) {\n        if (IsFull()) return false;\n        _buf[_tail] = v; _tail = (_tail + 1) % _cap; _size++; return true;\n    }\n    public bool DeleteFront() { if (IsEmpty()) return false; _head = (_head + 1) % _cap; _size--; return true; }\n    public bool DeleteLast() { if (IsEmpty()) return false; _tail = (_tail - 1 + _cap) % _cap; _size--; return true; }\n    public int GetFront() => IsEmpty() ? -1 : _buf[_head];\n    public int GetRear() => IsEmpty() ? -1 : _buf[(_tail - 1 + _cap) % _cap];\n    public bool IsEmpty() => _size == 0;\n    public bool IsFull() => _size == _cap;\n}\n```\n**Complexity:** O(1) per operation.\n\n---",
+      "needsReview": true
     },
     "queues-and-deque-sliding-window-maximum": {
       "id": "queues-and-deque-sliding-window-maximum",
@@ -1661,7 +1677,9 @@
       "revisit": false,
       "watch": "it's a queue problem and a window problem; know it from both angles.",
       "note": "see §3 (deque of decreasing indices).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Monotonic deque of indices (values decreasing): the front is always the window max.\npublic int[] MaxSlidingWindow(int[] nums, int k) {\n    var dq = new LinkedList<int>();\n    var res = new int[nums.Length - k + 1];\n    for (int i = 0; i < nums.Length; i++) {\n        if (dq.Count > 0 && dq.First!.Value <= i - k) dq.RemoveFirst();\n        while (dq.Count > 0 && nums[dq.Last!.Value] <= nums[i]) dq.RemoveLast();\n        dq.AddLast(i);\n        if (i >= k - 1) res[i - k + 1] = nums[dq.First!.Value];\n    }\n    return res;\n}\n```\n**Complexity:** O(n) time, O(k) space.\n\n---",
+      "needsReview": true
     },
     "linked-lists-reverse-linked-list": {
       "id": "linked-lists-reverse-linked-list",
@@ -1675,7 +1693,9 @@
       "approach": "the template; also know the recursive form.",
       "complexity": "O(n)/O(1) iter, O(n) stack recursive.",
       "watch": "save `next` *before* overwriting it.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Rewire each next to point backward; save next BEFORE overwriting it.\npublic ListNode Reverse(ListNode head) {\n    ListNode prev = null, cur = head;\n    while (cur != null) {\n        var next = cur.next;\n        cur.next = prev;\n        prev = cur; cur = next;\n    }\n    return prev;        // new head\n}\n```\n**Complexity:** O(n) time, O(1) space (iterative).\n\n---",
+      "needsReview": true
     },
     "linked-lists-merge-two-sorted-lists": {
       "id": "linked-lists-merge-two-sorted-lists",
@@ -1689,7 +1709,9 @@
       "approach": "splice the smaller head each step; attach the leftover tail.",
       "complexity": "O(n+m)/O(1).",
       "watch": "the dummy node is what keeps this clean.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// A dummy head removes the special case for the first node; splice the smaller head each\n// step and attach the leftover tail.\npublic ListNode MergeTwoLists(ListNode a, ListNode b) {\n    var dummy = new ListNode();\n    var tail = dummy;\n    while (a != null && b != null) {\n        if (a.val <= b.val) { tail.next = a; a = a.next; }\n        else { tail.next = b; b = b.next; }\n        tail = tail.next;\n    }\n    tail.next = a ?? b;\n    return dummy.next;\n}\n```\n**Complexity:** O(n + m) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "linked-lists-linked-list-cycle-ii": {
       "id": "linked-lists-linked-list-cycle-ii",
@@ -1703,7 +1725,9 @@
       "approach": "detect meeting, then reset one to head, step both by 1.",
       "complexity": "O(n)/O(1).",
       "watch": "be able to *derive* why the math works (distance algebra), not just recite it — interviewers push on this.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Floyd's: after slow/fast meet, a pointer from head and one from the meeting point\n// advance equally and collide at the cycle entrance.\npublic ListNode DetectCycle(ListNode head) {\n    ListNode slow = head, fast = head;\n    while (fast != null && fast.next != null) {\n        slow = slow.next; fast = fast.next.next;\n        if (slow == fast) {\n            var p = head;\n            while (p != slow) { p = p.next; slow = slow.next; }\n            return p;\n        }\n    }\n    return null;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "linked-lists-remove-nth-node-from-end": {
       "id": "linked-lists-remove-nth-node-from-end",
@@ -1717,7 +1741,9 @@
       "approach": "advance `fast` n steps, then move both until `fast` ends; `slow.next` is the node to drop.",
       "complexity": "O(n)/O(1).",
       "watch": "use a dummy head so removing the actual head is not a special case.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// A gap of n between two pointers locates the target in one pass; a dummy head makes\n// removing the actual head a non-special case.\npublic ListNode RemoveNthFromEnd(ListNode head, int n) {\n    var dummy = new ListNode(0, head);\n    ListNode fast = dummy, slow = dummy;\n    for (int i = 0; i < n; i++) fast = fast.next;\n    while (fast.next != null) { fast = fast.next; slow = slow.next; }\n    slow.next = slow.next.next;\n    return dummy.next;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "linked-lists-reorder-list": {
       "id": "linked-lists-reorder-list",
@@ -1731,7 +1757,9 @@
       "approach": "find middle (fast/slow) → reverse second half → merge the two halves alternately.",
       "complexity": "O(n)/O(1).",
       "watch": "split cleanly so the first half's tail is nulled.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Three composed sub-skills: find middle (fast/slow), reverse second half, merge alternately.\npublic void ReorderList(ListNode head) {\n    if (head?.next == null) return;\n    ListNode slow = head, fast = head;\n    while (fast.next != null && fast.next.next != null) { slow = slow.next; fast = fast.next.next; }\n\n    ListNode second = slow.next; slow.next = null;     // split (null the first half's tail)\n    ListNode prev = null;\n    while (second != null) { var nxt = second.next; second.next = prev; prev = second; second = nxt; }\n\n    ListNode first = head;\n    while (prev != null) {\n        var f = first.next; var s = prev.next;\n        first.next = prev; prev.next = f;\n        first = f; prev = s;\n    }\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "linked-lists-add-two-numbers": {
       "id": "linked-lists-add-two-numbers",
@@ -1745,7 +1773,9 @@
       "approach": "walk both lists, sum + carry, emit digit.",
       "complexity": "O(max(n,m)).",
       "watch": "the final leftover carry needs an extra node.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Grade-school addition with a carry; the final leftover carry needs an extra node.\npublic ListNode AddTwoNumbers(ListNode a, ListNode b) {\n    var dummy = new ListNode();\n    var tail = dummy;\n    int carry = 0;\n    while (a != null || b != null || carry != 0) {\n        int sum = carry + (a?.val ?? 0) + (b?.val ?? 0);\n        carry = sum / 10;\n        tail.next = new ListNode(sum % 10);\n        tail = tail.next;\n        a = a?.next; b = b?.next;\n    }\n    return dummy.next;\n}\n```\n**Complexity:** O(max(n, m)) time.\n\n---",
+      "needsReview": true
     },
     "linked-lists-lru-cache": {
       "id": "linked-lists-lru-cache",
@@ -1759,7 +1789,9 @@
       "approach": "on access, move node to front; on overflow, evict the tail.",
       "complexity": "O(1) per op.",
       "watch": "a *doubly* linked list (so you can unlink in O(1)); sentinel head+tail nodes kill edge cases. This is also a design favorite.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// O(1) get/put: a hashmap (key→node) for lookup + a DOUBLY linked list for recency.\n// Sentinel head/tail nodes kill edge cases; the double links allow O(1) unlink.\npublic class LRUCache {\n    private class Node { public int Key, Val; public Node Prev, Next; }\n    private readonly int _cap;\n    private readonly Dictionary<int, Node> _map = new();\n    private readonly Node _head = new(), _tail = new();\n    public LRUCache(int capacity) { _cap = capacity; _head.Next = _tail; _tail.Prev = _head; }\n\n    private void Remove(Node n) { n.Prev.Next = n.Next; n.Next.Prev = n.Prev; }\n    private void AddFront(Node n) { n.Next = _head.Next; n.Prev = _head; _head.Next.Prev = n; _head.Next = n; }\n\n    public int Get(int key) {\n        if (!_map.TryGetValue(key, out var n)) return -1;\n        Remove(n); AddFront(n);            // touch → most recent\n        return n.Val;\n    }\n    public void Put(int key, int value) {\n        if (_map.TryGetValue(key, out var ex)) { ex.Val = value; Remove(ex); AddFront(ex); return; }\n        if (_map.Count == _cap) { var lru = _tail.Prev; Remove(lru); _map.Remove(lru.Key); }\n        var node = new Node { Key = key, Val = value };\n        AddFront(node); _map[key] = node;\n    }\n}\n```\n**Complexity:** O(1) per operation.\n\n---",
+      "needsReview": true
     },
     "linked-lists-merge-k-sorted-lists": {
       "id": "linked-lists-merge-k-sorted-lists",
@@ -1773,7 +1805,9 @@
       "approach": "min-heap of the k heads (O(n log k)), or divide-and-conquer pairwise merge.",
       "complexity": "O(n log k).",
       "watch": "heap comparator on node value; push the popped node's `next`.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Always pull the global minimum head via a min-heap of the k current heads.\npublic ListNode MergeKLists(ListNode[] lists) {\n    var pq = new PriorityQueue<ListNode, int>();\n    foreach (var node in lists) if (node != null) pq.Enqueue(node, node.val);\n    var dummy = new ListNode(); var tail = dummy;\n    while (pq.Count > 0) {\n        var node = pq.Dequeue();\n        tail.next = node; tail = node;\n        if (node.next != null) pq.Enqueue(node.next, node.next.val);\n    }\n    return dummy.next;\n}\n```\n**Complexity:** O(n log k) time, O(k) space.\n\n---",
+      "needsReview": true
     },
     "linked-lists-reverse-nodes-in-k-group": {
       "id": "linked-lists-reverse-nodes-in-k-group",
@@ -1787,7 +1821,9 @@
       "approach": "check k nodes remain, reverse the block, recurse/iterate on the rest, reconnect.",
       "complexity": "O(n)/O(1).",
       "watch": "the reconnection between reversed groups is where it breaks.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Reverse each block of k; if fewer than k remain, leave them untouched. Reconnect by\n// pointing the old block-head (now the block's tail) at the reversed rest.\npublic ListNode ReverseKGroup(ListNode head, int k) {\n    var node = head;\n    for (int i = 0; i < k; i++) { if (node == null) return head; node = node.next; }\n    ListNode prev = null, cur = head;\n    for (int i = 0; i < k; i++) { var nxt = cur.next; cur.next = prev; prev = cur; cur = nxt; }\n    head.next = ReverseKGroup(cur, k);    // head is the tail of this reversed block\n    return prev;                          // new head of this block\n}\n```\n**Complexity:** O(n) time, O(n/k) recursion depth.",
+      "needsReview": true
     },
     "recursion-and-backtracking-subsets": {
       "id": "recursion-and-backtracking-subsets",
