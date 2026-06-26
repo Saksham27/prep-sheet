@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T21:34:42.849Z",
+  "generatedAt": "2026-06-26T21:36:06.170Z",
   "tracks": [
     {
       "id": "dsa",
@@ -2204,7 +2204,9 @@
       "approach": "template, or quickselect for O(n) average.",
       "complexity": "O(n log k) heap / O(n) avg quickselect.",
       "watch": "know quickselect exists — it's the optimal follow-up.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// A size-k MIN-heap keeps exactly the k largest; its root is the kth largest.\npublic int FindKthLargest(int[] nums, int k) {\n    var pq = new PriorityQueue<int, int>();\n    foreach (int x in nums) {\n        pq.Enqueue(x, x);\n        if (pq.Count > k) pq.Dequeue();        // drop the smallest\n    }\n    return pq.Peek();\n}\n```\n**Complexity:** O(n log k). (Quickselect is the O(n)-average optimal follow-up.)\n\n---",
+      "needsReview": true
     },
     "heaps-priority-queues-top-k-frequent-elements": {
       "id": "heaps-priority-queues-top-k-frequent-elements",
@@ -2218,7 +2220,9 @@
       "approach": "count → size-k heap.",
       "complexity": "O(n log k).",
       "watch": "bucket sort is O(n) and the better answer if asked to optimize.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Heap variant: count, then keep a size-k min-heap by frequency.\npublic int[] TopKFrequent(int[] nums, int k) {\n    var freq = new Dictionary<int, int>();\n    foreach (int n in nums) freq[n] = freq.GetValueOrDefault(n) + 1;\n    var pq = new PriorityQueue<int, int>();\n    foreach (var kv in freq) {\n        pq.Enqueue(kv.Key, kv.Value);\n        if (pq.Count > k) pq.Dequeue();\n    }\n    var res = new int[k];\n    for (int i = k - 1; i >= 0; i--) res[i] = pq.Dequeue();\n    return res;\n}\n```\n**Complexity:** O(n log k). (Bucket sort, §Arrays, is O(n).)\n\n---",
+      "needsReview": true
     },
     "heaps-priority-queues-task-scheduler": {
       "id": "heaps-priority-queues-task-scheduler",
@@ -2232,7 +2236,9 @@
       "approach": "max-heap by count; run up to (n+1) distinct tasks per cycle, decrement, re-add.",
       "complexity": "O(total).",
       "watch": "the closed-form formula `(maxCount-1)*(n+1) + countOfMax` is the elegant alternative.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Spread out the most-frequent task. Closed form: arrange (maxCount-1) full cycles of\n// length (n+1), then append the tasks that tie for max.\npublic int LeastInterval(char[] tasks, int n) {\n    var counts = new int[26];\n    foreach (char t in tasks) counts[t - 'A']++;\n    int maxCount = counts.Max();\n    int numMax = counts.Count(c => c == maxCount);\n    int slots = (maxCount - 1) * (n + 1) + numMax;\n    return Math.Max(tasks.Length, slots);     // can't be fewer than the tasks themselves\n}\n```\n**Complexity:** O(total tasks). (A max-heap by remaining count is the simulation alternative.)\n\n---",
+      "needsReview": true
     },
     "heaps-priority-queues-k-closest-points-to-origin": {
       "id": "heaps-priority-queues-k-closest-points-to-origin",
@@ -2246,7 +2252,9 @@
       "approach": "push, evict the farthest beyond k.",
       "complexity": "O(n log k).",
       "watch": "compare squared distances — no `sqrt` needed.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Size-k MAX-heap by squared distance (no sqrt needed); evict the farthest beyond k.\npublic int[][] KClosest(int[][] points, int k) {\n    var pq = new PriorityQueue<int[], int>();\n    foreach (var p in points) {\n        int d = p[0] * p[0] + p[1] * p[1];\n        pq.Enqueue(p, -d);                    // negate → max-heap\n        if (pq.Count > k) pq.Dequeue();\n    }\n    var res = new int[k][];\n    for (int i = 0; i < k; i++) res[i] = pq.Dequeue();\n    return res;\n}\n```\n**Complexity:** O(n log k).\n\n---",
+      "needsReview": true
     },
     "heaps-priority-queues-find-median-from-data-stream": {
       "id": "heaps-priority-queues-find-median-from-data-stream",
@@ -2260,7 +2268,9 @@
       "approach": "push, rebalance so sizes differ by ≤1.",
       "complexity": "O(log n) add, O(1) median.",
       "watch": "the rebalancing (move a root across when sizes skew) is the crux.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Two heaps: a max-heap for the lower half and a min-heap for the upper, kept balanced so\n// sizes differ by ≤1. Median is the top(s).\npublic class MedianFinder {\n    private readonly PriorityQueue<int, int> _low = new();    // max-heap (lower half)\n    private readonly PriorityQueue<int, int> _high = new();   // min-heap (upper half)\n    public void AddNum(int num) {\n        _low.Enqueue(num, -num);\n        int top = _low.Dequeue();             // pass the max of low up to high\n        _high.Enqueue(top, top);\n        if (_high.Count > _low.Count) {       // rebalance\n            int t = _high.Dequeue();\n            _low.Enqueue(t, -t);\n        }\n    }\n    public double FindMedian() =>\n        _low.Count > _high.Count ? _low.Peek() : (_low.Peek() + _high.Peek()) / 2.0;\n}\n```\n**Complexity:** O(log n) add, O(1) median.\n\n---",
+      "needsReview": true
     },
     "heaps-priority-queues-merge-k-sorted-lists": {
       "id": "heaps-priority-queues-merge-k-sorted-lists",
@@ -2271,7 +2281,9 @@
       "core": false,
       "revisit": false,
       "note": "see §8; heap of heads.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Min-heap of the k current heads; pop the global minimum and push its successor.\npublic ListNode MergeKLists(ListNode[] lists) {\n    var pq = new PriorityQueue<ListNode, int>();\n    foreach (var node in lists) if (node != null) pq.Enqueue(node, node.val);\n    var dummy = new ListNode(); var tail = dummy;\n    while (pq.Count > 0) {\n        var node = pq.Dequeue();\n        tail.next = node; tail = node;\n        if (node.next != null) pq.Enqueue(node.next, node.next.val);\n    }\n    return dummy.next;\n}\n```\n**Complexity:** O(n log k).\n\n---",
+      "needsReview": true
     },
     "greedy-jump-game": {
       "id": "greedy-jump-game",
@@ -2285,7 +2297,9 @@
       "approach": "one pass, `reach = max(reach, i + nums[i])`, fail if `i > reach`.",
       "complexity": "O(n).",
       "watch": "fail fast when an index is unreachable.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Track the furthest reachable index; fail fast the moment an index is unreachable.\npublic bool CanJump(int[] nums) {\n    int reach = 0;\n    for (int i = 0; i < nums.Length; i++) {\n        if (i > reach) return false;\n        reach = Math.Max(reach, i + nums[i]);\n    }\n    return true;\n}\n```\n**Complexity:** O(n) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "greedy-jump-game-ii": {
       "id": "greedy-jump-game-ii",
@@ -2299,7 +2313,9 @@
       "approach": "track current-level end; when you pass it, increment jumps and extend.",
       "complexity": "O(n).",
       "watch": "this is implicit level-order, not DP.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Implicit BFS by \"jump level\": within the current reach, extend to the furthest next\n// reach; bump the jump count when you exhaust the current level.\npublic int Jump(int[] nums) {\n    int jumps = 0, curEnd = 0, farthest = 0;\n    for (int i = 0; i < nums.Length - 1; i++) {\n        farthest = Math.Max(farthest, i + nums[i]);\n        if (i == curEnd) { jumps++; curEnd = farthest; }\n    }\n    return jumps;\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "greedy-gas-station": {
       "id": "greedy-gas-station",
@@ -2313,7 +2329,9 @@
       "approach": "single pass tracking tank and start.",
       "complexity": "O(n).",
       "watch": "prove why resetting start to `i+1` is safe.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// If total gas ≥ total cost a unique start exists; reset the candidate start to i+1\n// whenever the running tank goes negative.\npublic int CanCompleteCircuit(int[] gas, int[] cost) {\n    int total = 0, tank = 0, start = 0;\n    for (int i = 0; i < gas.Length; i++) {\n        int diff = gas[i] - cost[i];\n        total += diff; tank += diff;\n        if (tank < 0) { start = i + 1; tank = 0; }\n    }\n    return total >= 0 ? start : -1;\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "greedy-hand-of-straights": {
       "id": "greedy-hand-of-straights",
@@ -2327,7 +2345,9 @@
       "approach": "counts (sorted/`SortedDictionary`); greedily form consecutive groups from the minimum.",
       "complexity": "O(n log n).",
       "watch": "decrement counts and skip exhausted cards.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// The smallest available card must begin a group; greedily form consecutive runs from it.\npublic bool IsNStraightHand(int[] hand, int groupSize) {\n    if (hand.Length % groupSize != 0) return false;\n    var count = new SortedDictionary<int, int>();\n    foreach (int c in hand) count[c] = count.GetValueOrDefault(c) + 1;\n    while (count.Count > 0) {\n        int start = count.Keys.First();\n        for (int v = start; v < start + groupSize; v++) {\n            if (!count.TryGetValue(v, out int cnt)) return false;\n            if (cnt == 1) count.Remove(v); else count[v] = cnt - 1;\n        }\n    }\n    return true;\n}\n```\n**Complexity:** O(n log n).\n\n---",
+      "needsReview": true
     },
     "greedy-candy": {
       "id": "greedy-candy",
@@ -2341,7 +2361,9 @@
       "approach": "left-to-right pass (rising ratings get +1), right-to-left pass, combine by max.",
       "complexity": "O(n).",
       "watch": "one pass can't satisfy both directions — that's why it's two.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Satisfy the left-neighbor and right-neighbor constraints in two passes, then take the\n// max — one pass can't satisfy both directions.\npublic int Candy(int[] ratings) {\n    int n = ratings.Length;\n    var candy = new int[n];\n    Array.Fill(candy, 1);\n    for (int i = 1; i < n; i++)\n        if (ratings[i] > ratings[i - 1]) candy[i] = candy[i - 1] + 1;\n    for (int i = n - 2; i >= 0; i--)\n        if (ratings[i] > ratings[i + 1]) candy[i] = Math.Max(candy[i], candy[i + 1] + 1);\n    return candy.Sum();\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "intervals-merge-intervals": {
       "id": "intervals-merge-intervals",
@@ -2355,7 +2377,9 @@
       "approach": "the template.",
       "complexity": "O(n log n).",
       "watch": "compare `prevEnd >= curStart` for overlap; use max for the merged end.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Sort by start; overlaps become adjacent. Merge when prevEnd >= curStart.\npublic int[][] Merge(int[][] intervals) {\n    Array.Sort(intervals, (a, b) => a[0] - b[0]);\n    var res = new List<int[]>();\n    foreach (var iv in intervals) {\n        if (res.Count == 0 || res[^1][1] < iv[0]) res.Add(new[] { iv[0], iv[1] });\n        else res[^1][1] = Math.Max(res[^1][1], iv[1]);\n    }\n    return res.ToArray();\n}\n```\n**Complexity:** O(n log n).\n\n---",
+      "needsReview": true
     },
     "intervals-insert-interval": {
       "id": "intervals-insert-interval",
@@ -2369,7 +2393,9 @@
       "approach": "copy before, merge the overlapping span, copy after.",
       "complexity": "O(n).",
       "watch": "the array is pre-sorted, so no full sort is needed.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Three phases on the already-sorted input: copy those entirely before, merge the\n// overlapping run, copy those entirely after. No full sort needed.\npublic int[][] Insert(int[][] intervals, int[] newInterval) {\n    var res = new List<int[]>();\n    int i = 0, n = intervals.Length;\n    while (i < n && intervals[i][1] < newInterval[0]) res.Add(intervals[i++]);\n    while (i < n && intervals[i][0] <= newInterval[1]) {\n        newInterval[0] = Math.Min(newInterval[0], intervals[i][0]);\n        newInterval[1] = Math.Max(newInterval[1], intervals[i][1]);\n        i++;\n    }\n    res.Add(newInterval);\n    while (i < n) res.Add(intervals[i++]);\n    return res.ToArray();\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "intervals-non-overlapping-intervals": {
       "id": "intervals-non-overlapping-intervals",
@@ -2383,7 +2409,9 @@
       "approach": "sort by end; count keeps where start ≥ last kept end.",
       "complexity": "O(n log n).",
       "watch": "sort by **end**, not start, here.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Keep as many as possible → greedily keep the interval that ends earliest. Sort by END.\npublic int EraseOverlapIntervals(int[][] intervals) {\n    Array.Sort(intervals, (a, b) => a[1] - b[1]);\n    int kept = 0, lastEnd = int.MinValue;\n    foreach (var iv in intervals)\n        if (iv[0] >= lastEnd) { kept++; lastEnd = iv[1]; }\n    return intervals.Length - kept;\n}\n```\n**Complexity:** O(n log n).\n\n---",
+      "needsReview": true
     },
     "intervals-meeting-rooms-ii": {
       "id": "intervals-meeting-rooms-ii",
@@ -2397,7 +2425,9 @@
       "approach": "min-heap of end times (reuse a room when the earliest end ≤ next start), or a sweep of +1/−1 events.",
       "complexity": "O(n log n).",
       "watch": "the heap holds *end times*; the sweep-line counter is the cleaner mental model.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Rooms needed = max simultaneous overlaps. Sweep separated start/end events: a meeting\n// that has ended frees a room before the next start claims one.\npublic int MinMeetingRooms(int[][] intervals) {\n    int n = intervals.Length;\n    int[] starts = new int[n], ends = new int[n];\n    for (int i = 0; i < n; i++) { starts[i] = intervals[i][0]; ends[i] = intervals[i][1]; }\n    Array.Sort(starts); Array.Sort(ends);\n    int rooms = 0, maxRooms = 0, e = 0;\n    for (int s = 0; s < n; s++) {\n        while (e < n && ends[e] <= starts[s]) { rooms--; e++; }\n        rooms++;\n        maxRooms = Math.Max(maxRooms, rooms);\n    }\n    return maxRooms;\n}\n```\n**Complexity:** O(n log n).\n\n---",
+      "needsReview": true
     },
     "intervals-employee-free-time": {
       "id": "intervals-employee-free-time",
@@ -2410,7 +2440,9 @@
       "insight": "merge all intervals across everyone, then gaps between merged intervals are free time.",
       "approach": "flatten, sort, merge, emit gaps.",
       "complexity": "O(n log n).",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Flatten all intervals across everyone, sort, merge; the gaps between merged intervals\n// are the shared free time.\npublic IList<int[]> EmployeeFreeTime(int[][][] schedule) {\n    var all = new List<int[]>();\n    foreach (var emp in schedule) foreach (var iv in emp) all.Add(iv);\n    all.Sort((a, b) => a[0] - b[0]);\n    var res = new List<int[]>();\n    int end = all[0][1];\n    foreach (var iv in all) {\n        if (iv[0] > end) res.Add(new[] { end, iv[0] });\n        end = Math.Max(end, iv[1]);\n    }\n    return res;\n}\n```\n**Complexity:** O(n log n).",
+      "needsReview": true
     },
     "graphs-number-of-islands": {
       "id": "graphs-number-of-islands",
