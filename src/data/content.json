@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T21:53:30.235Z",
+  "generatedAt": "2026-06-26T21:56:23.091Z",
   "tracks": [
     {
       "id": "dsa",
@@ -743,7 +743,9 @@
         "design-4-fully-worked-designs-4-4-22",
         "design-4-fully-worked-designs-4-5-23",
         "design-4-fully-worked-designs-4-6-24",
-        "design-4-fully-worked-designs-4-7-25"
+        "design-4-fully-worked-designs-4-7-25",
+        "design-4-fully-worked-designs-pastebin-worked-design-0",
+        "design-4-fully-worked-designs-search-autocomplete-typeahead-worked-design-1"
       ],
       "storyIds": []
     },
@@ -837,7 +839,10 @@
         "lld-5-worked-designs-5-2-11",
         "lld-5-worked-designs-5-3-12",
         "lld-5-worked-designs-5-4-13",
-        "lld-5-worked-designs-5-5-14"
+        "lld-5-worked-designs-5-5-14",
+        "lld-5-worked-designs-vending-machine-state-pattern-0",
+        "lld-5-worked-designs-splitwise-split-strategies-balance-sheet-1",
+        "lld-5-worked-designs-tic-tac-toe-board-rules-extensible-to-chess-2"
       ],
       "storyIds": []
     },
@@ -4334,6 +4339,91 @@
       "probes": [],
       "followups": [],
       "source": "original"
+    },
+    "design-4-fully-worked-designs-pastebin-worked-design-0": {
+      "id": "design-4-fully-worked-designs-pastebin-worked-design-0",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "",
+      "title": "Pastebin (worked design)",
+      "body": "**Scope:** store a text blob, return a short URL; read it back by URL. Optional: TTL/expiry, syntax highlighting, unlisted pastes. Out of scope: editing, accounts.\n\n**Numbers:** ~10M new pastes/month ≈ **~4 writes/s** avg (~12/s peak); ~10:1 read:write → **~40 reads/s**. Avg paste ~10 KB → 10M × 10 KB × 12 × 5 ≈ **~6 TB over 5 years**. Read-heavy; blob *storage* dominates, not QPS.\n\n**API:** `POST /paste {content, ttl?} → {id, url}`; `GET /{id} → content` (404 if missing, 410 if expired).\n\n**Data model:** keep DB rows tiny — metadata only: `{ id, createdAt, expiresAt, size, storageKey }`. The blob itself lives in **object storage** (S3/Blob), not the DB. `id` = base62 of a counter, or a random 7–8 char key with a collision check.\n\n**Read path:** `GET /{id}` → look up metadata (hot ids cached in Redis) → if `expiresAt` passed, return 410 → fetch the blob from object storage (or a CDN edge for popular pastes) → return. Recent/popular pastes dominate, so cache hit rate is high.\n\n**Write path:** generate `id` → write the blob to object storage → write the metadata row → return the URL.\n\n**Expiry:** lazy (check `expiresAt` on read) plus an object-store **lifecycle policy** / background sweeper to actually reclaim space.\n\n**Scale & tradeoffs:** blobs in object storage decouple storage growth from the DB and let a CDN absorb popular reads; the DB stays lean (small metadata) and shards trivially by `id` hash if needed. The cost is an extra network hop to fetch the blob vs storing it inline — worth it to keep the DB small and storage elastic.",
+      "probes": [
+        {
+          "question": "Why store the blob in object storage instead of inline in the database?",
+          "answer": "Pastes are large and read-mostly. Keeping them in the DB bloats row/page size, hurts the buffer-cache hit rate, makes backups/replication heavy, and couples storage scaling to the DB. Object storage is cheap, effectively infinite, CDN-frontable, and lets the relational/KV layer hold only tiny metadata rows that index and shard cleanly. You trade one network hop for a far more scalable, cheaper system."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "design-4-fully-worked-designs-search-autocomplete-typeahead-worked-design-1": {
+      "id": "design-4-fully-worked-designs-search-autocomplete-typeahead-worked-design-1",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "",
+      "title": "Search Autocomplete / Typeahead (worked design)",
+      "body": "**Scope:** as the user types a prefix, return the top-K most-likely completions ranked by popularity, in <~100 ms. Out of scope: full search and spell-correction (note them as extensions).\n\n**Numbers:** every keystroke is a query → e.g. 100M searches/day × ~4 keystrokes ≈ **~5,000 QPS** avg, several times that at peak. Extremely read-heavy and latency-critical → it **must serve from memory**.\n\n**Core structure:** a **Trie** where each node caches the **precomputed top-K completions** of its prefix. A query walks O(prefix length) to the node, then reads its cached top-K in O(1) — no per-query ranking.\n\n**Build/update path:** a batch job aggregates query logs (counts per term, **time-decayed** so trending terms surface and old spikes fade), recomputes each node's top-K, and publishes a fresh in-memory Trie periodically (e.g. hourly). Writes are async — autocomplete tolerates staleness.\n\n**Serving:** the Trie lives in memory on the suggest service, **sharded by prefix** (e.g. by first letters) across nodes. API: `GET /suggest?q=lea → [\"learn\",\"league\",…]`. A CDN/edge cache keyed by prefix absorbs the hottest prefixes.\n\n**Scale & tradeoffs:** precomputing top-K at each node trades memory + rebuild cost for **O(1) query-time ranking** — the right trade for a read-dominated, latency-bound path. Sharding by prefix balances load. Time-decayed counts keep results fresh. Personalization (per-user history) is a later layer merged at read time.",
+      "probes": [
+        {
+          "question": "Why precompute top-K at each Trie node instead of ranking at query time?",
+          "answer": "At ~5,000+ QPS with a <100 ms budget, you can't afford to gather all completions under a prefix and sort them on every keystroke. Precomputing the top-K once per refresh turns each query into a pointer-walk plus an O(1) read of a tiny cached list. You pay memory and a periodic batch rebuild — cheap and offline — to make the hot path trivial. It's the classic precompute-on-write to make reads O(1)."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "lld-5-worked-designs-vending-machine-state-pattern-0": {
+      "id": "lld-5-worked-designs-vending-machine-state-pattern-0",
+      "trackId": "lld",
+      "topicId": "lld-5-worked-designs",
+      "section": "",
+      "title": "Vending Machine (State pattern)",
+      "body": "**Requirements:** accept coins, select a product, dispense it with change; handle out-of-stock and insufficient funds; be easy to extend (e.g. a maintenance mode).\n\n**Structure — the State pattern** replaces a sprawling `if/switch` on a status field; each state owns its valid transitions.\n```csharp\nenum Coin { Nickel = 5, Dime = 10, Quarter = 25, Dollar = 100 }\n\ninterface IVendingState {\n    IVendingState InsertCoin(Coin c);\n    IVendingState SelectProduct(string code);\n}\n\nclass VendingMachine {\n    public Inventory Inventory { get; } = new();\n    public int Balance { get; set; }\n    public IVendingState State { get; private set; }\n    public VendingMachine() => State = new IdleState(this);\n    public void InsertCoin(Coin c) => State = State.InsertCoin(c);\n    public void Select(string code) => State = State.SelectProduct(code);\n}\n\nclass IdleState : IVendingState {                 // waiting for money\n    private readonly VendingMachine _m;\n    public IdleState(VendingMachine m) => _m = m;\n    public IVendingState InsertCoin(Coin c) { _m.Balance += (int)c; return new HasMoneyState(_m); }\n    public IVendingState SelectProduct(string code) => this;   // ignore until paid\n}\n\nclass HasMoneyState : IVendingState {             // coins inserted, can select\n    private readonly VendingMachine _m;\n    public HasMoneyState(VendingMachine m) => _m = m;\n    public IVendingState InsertCoin(Coin c) { _m.Balance += (int)c; return this; }\n    public IVendingState SelectProduct(string code) {\n        var p = _m.Inventory.Get(code);\n        if (p is null || p.Stock == 0) return this;       // out of stock → stay\n        if (_m.Balance < p.Price) return this;            // need more money → stay\n        p.Stock--;\n        int change = _m.Balance - p.Price;\n        _m.Balance = 0;\n        Dispense(p, change);\n        return new IdleState(_m);\n    }\n    private void Dispense(Product p, int change) { /* emit product + change */ }\n}\n```\n**Talking points:** adding a `MaintenanceState` is a new class, not an edit to a giant switch (OCP). Change-making is a separate concern (greedy for canonical coin sets, DP otherwise). For a networked fleet, the inventory decrement must be atomic (optimistic concurrency) so two buyers don't claim the last item.",
+      "probes": [
+        {
+          "question": "Why the State pattern here instead of an enum + a switch?",
+          "answer": "A status enum forces every method (`InsertCoin`, `SelectProduct`, `Dispense`) to switch on the status and handle all cases, so the transition logic is scattered and every new status touches every method. The State pattern localizes each status's behavior **and** its valid transitions in one class; illegal transitions are simply not implemented, a new state is a new class, and the machine just delegates to `State`. It's the OCP-friendly way to model a lifecycle."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "lld-5-worked-designs-splitwise-split-strategies-balance-sheet-1": {
+      "id": "lld-5-worked-designs-splitwise-split-strategies-balance-sheet-1",
+      "trackId": "lld",
+      "topicId": "lld-5-worked-designs",
+      "section": "",
+      "title": "Splitwise (split strategies + balance sheet)",
+      "body": "**Requirements:** users in groups log shared expenses; each expense splits among participants (equal / exact / percentage); the system tracks who owes whom and can settle up.\n\n```csharp\ninterface ISplitStrategy {\n    // returns userId -> amount owed for this expense\n    Dictionary<string, decimal> Split(decimal amount, IReadOnlyList<string> participants, object? config);\n}\nclass EqualSplit : ISplitStrategy {\n    public Dictionary<string, decimal> Split(decimal amount, IReadOnlyList<string> p, object? _) {\n        decimal each = Math.Round(amount / p.Count, 2);\n        return p.ToDictionary(u => u, _ => each);\n    }\n}\nclass PercentSplit : ISplitStrategy {            // config = Dictionary<string, decimal> percentages\n    public Dictionary<string, decimal> Split(decimal amount, IReadOnlyList<string> p, object? config) {\n        var pct = (Dictionary<string, decimal>)config!;\n        return p.ToDictionary(u => u, u => Math.Round(amount * pct[u] / 100m, 2));\n    }\n}\n\nclass Expense {\n    public string PaidBy = \"\";\n    public decimal Amount;\n    public Dictionary<string, decimal> Owed = new();   // produced by an ISplitStrategy\n}\n\nclass BalanceSheet {\n    // _net[a][b] = how much a owes b (net)\n    private readonly Dictionary<string, Dictionary<string, decimal>> _net = new();\n    public void Apply(Expense e) {\n        foreach (var (user, share) in e.Owed) {\n            if (user == e.PaidBy) continue;\n            _net.TryAdd(user, new());\n            _net[user][e.PaidBy] = _net[user].GetValueOrDefault(e.PaidBy) + share;\n        }\n    }\n    public decimal Balance(string a, string b) =>\n        (_net.GetValueOrDefault(a)?.GetValueOrDefault(b) ?? 0)\n      - (_net.GetValueOrDefault(b)?.GetValueOrDefault(a) ?? 0);\n}\n```\n**Talking points:** Strategy for split types → a new split rule is a new class (OCP). The balance sheet nets pairwise debts. Debt **simplification** (settle a group in the fewest transfers) is the hard follow-up. Concurrency on a shared group ledger needs transactional updates.",
+      "probes": [
+        {
+          "question": "How would you simplify debts so a group settles in the fewest transactions?",
+          "answer": "Compute each person's **net balance** (total paid − total owed). Drop everyone at zero. Then greedily match the largest creditor with the largest debtor, transfer `min(|credit|, |debt|)`, update both, and repeat — each transfer zeroes at least one person, bounding it to ≤ n−1 transfers. (Optimal minimization is NP-hard in general — subset-sum-ish — but the greedy max-creditor/max-debtor heuristic is what's used in practice and is what an interviewer wants to hear.)"
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "lld-5-worked-designs-tic-tac-toe-board-rules-extensible-to-chess-2": {
+      "id": "lld-5-worked-designs-tic-tac-toe-board-rules-extensible-to-chess-2",
+      "trackId": "lld",
+      "topicId": "lld-5-worked-designs",
+      "section": "",
+      "title": "Tic-Tac-Toe (board + rules, extensible to Chess)",
+      "body": "**Requirements:** an N×N board, two players alternating, detect win/draw, reject illegal moves; design so it generalizes to richer games.\n```csharp\nenum Mark { Empty, X, O }\n\nclass Board {\n    private readonly Mark[,] _cells;\n    public int N { get; }\n    public Board(int n = 3) { N = n; _cells = new Mark[n, n]; }\n\n    public bool Place(int r, int c, Mark m) {\n        if (_cells[r, c] != Mark.Empty) return false;     // encapsulated invariant\n        _cells[r, c] = m; return true;\n    }\n\n    // Only check the line through the just-placed cell → O(N), not a full O(N²) scan.\n    public Mark WinnerAfter(int r, int c) {\n        Mark m = _cells[r, c];\n        bool row = true, col = true, diag = true, anti = true;\n        for (int i = 0; i < N; i++) {\n            if (_cells[r, i] != m) row = false;\n            if (_cells[i, c] != m) col = false;\n            if (_cells[i, i] != m) diag = false;\n            if (_cells[i, N - 1 - i] != m) anti = false;\n        }\n        return (row || col || (r == c && diag) || (r + c == N - 1 && anti)) ? m : Mark.Empty;\n    }\n}\n\nclass Game {\n    private readonly Board _board = new();\n    private Mark _turn = Mark.X;\n    private int _moves;\n    public (bool ok, Mark winner, bool draw) Move(int r, int c) {\n        if (!_board.Place(r, c, _turn)) return (false, Mark.Empty, false);\n        var w = _board.WinnerAfter(r, c);\n        bool draw = w == Mark.Empty && ++_moves == _board.N * _board.N;\n        _turn = _turn == Mark.X ? Mark.O : Mark.X;\n        return (true, w, draw);\n    }\n}\n```\n**Talking points:** check only the placed line for a winner (O(N)). To generalize to **Chess**: a `Piece` hierarchy where each piece's `LegalMoves(board, pos)` is polymorphic, a rules engine for check/checkmate, and the **Command** pattern for moves to enable undo/redo and game history.",
+      "probes": [
+        {
+          "question": "How does this design extend to Chess?",
+          "answer": "Replace `Mark` with a `Piece` abstraction and make move generation polymorphic — each piece type (`Pawn`, `Knight`, …) implements `LegalMoves(board, from)`, so adding a piece is a new class (OCP) rather than editing a giant rules switch. Add a rules engine for board-level concerns (check, checkmate, castling, en passant) and wrap each move as a **Command** with `Execute`/`Undo` so you get history, takebacks, and replay for free. The `Board`/`Game` separation already mirrors the structure you'd keep."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
     }
   },
   "stories": {
@@ -4542,7 +4632,7 @@
   ],
   "stats": {
     "problems": 129,
-    "concepts": 95,
+    "concepts": 100,
     "stories": 9
   }
 }
