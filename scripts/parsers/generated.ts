@@ -101,7 +101,8 @@ export function parseGeneratedConcepts(): GeneratedContent {
     let topic: Topic | null = null;
     let concept: Concept | null = null;
     let problem: Problem | null = null; // exercise-style problem (prompt + hidden solution)
-    let body: string[] = []; // concept body OR exercise prompt
+    let isPractice = false; // link-only extra-practice item (note instead of prompt/solution)
+    let body: string[] = []; // concept body OR exercise prompt OR practice note
     let solBuf: string[] = []; // exercise solution
     let inSolution = false;
     let probeQ: string | null = null;
@@ -121,13 +122,18 @@ export function parseGeneratedConcepts(): GeneratedContent {
         topic?.conceptIds.push(concept.id);
       }
       if (problem) {
-        problem.prompt = body.join('\n').trim();
-        problem.solution = solBuf.join('\n').trim() || undefined;
+        if (isPractice) {
+          problem.note = body.join('\n').trim() || undefined; // one-line pattern hint
+        } else {
+          problem.prompt = body.join('\n').trim() || undefined;
+          problem.solution = solBuf.join('\n').trim() || undefined;
+        }
         problems.push(problem);
         topic?.problemIds.push(problem.id);
       }
       concept = null;
       problem = null;
+      isPractice = false;
       body = [];
       solBuf = [];
       inSolution = false;
@@ -202,6 +208,27 @@ export function parseGeneratedConcepts(): GeneratedContent {
           source: 'generated',
           needsReview: true,
         };
+        continue;
+      }
+      // link-only extra practice: `### practice: [D] Title | leetcode-slug`
+      const prm = line.match(/^###\s+practice:\s*(?:\[([EMH])\]\s*)?(.+?)(?:\s*\|\s*([a-z0-9-]+))?\s*$/i);
+      if (prm && topic) {
+        flushItem();
+        const title = clean(prm[2]);
+        const slug = prm[3]?.trim();
+        problem = {
+          id: slugify(`${topic.id}-${title}-${idx++}`),
+          trackId: topic.trackId,
+          topicId: topic.id,
+          title,
+          difficulty: difficulty(prm[1] ?? 'M'),
+          core: false,
+          revisit: false,
+          practice: true,
+          url: `https://leetcode.com/problems/${slug ?? slugify(title)}/`,
+          source: 'generated',
+        };
+        isPractice = true;
         continue;
       }
       const sm = line.match(/^####\s+solution:\s*$/i);

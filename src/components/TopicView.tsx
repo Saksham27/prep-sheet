@@ -50,10 +50,10 @@ function ProblemTopic({ topic }: { topic: Topic }) {
       <Header title={topic.title} sub={`${done}/${problems.length} cold · ${solved} solved`} />
 
       {topic.coreIdea && (
-        <p className="mt-2 rounded-md border-l-2 border-accent bg-panel/60 px-3 py-2 text-sm">
+        <div className="mt-2 rounded-md border-l-2 border-accent bg-panel/60 px-3 py-2 text-sm">
           <span className="font-mono text-xs text-accent">core idea </span>
           <InlineMd className="inline">{topic.coreIdea}</InlineMd>
-        </p>
+        </div>
       )}
       <div className="mt-2 grid gap-2 sm:grid-cols-2">
         {topic.recognitionSignals.length > 0 && (

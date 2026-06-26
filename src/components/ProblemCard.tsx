@@ -134,9 +134,9 @@ function Field({ label, value, accent }: { label: string; value: string; accent?
   return (
     <div className="flex gap-2 text-sm">
       <span className={`shrink-0 font-mono text-xs ${accent === 'warn' ? 'text-warn' : 'text-muted'}`}>{label}</span>
-      <span className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1">
         <InlineMd className="!text-text/90">{value}</InlineMd>
-      </span>
+      </div>
     </div>
   );
 }

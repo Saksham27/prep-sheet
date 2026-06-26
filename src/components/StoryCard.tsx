@@ -58,9 +58,9 @@ export default function StoryCard({ story }: { story: Story }) {
                 <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded bg-accent/15 font-mono text-[11px] font-bold text-accent">
                   {label}
                 </span>
-                <span className="min-w-0 flex-1">
+                <div className="min-w-0 flex-1">
                   <InlineMd className="!text-text/90">{val}</InlineMd>
-                </span>
+                </div>
               </div>
             );
           })}
