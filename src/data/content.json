@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T21:39:06.395Z",
+  "generatedAt": "2026-06-26T21:40:03.619Z",
   "tracks": [
     {
       "id": "dsa",
@@ -2923,7 +2923,9 @@
       "revisit": false,
       "insight": "substring search; KMP or rolling hash for linear time.",
       "watch": "naive O(nm) is accepted but the linear method is the \"strong\" answer.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// KMP: precompute the failure (lps) array — longest proper prefix that's also a suffix —\n// so on a mismatch we skip ahead without re-examining matched chars.\npublic int StrStr(string haystack, string needle) {\n    if (needle.Length == 0) return 0;\n    var lps = BuildLps(needle);\n    int i = 0, j = 0;\n    while (i < haystack.Length) {\n        if (haystack[i] == needle[j]) {\n            i++; j++;\n            if (j == needle.Length) return i - j;\n        } else if (j > 0) j = lps[j - 1];\n        else i++;\n    }\n    return -1;\n}\nprivate int[] BuildLps(string p) {\n    var lps = new int[p.Length];\n    int len = 0;\n    for (int i = 1; i < p.Length; ) {\n        if (p[i] == p[len]) lps[i++] = ++len;\n        else if (len > 0) len = lps[len - 1];\n        else lps[i++] = 0;\n    }\n    return lps;\n}\n```\n**Complexity:** O(n + m).\n\n---",
+      "needsReview": true
     },
     "strings-specialized-pattern-matching-repeated-substring-pattern": {
       "id": "strings-specialized-pattern-matching-repeated-substring-pattern",
@@ -2935,7 +2937,9 @@
       "revisit": false,
       "insight": "the KMP failure value of the whole string reveals the smallest repeating unit.",
       "watch": "the slick check: `s` is repeating iff it's a non-trivial rotation of itself — `(s+s).IndexOf(s, 1) < s.Length`.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// s is a repeated unit iff it's a non-trivial rotation of itself: drop the first and last\n// char of (s + s) and check it still contains s.\npublic bool RepeatedSubstringPattern(string s) {\n    var doubled = (s + s).Substring(1, 2 * s.Length - 2);\n    return doubled.Contains(s);\n}\n```\n**Complexity:** O(n) (with KMP-based search; the slick rotation check above conveys the insight).\n\n---",
+      "needsReview": true
     },
     "strings-specialized-pattern-matching-shortest-palindrome": {
       "id": "strings-specialized-pattern-matching-shortest-palindrome",
@@ -2948,7 +2952,9 @@
       "insight": "find the longest palindromic *prefix* via KMP on `s + '#' + reverse(s)`.",
       "complexity": "O(n).",
       "watch": "the separator `#` prevents overcounting across the join.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// The longest palindromic PREFIX of s = the KMP lps value of s + '#' + reverse(s). Prepend\n// the remaining suffix, reversed.\npublic string ShortestPalindrome(string s) {\n    if (s.Length == 0) return s;\n    string rev = new string(s.Reverse().ToArray());\n    string combined = s + \"#\" + rev;            // '#' prevents overcounting across the join\n    var lps = new int[combined.Length];\n    int len = 0;\n    for (int i = 1; i < combined.Length; ) {\n        if (combined[i] == combined[len]) lps[i++] = ++len;\n        else if (len > 0) len = lps[len - 1];\n        else lps[i++] = 0;\n    }\n    string suffix = s.Substring(lps[^1]);\n    return new string(suffix.Reverse().ToArray()) + s;\n}\n```\n**Complexity:** O(n).\n\n---",
+      "needsReview": true
     },
     "advanced-structures-faang-hard-awareness-implement-once-range-sum-query-mutable": {
       "id": "advanced-structures-faang-hard-awareness-implement-once-range-sum-query-mutable",
@@ -2961,7 +2967,9 @@
       "insight": "updates + range sums → Fenwick or segment tree.",
       "complexity": "O(log n) each.",
       "watch": "Fenwick is the cleaner choice for pure sums.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Fenwick tree (Binary Indexed Tree): prefix sums WITH point updates in O(log n). 1-indexed;\n// i += i & (-i) to update, i -= i & (-i) to query.\npublic class NumArray {\n    private readonly int[] _tree;\n    private readonly int[] _nums;\n    private readonly int _n;\n    public NumArray(int[] nums) {\n        _n = nums.Length;\n        _nums = new int[_n];\n        _tree = new int[_n + 1];\n        for (int i = 0; i < _n; i++) Update(i, nums[i]);\n    }\n    public void Update(int index, int val) {\n        int delta = val - _nums[index];\n        _nums[index] = val;\n        for (int i = index + 1; i <= _n; i += i & (-i)) _tree[i] += delta;\n    }\n    public int SumRange(int left, int right) => Prefix(right + 1) - Prefix(left);\n    private int Prefix(int i) {\n        int sum = 0;\n        for (; i > 0; i -= i & (-i)) sum += _tree[i];\n        return sum;\n    }\n}\n```\n**Complexity:** O(log n) per update and per range query.\n\n---",
+      "needsReview": true
     },
     "advanced-structures-faang-hard-awareness-implement-once-count-of-smaller-numbers-after-self": {
       "id": "advanced-structures-faang-hard-awareness-implement-once-count-of-smaller-numbers-after-self",
@@ -2974,7 +2982,9 @@
       "insight": "process right-to-left, querying \"how many already-seen values are smaller\" → BIT over value-ranks, or a modified merge sort that counts inversions.",
       "complexity": "O(n log n).",
       "watch": "coordinate-compress values first for the BIT.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Process right-to-left; for each value query \"how many already-seen values are smaller\"\n// via a Fenwick tree over coordinate-compressed ranks.\npublic IList<int> CountSmaller(int[] nums) {\n    var sorted = nums.Distinct().OrderBy(x => x).ToArray();\n    var rank = new Dictionary<int, int>();\n    for (int i = 0; i < sorted.Length; i++) rank[sorted[i]] = i + 1;   // 1-indexed\n    int n = sorted.Length;\n    var tree = new int[n + 1];\n    void Add(int i) { for (; i <= n; i += i & (-i)) tree[i]++; }\n    int Query(int i) { int s = 0; for (; i > 0; i -= i & (-i)) s += tree[i]; return s; }\n\n    var res = new int[nums.Length];\n    for (int i = nums.Length - 1; i >= 0; i--) {\n        int r = rank[nums[i]];\n        res[i] = Query(r - 1);     // strictly-smaller values already seen\n        Add(r);\n    }\n    return res;\n}\n```\n**Complexity:** O(n log n).\n\n---",
+      "needsReview": true
     },
     "math-and-geometry-occasional-awareness-happy-number": {
       "id": "math-and-geometry-occasional-awareness-happy-number",
@@ -2987,7 +2997,9 @@
       "insight": "iterating digit-square-sums either reaches 1 or cycles → Floyd's cycle detection (fast/slow on the transformation).",
       "complexity": "O(log n) per step.",
       "watch": "reuse the linked-list cycle trick on a numeric sequence.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Iterating digit-square-sums either reaches 1 or cycles → Floyd's fast/slow on the\n// numeric transformation.\npublic bool IsHappy(int n) {\n    int slow = n, fast = n;\n    do {\n        slow = Next(slow);\n        fast = Next(Next(fast));\n    } while (slow != fast);\n    return slow == 1;\n}\nprivate int Next(int x) {\n    int sum = 0;\n    while (x > 0) { int d = x % 10; sum += d * d; x /= 10; }\n    return sum;\n}\n```\n**Complexity:** O(log n) per step.\n\n---",
+      "needsReview": true
     },
     "math-and-geometry-occasional-awareness-rotate-image": {
       "id": "math-and-geometry-occasional-awareness-rotate-image",
@@ -3000,7 +3012,9 @@
       "insight": "transpose then reverse each row.",
       "complexity": "O(n²)/O(1).",
       "watch": "the transpose+reverse decomposition avoids fiddly index math.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Transpose, then reverse each row → 90° clockwise, in place (avoids fiddly index math).\npublic void Rotate(int[][] matrix) {\n    int n = matrix.Length;\n    for (int i = 0; i < n; i++)\n        for (int j = i + 1; j < n; j++)\n            (matrix[i][j], matrix[j][i]) = (matrix[j][i], matrix[i][j]);\n    foreach (var row in matrix) Array.Reverse(row);\n}\n```\n**Complexity:** O(n²) time, O(1) space.\n\n---",
+      "needsReview": true
     },
     "math-and-geometry-occasional-awareness-spiral-matrix": {
       "id": "math-and-geometry-occasional-awareness-spiral-matrix",
@@ -3014,7 +3028,9 @@
       "approach": "traverse each edge, then contract that boundary.",
       "complexity": "O(mn).",
       "watch": "re-check boundaries before the bottom and left passes to avoid double-visiting on non-square grids.",
-      "source": "original"
+      "source": "original",
+      "solution": "```csharp\n// Maintain four shrinking boundaries; re-check before the bottom and left passes to avoid\n// double-visiting on non-square grids.\npublic IList<int> SpiralOrder(int[][] matrix) {\n    var res = new List<int>();\n    int top = 0, bottom = matrix.Length - 1, left = 0, right = matrix[0].Length - 1;\n    while (top <= bottom && left <= right) {\n        for (int c = left; c <= right; c++) res.Add(matrix[top][c]);\n        top++;\n        for (int r = top; r <= bottom; r++) res.Add(matrix[r][right]);\n        right--;\n        if (top <= bottom) { for (int c = right; c >= left; c--) res.Add(matrix[bottom][c]); bottom--; }\n        if (left <= right) { for (int r = bottom; r >= top; r--) res.Add(matrix[r][left]); left++; }\n    }\n    return res;\n}\n```\n**Complexity:** O(m·n).",
+      "needsReview": true
     }
   },
   "concepts": {
