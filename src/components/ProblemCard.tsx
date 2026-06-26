@@ -53,6 +53,8 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
         </button>
       </div>
 
+      {problem.prompt && <InlineMd className="mt-2">{problem.prompt}</InlineMd>}
+
       <div className="mt-2 space-y-1.5">
         {problem.insight && <Field label="Insight" value={problem.insight} />}
         {problem.approach && <Field label="Approach" value={problem.approach} />}
@@ -64,7 +66,7 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
       {problem.solution && (
         <details className="mt-2 rounded border border-border bg-panel2/40">
           <summary className="flex cursor-pointer items-center gap-2 px-3 py-1.5 text-xs text-accent">
-            C# solution
+            Solution
             <span className="rounded border border-gen/50 bg-gen/10 px-1.5 py-0.5 text-[10px] font-semibold text-gen">
               AI-added — verify
             </span>

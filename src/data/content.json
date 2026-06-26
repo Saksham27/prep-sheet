@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T22:01:14.241Z",
+  "generatedAt": "2026-06-26T22:19:06.286Z",
   "tracks": [
     {
       "id": "dsa",
@@ -83,6 +83,18 @@
       "topicIds": [
         "behavioral-story-bank",
         "behavioral-framework"
+      ]
+    },
+    {
+      "id": "sql",
+      "title": "SQL & Data Modeling",
+      "order": 6,
+      "kind": "fundamentals",
+      "blurb": "The hands-on database round: normalization and keys, then schema-design and query-writing exercises (joins, window functions, CTEs, tuning) with hidden solutions.",
+      "topicIds": [
+        "sql-data-modeling",
+        "sql-schema-exercises",
+        "sql-query-exercises"
       ]
     },
     {
@@ -1011,6 +1023,58 @@
         "fw-9-7",
         "fw-the-corpus-is-complete-how-to-use-all-five-parts-8"
       ],
+      "storyIds": []
+    },
+    "sql-data-modeling": {
+      "id": "sql-data-modeling",
+      "trackId": "sql",
+      "order": 0,
+      "title": "Data modeling (concepts)",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "sql-data-modeling-normalization-1nf-3nf-and-when-to-denormalize-0",
+        "sql-data-modeling-keys-surrogate-vs-natural-composite-uuid-vs-serial-1",
+        "sql-data-modeling-relationships-and-junction-tables-2",
+        "sql-data-modeling-model-for-access-patterns-then-index-3"
+      ],
+      "storyIds": []
+    },
+    "sql-schema-exercises": {
+      "id": "sql-schema-exercises",
+      "trackId": "sql",
+      "order": 0,
+      "title": "Schema design exercises",
+      "itemKind": "problem",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [
+        "sql-schema-exercises-design-a-schema-for-an-e-commerce-orders-system-0",
+        "sql-schema-exercises-design-a-schema-for-a-social-feed-users-follows-posts-1"
+      ],
+      "conceptIds": [],
+      "storyIds": []
+    },
+    "sql-query-exercises": {
+      "id": "sql-query-exercises",
+      "trackId": "sql",
+      "order": 0,
+      "title": "Query writing exercises",
+      "itemKind": "problem",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [
+        "sql-query-exercises-second-highest-salary-0",
+        "sql-query-exercises-top-earner-per-department-window-function-1",
+        "sql-query-exercises-running-total-of-daily-revenue-2",
+        "sql-query-exercises-find-duplicate-emails-3",
+        "sql-query-exercises-customers-with-no-orders-anti-join-4",
+        "sql-query-exercises-month-over-month-revenue-growth-cte-lag-5",
+        "sql-query-exercises-make-a-slow-query-sargable-prune-able-6"
+      ],
+      "conceptIds": [],
       "storyIds": []
     },
     "tech-rabbitmq": {
@@ -3140,6 +3204,123 @@
       "source": "original",
       "solution": "```csharp\n// Maintain four shrinking boundaries; re-check before the bottom and left passes to avoid\n// double-visiting on non-square grids.\npublic IList<int> SpiralOrder(int[][] matrix) {\n    var res = new List<int>();\n    int top = 0, bottom = matrix.Length - 1, left = 0, right = matrix[0].Length - 1;\n    while (top <= bottom && left <= right) {\n        for (int c = left; c <= right; c++) res.Add(matrix[top][c]);\n        top++;\n        for (int r = top; r <= bottom; r++) res.Add(matrix[r][right]);\n        right--;\n        if (top <= bottom) { for (int c = right; c >= left; c--) res.Add(matrix[bottom][c]); bottom--; }\n        if (left <= right) { for (int r = bottom; r >= top; r--) res.Add(matrix[r][left]); left++; }\n    }\n    return res;\n}\n```\n**Complexity:** O(m·n).",
       "needsReview": true
+    },
+    "sql-schema-exercises-design-a-schema-for-an-e-commerce-orders-system-0": {
+      "id": "sql-schema-exercises-design-a-schema-for-an-e-commerce-orders-system-0",
+      "trackId": "sql",
+      "topicId": "sql-schema-exercises",
+      "title": "Design a schema for an e-commerce orders system",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Model **customers, products, orders, and order line items**. Capture the price **at purchase time** (product prices change later), support an order status lifecycle, and serve \"a customer's recent orders\" efficiently. Write the Postgres DDL and justify the key choices.",
+      "solution": "```sql\nCREATE TABLE customers (\n    id         BIGSERIAL PRIMARY KEY,\n    email      TEXT UNIQUE NOT NULL,\n    name       TEXT NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\nCREATE TABLE products (\n    id          BIGSERIAL PRIMARY KEY,\n    sku         TEXT UNIQUE NOT NULL,\n    name        TEXT NOT NULL,\n    price_cents INT NOT NULL CHECK (price_cents >= 0)   -- the *current* price\n);\n\nCREATE TABLE orders (\n    id          BIGSERIAL PRIMARY KEY,\n    customer_id BIGINT NOT NULL REFERENCES customers(id),\n    status      TEXT NOT NULL DEFAULT 'pending'\n                CHECK (status IN ('pending','paid','shipped','delivered','cancelled')),\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()\n);\nCREATE INDEX idx_orders_customer ON orders(customer_id, created_at DESC);\n\nCREATE TABLE order_items (\n    order_id         BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,\n    product_id       BIGINT NOT NULL REFERENCES products(id),\n    quantity         INT NOT NULL CHECK (quantity > 0),\n    unit_price_cents INT NOT NULL,                       -- SNAPSHOT at purchase time\n    PRIMARY KEY (order_id, product_id)\n);\n```\n**Why:** `unit_price_cents` is snapshotted on the line item, not derived from the live product — so a historical order stays correct when the product's price changes. The composite PK `(order_id, product_id)` prevents duplicate lines. `idx_orders_customer (customer_id, created_at DESC)` serves \"this customer's recent orders\" with an index range + ordering. Money is stored as integer cents to avoid float rounding."
+    },
+    "sql-schema-exercises-design-a-schema-for-a-social-feed-users-follows-posts-1": {
+      "id": "sql-schema-exercises-design-a-schema-for-a-social-feed-users-follows-posts-1",
+      "trackId": "sql",
+      "topicId": "sql-schema-exercises",
+      "title": "Design a schema for a social feed (users, follows, posts)",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "Users **follow** other users and create **posts**. Support the query \"show posts from everyone I follow, newest first.\" Write the DDL and the feed query.",
+      "solution": "```sql\nCREATE TABLE users (\n    id     BIGSERIAL PRIMARY KEY,\n    handle TEXT UNIQUE NOT NULL\n);\n\nCREATE TABLE follows (\n    follower_id BIGINT NOT NULL REFERENCES users(id),\n    followee_id BIGINT NOT NULL REFERENCES users(id),\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),\n    PRIMARY KEY (follower_id, followee_id),\n    CHECK (follower_id <> followee_id)\n);\nCREATE INDEX idx_follows_followee ON follows(followee_id);\n\nCREATE TABLE posts (\n    id         BIGSERIAL PRIMARY KEY,\n    author_id  BIGINT NOT NULL REFERENCES users(id),\n    body       TEXT NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT now()\n);\nCREATE INDEX idx_posts_author_time ON posts(author_id, created_at DESC);\n\n-- Feed (fan-out on read):\nSELECT p.*\nFROM posts p\nJOIN follows f ON f.followee_id = p.author_id\nWHERE f.follower_id = $1\n  AND p.created_at < $2          -- cursor for keyset pagination\nORDER BY p.created_at DESC\nLIMIT 50;\n```\n**Why:** `follows` is a junction table with a composite PK (no duplicate follow) and a self-reference check. Index `posts(author_id, created_at)` powers the join + ordering. This is fan-out-**on-read**; at scale you'd precompute per-user feeds (see System Design → News Feed). Paginate by **keyset** (`created_at < cursor`) not `OFFSET`, which degrades on deep pages."
+    },
+    "sql-query-exercises-second-highest-salary-0": {
+      "id": "sql-query-exercises-second-highest-salary-0",
+      "trackId": "sql",
+      "topicId": "sql-query-exercises",
+      "title": "Second-highest salary",
+      "difficulty": "Easy",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "`employees(id, name, salary)`. Return the **second-highest distinct** salary (NULL if it doesn't exist).",
+      "solution": "```sql\n-- Simple, tie-safe via DISTINCT max-below-max:\nSELECT MAX(salary) AS second_highest\nFROM employees\nWHERE salary < (SELECT MAX(salary) FROM employees);\n\n-- Window-function form (generalizes to Nth highest):\nSELECT DISTINCT salary\nFROM (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk FROM employees) t\nWHERE rnk = 2;\n```\n**Note:** `DENSE_RANK` handles ties (two people earning the top salary still leaves a real \"second\"). Returning via the subquery yields NULL automatically when there's no second salary."
+    },
+    "sql-query-exercises-top-earner-per-department-window-function-1": {
+      "id": "sql-query-exercises-top-earner-per-department-window-function-1",
+      "trackId": "sql",
+      "topicId": "sql-query-exercises",
+      "title": "Top earner per department (window function)",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "`employees(id, name, dept_id, salary)`. Return the **highest-paid employee in each department**, including ties.",
+      "solution": "```sql\nSELECT id, name, dept_id, salary\nFROM (\n    SELECT *, RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rnk\n    FROM employees\n) t\nWHERE rnk = 1;\n```\n**Note:** `PARTITION BY dept_id` restarts the ranking per department; `RANK` (not `ROW_NUMBER`) keeps tied top earners. Swap to `ROW_NUMBER` if you want exactly one per department."
+    },
+    "sql-query-exercises-running-total-of-daily-revenue-2": {
+      "id": "sql-query-exercises-running-total-of-daily-revenue-2",
+      "trackId": "sql",
+      "topicId": "sql-query-exercises",
+      "title": "Running total of daily revenue",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "`sales(day DATE, amount NUMERIC)`. Return each day with a **cumulative running total**, ordered by day.",
+      "solution": "```sql\nSELECT day, amount,\n       SUM(amount) OVER (ORDER BY day ROWS UNBOUNDED PRECEDING) AS running_total\nFROM sales\nORDER BY day;\n```\n**Note:** the windowed `SUM ... OVER (ORDER BY day)` accumulates; `ROWS UNBOUNDED PRECEDING` makes the frame explicit (everything up to the current row)."
+    },
+    "sql-query-exercises-find-duplicate-emails-3": {
+      "id": "sql-query-exercises-find-duplicate-emails-3",
+      "trackId": "sql",
+      "topicId": "sql-query-exercises",
+      "title": "Find duplicate emails",
+      "difficulty": "Easy",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "`users(id, email)`. Return every email that appears more than once.",
+      "solution": "```sql\nSELECT email\nFROM users\nGROUP BY email\nHAVING COUNT(*) > 1;\n```\n**Note:** `HAVING` filters *after* aggregation (you can't put an aggregate in `WHERE`). Add `COUNT(*)` to the SELECT if you want the dup count too."
+    },
+    "sql-query-exercises-customers-with-no-orders-anti-join-4": {
+      "id": "sql-query-exercises-customers-with-no-orders-anti-join-4",
+      "trackId": "sql",
+      "topicId": "sql-query-exercises",
+      "title": "Customers with no orders (anti-join)",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "`customers(id, name)`, `orders(id, customer_id)`. Return customers who have **never** placed an order.",
+      "solution": "```sql\nSELECT c.id, c.name\nFROM customers c\nWHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);\n\n-- Equivalent LEFT JOIN / IS NULL form:\nSELECT c.id, c.name\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nWHERE o.id IS NULL;\n```\n**Note:** prefer `NOT EXISTS` (clean anti-join, planner-friendly) over `NOT IN (SELECT customer_id ...)` — `NOT IN` silently returns nothing if the subquery contains a NULL."
+    },
+    "sql-query-exercises-month-over-month-revenue-growth-cte-lag-5": {
+      "id": "sql-query-exercises-month-over-month-revenue-growth-cte-lag-5",
+      "trackId": "sql",
+      "topicId": "sql-query-exercises",
+      "title": "Month-over-month revenue growth (CTE + LAG)",
+      "difficulty": "Hard",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "`sales(day DATE, amount NUMERIC)`. Return per-month revenue and the **% change vs the previous month**.",
+      "solution": "```sql\nWITH monthly AS (\n    SELECT date_trunc('month', day) AS month, SUM(amount) AS revenue\n    FROM sales\n    GROUP BY 1\n)\nSELECT month,\n       revenue,\n       revenue - LAG(revenue) OVER (ORDER BY month) AS delta,\n       ROUND(100.0 * (revenue - LAG(revenue) OVER (ORDER BY month))\n                   / NULLIF(LAG(revenue) OVER (ORDER BY month), 0), 1) AS pct_change\nFROM monthly\nORDER BY month;\n```\n**Note:** the CTE aggregates to one row per month; `LAG(...) OVER (ORDER BY month)` reaches the previous month's value; `NULLIF(prev, 0)` guards divide-by-zero (and the first month yields NULL, correctly)."
+    },
+    "sql-query-exercises-make-a-slow-query-sargable-prune-able-6": {
+      "id": "sql-query-exercises-make-a-slow-query-sargable-prune-able-6",
+      "trackId": "sql",
+      "topicId": "sql-query-exercises",
+      "title": "Make a slow query sargable / prune-able",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "On a 50M-row, monthly-partitioned table this is slow: `SELECT * FROM events WHERE date_trunc('day', created_at) = '2026-06-27';`. Explain why and fix it.",
+      "solution": "```sql\n-- Why: wrapping created_at in date_trunc() makes the predicate NON-SARGABLE — the planner\n-- can't use a B-tree index on created_at and can't prune partitions, so it seq-scans all\n-- of them. Rewrite as a half-open RANGE on the raw column:\nSELECT *\nFROM events\nWHERE created_at >= '2026-06-27'\n  AND created_at <  '2026-06-28';\n\n-- Now an index on created_at seeks the range, and partition pruning eliminates every\n-- month except the relevant one — the 45s-to-sub-second pattern.\n-- (An expression index CREATE INDEX ON events ((date_trunc('day', created_at))) also works,\n--  but the range rewrite is preferred because it ALSO enables partition pruning.)\n```\n**Note:** the rule — never apply a function/cast to an indexed (or partition-key) column in the `WHERE` clause if you want the index/pruning to fire. Transform the *constant* side instead."
     }
   },
   "concepts": {
@@ -4444,6 +4625,74 @@
       "followups": [],
       "source": "original"
     },
+    "sql-data-modeling-normalization-1nf-3nf-and-when-to-denormalize-0": {
+      "id": "sql-data-modeling-normalization-1nf-3nf-and-when-to-denormalize-0",
+      "trackId": "sql",
+      "topicId": "sql-data-modeling",
+      "section": "",
+      "title": "Normalization 1NF → 3NF (and when to denormalize)",
+      "body": "**1NF**: atomic columns, no repeating groups. **2NF**: no partial dependency — every non-key column depends on the *whole* composite key. **3NF**: no transitive dependency — non-key columns depend on the key and nothing but the key. Normalize to eliminate redundancy and update anomalies. **Denormalize deliberately** (duplicate a column, store a precomputed aggregate) only after you've *measured* a read bottleneck — and own the cost: now you must keep the duplicate in sync.",
+      "probes": [
+        {
+          "question": "When would you denormalize?",
+          "answer": "When a hot read path requires expensive joins or aggregates that you can't make fast enough normalized — e.g. storing a `comment_count` on `posts` instead of `COUNT(*)`-ing a huge comments table on every feed render, or a reporting table refreshed periodically. You trade write complexity (keeping the copy correct, via triggers, application logic, or a materialized view) for read speed. Do it consciously and locally, never as a default."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "sql-data-modeling-keys-surrogate-vs-natural-composite-uuid-vs-serial-1": {
+      "id": "sql-data-modeling-keys-surrogate-vs-natural-composite-uuid-vs-serial-1",
+      "trackId": "sql",
+      "topicId": "sql-data-modeling",
+      "section": "",
+      "title": "Keys — surrogate vs natural, composite, UUID vs serial",
+      "body": "A **primary key** uniquely identifies a row. **Natural keys** (email, SKU) carry meaning but can change and may leak PII; **surrogate keys** (`BIGSERIAL`, UUID) are stable and opaque — usually the PK, with a `UNIQUE` constraint guarding the natural key. **Composite keys** (multiple columns) model junction tables and real-world uniqueness. **UUID vs bigserial**: UUID is globally unique and shard-friendly but larger and *random* (hurts B-tree locality/insert speed) — prefer time-ordered **UUIDv7/ULID** if you need UUIDs.",
+      "probes": [
+        {
+          "question": "Surrogate vs natural primary key — which and why?",
+          "answer": "Default to a **surrogate** PK (auto-increment or UUID) and put a `UNIQUE` constraint on the natural key. Natural keys change (people change emails, SKUs get reissued), and a changing PK cascades painfully through every foreign key. Surrogates are stable, compact, and don't expose business data. Use a natural/composite key only when it's genuinely immutable and you want the constraint enforced as the identity (e.g. a junction table's `(a_id, b_id)`)."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "sql-data-modeling-relationships-and-junction-tables-2": {
+      "id": "sql-data-modeling-relationships-and-junction-tables-2",
+      "trackId": "sql",
+      "topicId": "sql-data-modeling",
+      "section": "",
+      "title": "Relationships and junction tables",
+      "body": "**1:N** — a foreign key on the \"many\" side (`orders.customer_id`). **M:N** — a **junction table** holding both foreign keys as a composite PK (`enrollments(student_id, course_id)`), optionally with extra columns (enrolled_at). **1:1** — rare; usually a smell that the two tables should merge, or a FK + `UNIQUE` for optional/extension data. Always index the foreign key columns — joins and cascading deletes need them.",
+      "probes": [
+        {
+          "question": "How do you model a many-to-many relationship?",
+          "answer": "Introduce a **junction (bridge) table** with one foreign key to each side and a composite primary key of those two columns to prevent duplicates — e.g. `student_course(student_id, course_id, PRIMARY KEY(student_id, course_id))`. Any attributes of the *relationship* itself (grade, enrolled_at) live on the junction table, not on either entity. Index both FK columns so joins from either direction are fast."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "sql-data-modeling-model-for-access-patterns-then-index-3": {
+      "id": "sql-data-modeling-model-for-access-patterns-then-index-3",
+      "trackId": "sql",
+      "topicId": "sql-data-modeling",
+      "section": "",
+      "title": "Model for access patterns, then index",
+      "body": "Schema and indexes follow the **queries**, not the reverse. List the read paths first, then index the columns you filter/join/order by, respecting the composite **leftmost-prefix** rule. An index on every foreign key is almost always worth it (joins, cascades). Over-indexing slows writes and bloats storage. Heavy analytical queries don't belong on the transactional schema — use a read replica or a separate OLAP store rather than contorting the model.",
+      "probes": [
+        {
+          "question": "How do you decide which columns to index?",
+          "answer": "Start from the actual queries: index columns in `WHERE`/`JOIN`/`ORDER BY` that are **selective** (narrow the result a lot). Use composite indexes ordered by equality-then-range to match query shapes, and consider covering (`INCLUDE`) columns for hot read-only queries. Skip low-cardinality columns (a boolean index rarely helps — the planner seq-scans anyway), small tables, and write-heavy tables where the maintenance cost outweighs the read benefit. Always verify with `EXPLAIN ANALYZE`, don't guess."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
     "tech-rabbitmq-core-model-exchanges-queues-bindings-0": {
       "id": "tech-rabbitmq-core-model-exchanges-queues-bindings-0",
       "trackId": "tech",
@@ -5160,8 +5409,8 @@
     }
   ],
   "stats": {
-    "problems": 129,
-    "concepts": 125,
+    "problems": 138,
+    "concepts": 129,
     "stories": 9
   }
 }

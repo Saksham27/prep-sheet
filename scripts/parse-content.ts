@@ -141,6 +141,11 @@ function build(): ContentBundle {
     }
   }
   for (const c of gen.concepts) concepts[c.id] = c;
+  for (const p of gen.problems) {
+    problems[p.id] = p;
+    const t = topics[p.topicId];
+    if (t && !t.problemIds.includes(p.id)) t.problemIds.push(p.id);
+  }
 
   // --- Merge follow-up probes onto existing concepts (step 3) ---
   const followups = parseFollowups();

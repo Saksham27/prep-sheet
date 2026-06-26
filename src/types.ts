@@ -22,6 +22,7 @@ export interface Problem {
   core: boolean; // the ⭐ set
   revisit: boolean; // the 🔁 set (spaced repetition)
   pattern?: string;
+  prompt?: string; // exercise statement (SQL / concurrency / LLD machine-coding practice)
   insight?: string;
   approach?: string;
   complexity?: string;

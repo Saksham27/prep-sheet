@@ -1,7 +1,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { CONTENT_DIR, slugify, clean } from './util';
-import type { Track, Topic, Concept, ProbeQA, TrackKind } from '../../src/types';
+import { CONTENT_DIR, slugify, clean, difficulty } from './util';
+import type { Track, Topic, Concept, Problem, ProbeQA, TrackKind } from '../../src/types';
 
 const GEN_DIR = resolve(CONTENT_DIR, 'generated');
 
@@ -62,6 +62,7 @@ export interface GeneratedContent {
   tracks: Track[];
   topics: Topic[];
   concepts: Concept[];
+  problems: Problem[];
 }
 
 function parseDirective(line: string): Record<string, string> {
@@ -79,35 +80,48 @@ export function parseGeneratedConcepts(): GeneratedContent {
   const tracks: Track[] = [];
   const topics: Topic[] = [];
   const concepts: Concept[] = [];
+  const problems: Problem[] = [];
 
   for (const text of readGen(/concepts.*\.md$/)) {
     const lines = text.split(/\r?\n/);
     let topic: Topic | null = null;
     let concept: Concept | null = null;
-    let body: string[] = [];
+    let problem: Problem | null = null; // exercise-style problem (prompt + hidden solution)
+    let body: string[] = []; // concept body OR exercise prompt
+    let solBuf: string[] = []; // exercise solution
+    let inSolution = false;
     let probeQ: string | null = null;
     let probeBuf: string[] = [];
-    let conceptIdx = 0;
+    let idx = 0;
 
     const flushProbe = () => {
       if (concept && probeQ) concept.probes.push({ question: probeQ, answer: probeBuf.join('\n').trim() });
       probeQ = null;
       probeBuf = [];
     };
-    const flushConcept = () => {
+    const flushItem = () => {
       flushProbe();
       if (concept) {
         concept.body = body.join('\n').trim();
         concepts.push(concept);
         topic?.conceptIds.push(concept.id);
       }
+      if (problem) {
+        problem.prompt = body.join('\n').trim();
+        problem.solution = solBuf.join('\n').trim() || undefined;
+        problems.push(problem);
+        topic?.problemIds.push(problem.id);
+      }
       concept = null;
+      problem = null;
       body = [];
+      solBuf = [];
+      inSolution = false;
     };
 
     for (const line of lines) {
       if (line.startsWith('@track')) {
-        flushConcept();
+        flushItem();
         const d = parseDirective(line);
         tracks.push({
           id: d.id,
@@ -120,7 +134,7 @@ export function parseGeneratedConcepts(): GeneratedContent {
         continue;
       }
       if (line.startsWith('@topic')) {
-        flushConcept();
+        flushItem();
         const d = parseDirective(line);
         const id = d.id ?? slugify(`${d.track}-${d.title}`);
         topic = {
@@ -128,7 +142,7 @@ export function parseGeneratedConcepts(): GeneratedContent {
           trackId: d.track,
           order: Number(d.order ?? 0),
           title: d.title,
-          itemKind: 'concept',
+          itemKind: d.kind === 'problem' ? 'problem' : 'concept',
           recognitionSignals: [],
           templates: [],
           problemIds: [],
@@ -136,17 +150,17 @@ export function parseGeneratedConcepts(): GeneratedContent {
           storyIds: [],
         };
         topics.push(topic);
-        conceptIdx = 0;
+        idx = 0;
         const tr = tracks.find((t) => t.id === d.track);
         if (tr && !tr.topicIds.includes(id)) tr.topicIds.push(id);
         continue;
       }
       const cm = line.match(/^###\s+concept:\s*(.+)$/i);
       if (cm && topic) {
-        flushConcept();
+        flushItem();
         const title = clean(cm[1]);
         concept = {
-          id: slugify(`${topic.id}-${title}-${conceptIdx++}`),
+          id: slugify(`${topic.id}-${title}-${idx++}`),
           trackId: topic.trackId,
           topicId: topic.id,
           section: '',
@@ -159,6 +173,28 @@ export function parseGeneratedConcepts(): GeneratedContent {
         };
         continue;
       }
+      const em = line.match(/^###\s+exercise:\s*(?:\[([EMH])\]\s*)?(.+)$/i);
+      if (em && topic) {
+        flushItem();
+        const title = clean(em[2]);
+        problem = {
+          id: slugify(`${topic.id}-${title}-${idx++}`),
+          trackId: topic.trackId,
+          topicId: topic.id,
+          title,
+          difficulty: difficulty(em[1] ?? 'M'),
+          core: false,
+          revisit: false,
+          source: 'generated',
+          needsReview: true,
+        };
+        continue;
+      }
+      const sm = line.match(/^####\s+solution:\s*$/i);
+      if (sm && problem) {
+        inSolution = true;
+        continue;
+      }
       const pm = line.match(/^####\s+probe:\s*(.+)$/i);
       if (pm && concept) {
         flushProbe();
@@ -169,9 +205,13 @@ export function parseGeneratedConcepts(): GeneratedContent {
         probeBuf.push(line);
         continue;
       }
-      if (concept) body.push(line);
+      if (inSolution) {
+        solBuf.push(line);
+        continue;
+      }
+      if (concept || problem) body.push(line);
     }
-    flushConcept();
+    flushItem();
   }
-  return { tracks, topics, concepts };
+  return { tracks, topics, concepts, problems };
 }
