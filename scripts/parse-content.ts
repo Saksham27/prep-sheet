@@ -14,6 +14,7 @@ import { parseConceptFile } from './parsers/concepts';
 import { parseBehavioral } from './parsers/behavioral';
 import { parseCurriculum } from './parsers/curriculum';
 import { parseAllSolutions } from './parsers/solutions';
+import { parseFollowups, parseGeneratedConcepts } from './parsers/generated';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = resolve(__dirname, '..', 'src', 'data');
@@ -125,6 +126,36 @@ function build(): ContentBundle {
   }
   (globalThis as any).__solMerged = merged;
 
+  // --- Merge generated concepts/topics/tracks (step 4 worked designs + new tracks) ---
+  const gen = parseGeneratedConcepts();
+  for (const tr of gen.tracks) if (!tracks.find((t) => t.id === tr.id)) tracks.push(tr);
+  for (const t of gen.topics) {
+    if (topics[t.id]) {
+      // existing topic → append the new concept ids
+      for (const cid of t.conceptIds)
+        if (!topics[t.id].conceptIds.includes(cid)) topics[t.id].conceptIds.push(cid);
+    } else {
+      topics[t.id] = t;
+      const tr = tracks.find((x) => x.id === t.trackId);
+      if (tr && !tr.topicIds.includes(t.id)) tr.topicIds.push(t.id);
+    }
+  }
+  for (const c of gen.concepts) concepts[c.id] = c;
+
+  // --- Merge follow-up probes onto existing concepts (step 3) ---
+  const followups = parseFollowups();
+  const fuOrphans: string[] = [];
+  let fuCount = 0;
+  for (const [cid, list] of Object.entries(followups)) {
+    if (concepts[cid]) {
+      concepts[cid].followups = list;
+      fuCount += list.length;
+    } else fuOrphans.push(cid);
+  }
+  if (fuOrphans.length) console.warn(`⚠ ${fuOrphans.length} followup concept id(s) matched nothing:`, fuOrphans.join(', '));
+  (globalThis as any).__fuCount = fuCount;
+  (globalThis as any).__genConcepts = gen.concepts.length;
+
   const { allocation } = parseCurriculum();
 
   return {
@@ -157,6 +188,8 @@ function main() {
   console.log(`  allocation rows: ${bundle.allocation.length}`);
   const sols = Object.values(bundle.problems).filter((p) => p.solution).length;
   console.log(`  solutions merged: ${sols}/${bundle.stats.problems}`);
+  console.log(`  generated concepts: ${(globalThis as any).__genConcepts ?? 0}`);
+  console.log(`  follow-up probes: ${(globalThis as any).__fuCount ?? 0}`);
   console.log(`→ src/data/content.json`);
 }
 
