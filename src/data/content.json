@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-26T23:19:50.717Z",
+  "generatedAt": "2026-06-26T23:23:07.712Z",
   "tracks": [
     {
       "id": "dsa",
@@ -82,7 +82,8 @@
       "blurb": "STAR story bank (fill the [brackets] with your real numbers) + the framework and delivery mechanics.",
       "topicIds": [
         "behavioral-story-bank",
-        "behavioral-framework"
+        "behavioral-framework",
+        "behavioral-hr"
       ]
     },
     {
@@ -181,7 +182,8 @@
         "tech-redis",
         "tech-postgres",
         "tech-dotnet",
-        "tech-javascript"
+        "tech-javascript",
+        "tech-devops"
       ]
     }
   ],
@@ -862,7 +864,12 @@
       "itemKind": "concept",
       "recognitionSignals": [],
       "templates": [],
-      "problemIds": [],
+      "problemIds": [
+        "design-1-the-estimation-toolkit-qps-from-daily-volume-0",
+        "design-1-the-estimation-toolkit-storage-sizing-with-replication-1",
+        "design-1-the-estimation-toolkit-cache-memory-sizing-2",
+        "design-1-the-estimation-toolkit-read-heavy-or-write-heavy-twitter-ish-3"
+      ],
       "conceptIds": [
         "design-1-the-estimation-toolkit-1-1",
         "design-1-the-estimation-toolkit-latency-numbers-orders-of-magnitude-say-roughly-2",
@@ -928,6 +935,10 @@
         "design-4-fully-worked-designs-4-5-23",
         "design-4-fully-worked-designs-4-6-24",
         "design-4-fully-worked-designs-4-7-25",
+        "design-4-fully-worked-designs-google-drive-dropbox-file-sync-and-storage-0",
+        "design-4-fully-worked-designs-distributed-message-queue-kafka-style-1",
+        "design-4-fully-worked-designs-distributed-counter-leaderboard-2",
+        "design-4-fully-worked-designs-api-gateway-single-entry-point-3",
         "design-4-fully-worked-designs-uber-ride-matching-geospatial-0",
         "design-4-fully-worked-designs-video-streaming-youtube-netflix-1",
         "design-4-fully-worked-designs-payment-system-idempotency-and-exactly-once-2",
@@ -1237,6 +1248,26 @@
         "ai-system-design-ai-agents-and-tool-calling-1",
         "ai-system-design-guardrails-evals-and-prompt-injection-2",
         "ai-system-design-using-ai-as-an-engineer-the-interview-angle-3"
+      ],
+      "storyIds": []
+    },
+    "behavioral-hr": {
+      "id": "behavioral-hr",
+      "trackId": "behavioral",
+      "order": 0,
+      "title": "Common HR questions",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "behavioral-hr-tell-me-about-yourself-0",
+        "behavioral-hr-why-this-company-why-this-role-1",
+        "behavioral-hr-why-are-you-leaving-looking-2",
+        "behavioral-hr-strengths-and-weaknesses-3",
+        "behavioral-hr-where-do-you-see-yourself-in-5-years-4",
+        "behavioral-hr-salary-current-ctc-and-notice-period-5",
+        "behavioral-hr-do-you-have-any-questions-for-us-6"
       ],
       "storyIds": []
     },
@@ -1648,6 +1679,24 @@
         "tech-javascript-this-binding-and-arrow-functions-2",
         "tech-javascript-promises-and-async-await-error-handling-3",
         "tech-javascript-typescript-structural-typing-unknown-vs-any-type-vs-interface-4"
+      ],
+      "storyIds": []
+    },
+    "tech-devops": {
+      "id": "tech-devops",
+      "trackId": "tech",
+      "order": 0,
+      "title": "DevOps (Docker / K8s / CI-CD)",
+      "itemKind": "concept",
+      "recognitionSignals": [],
+      "templates": [],
+      "problemIds": [],
+      "conceptIds": [
+        "tech-devops-containers-vs-vms-and-what-docker-gives-you-0",
+        "tech-devops-kubernetes-what-it-gives-you-1",
+        "tech-devops-ci-vs-cd-2",
+        "tech-devops-deployment-strategies-rolling-blue-green-canary-3",
+        "tech-devops-health-checks-observability-and-12-factor-4"
       ],
       "storyIds": []
     }
@@ -3830,6 +3879,58 @@
       "needsReview": true,
       "prompt": "Design a small class hierarchy so that code can compute the area of any shape uniformly (`Circle`, `Rectangle`), and adding a new shape requires no changes to existing code. Write the C# and name the OOP principles used.",
       "solution": "```csharp\npublic abstract class Shape {           // abstraction: the essential operation only\n    public abstract double Area();      // each shape MUST define how\n}\npublic class Circle : Shape {\n    public double R { get; init; }\n    public override double Area() => Math.PI * R * R;   // overriding (runtime polymorphism)\n}\npublic class Rectangle : Shape {\n    public double W { get; init; }\n    public double H { get; init; }\n    public override double Area() => W * H;\n}\n\n// Caller is polymorphic — works for any Shape, including ones added later:\ndouble TotalArea(IEnumerable<Shape> shapes) => shapes.Sum(s => s.Area());\n```\n**Principles:** **Abstraction** (`Shape` exposes only `Area()`), **Inheritance** (`Circle`/`Rectangle` are-a `Shape`), **Polymorphism** (the caller calls `Area()` without knowing the concrete type; the right override runs). This also satisfies **Open/Closed** — a new `Triangle : Shape` plugs in with zero edits to `TotalArea`. Contrast with a `switch` on a shape-type enum, which you'd have to edit for every new shape."
+    },
+    "design-1-the-estimation-toolkit-qps-from-daily-volume-0": {
+      "id": "design-1-the-estimation-toolkit-qps-from-daily-volume-0",
+      "trackId": "design",
+      "topicId": "design-1-the-estimation-toolkit",
+      "title": "QPS from daily volume",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "A service receives **500 million requests per day**. Estimate the **average** QPS and a reasonable **peak** QPS.",
+      "solution": "```text\nA day ≈ 86,400 s ≈ 10^5 s (the handy shortcut).\nAverage QPS = 500,000,000 / 10^5 = 5,000 req/s.\nPeak is typically 2–3× average → ~10,000–15,000 req/s.\nDesign for peak, not average.\n```\n**Note:** memorize \"1 day ≈ 10⁵ seconds\" — then any /day figure ÷ 10⁵ is average QPS. 1M/day ≈ 12 QPS, 100M/day ≈ 1,200 QPS, 1B/day ≈ 12,000 QPS."
+    },
+    "design-1-the-estimation-toolkit-storage-sizing-with-replication-1": {
+      "id": "design-1-the-estimation-toolkit-storage-sizing-with-replication-1",
+      "trackId": "design",
+      "topicId": "design-1-the-estimation-toolkit",
+      "title": "Storage sizing with replication",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "A photo service stores **10 million photos/day**, average **2 MB** each, replicated **3×**. How much storage per **year**?",
+      "solution": "```text\nPer day:  10M × 2 MB = 20,000,000 MB = 20 TB/day.\nPer year: 20 TB × 365 ≈ 7.3 PB/year (raw).\nWith 3× replication: 7.3 PB × 3 ≈ ~22 PB/year.\n```\n**Note:** powers of two shortcut — 2^10≈10³ (KB), 2^20≈10⁶ (MB), 2^30≈10⁹ (GB), 2^40≈10¹² (TB). Always state assumptions (avg size, replication factor, retention) — the interviewer cares about the method, not a precise number."
+    },
+    "design-1-the-estimation-toolkit-cache-memory-sizing-2": {
+      "id": "design-1-the-estimation-toolkit-cache-memory-sizing-2",
+      "trackId": "design",
+      "topicId": "design-1-the-estimation-toolkit",
+      "title": "Cache memory sizing",
+      "difficulty": "Medium",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "You want **80%** of **1 million** hot items, each ~**5 KB**, served from an in-memory cache. How much RAM (ignoring overhead)?",
+      "solution": "```text\nItems cached = 0.8 × 1,000,000 = 800,000.\nMemory = 800,000 × 5 KB = 4,000,000 KB ≈ 4 GB.\nAdd ~20–30% for data-structure/overhead → provision ~5 GB.\nFits comfortably on one node → caching is cheap here; the design problem is elsewhere.\n```\n**Note:** sizing the cache tells you whether it fits in memory (one node vs a distributed cache) and what hit-rate you can afford — a quick calc that often reframes the whole design."
+    },
+    "design-1-the-estimation-toolkit-read-heavy-or-write-heavy-twitter-ish-3": {
+      "id": "design-1-the-estimation-toolkit-read-heavy-or-write-heavy-twitter-ish-3",
+      "trackId": "design",
+      "topicId": "design-1-the-estimation-toolkit",
+      "title": "Read-heavy or write-heavy? (Twitter-ish)",
+      "difficulty": "Easy",
+      "core": false,
+      "revisit": false,
+      "source": "generated",
+      "needsReview": true,
+      "prompt": "**200M DAU**, each user **posts 2×/day** and **reads 100 posts/day**. Estimate write and read QPS, and what it implies.",
+      "solution": "```text\nWrites = 200M × 2 = 400M/day  ÷ 10^5 ≈ 4,000 writes/s  (~12k peak).\nReads  = 200M × 100 = 20B/day  ÷ 10^5 ≈ 200,000 reads/s (~500k+ peak).\nRead:write ≈ 50:1 → heavily READ-heavy.\nImplication: cache aggressively, use read replicas / precomputed feeds,\nand the feed fan-out (read vs write) is the real design problem.\n```\n**Note:** letting the read:write ratio fall out of the numbers — and naming what it implies (cache-first, fan-out strategy) — is exactly the senior move: let the estimate *select the hard problem*."
     },
     "foundations-missing-number-0": {
       "id": "foundations-missing-number-0",
@@ -6707,6 +6808,125 @@
       "source": "generated",
       "needsReview": true
     },
+    "behavioral-hr-tell-me-about-yourself-0": {
+      "id": "behavioral-hr-tell-me-about-yourself-0",
+      "trackId": "behavioral",
+      "topicId": "behavioral-hr",
+      "section": "",
+      "title": "\"Tell me about yourself\"",
+      "body": "The opener, and most people fumble it by reciting their résumé. Use **present → past → future** in ~60–90 seconds: who you are *now* and the scope you operate at (one line), 1–2 **highlight** achievements with impact, then *why you're here* (what you want next, tied to this role). It sets the frame for the whole interview — lead with your strongest, most relevant signal. Don't narrate every job chronologically; curate.",
+      "probes": [
+        {
+          "question": "How should you structure \"tell me about yourself\"?",
+          "answer": "Present–past–future in under ~90 seconds: start with who you are and your current scope (\"backend engineer working on multi-tenant systems at scale\"), give one or two quantified highlights that matter for *this* role, then pivot to why you're interviewing and what you want next. It's a curated headline, not a chronological résumé read-through — you're choosing the narrative the rest of the interview hangs on. Practice it out loud until it's tight."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "behavioral-hr-why-this-company-why-this-role-1": {
+      "id": "behavioral-hr-why-this-company-why-this-role-1",
+      "trackId": "behavioral",
+      "topicId": "behavioral-hr",
+      "section": "",
+      "title": "\"Why this company / why this role?\"",
+      "body": "This tests whether you've **done your homework** and have genuine motivation. Connect *their* specifics — the product, the tech stack, the scale of problems, the mission — to *your* goals and strengths. \"You run large-scale [X] on [stack I know], and I want to go deeper on [Y]\" beats generic flattery. Show you've read about the team/product. Avoid answers that would apply to any company (\"good culture, growth\").",
+      "probes": [
+        {
+          "question": "What makes a strong \"why us\" answer?",
+          "answer": "Specificity grounded in research: name the actual problems they solve, the scale or tech that excites you, and tie it to where you want to grow — so the answer could *only* be about them, not any company. Show you understand what the team does and why your background fits. Generic answers (\"great culture, learning opportunities\") signal you didn't prepare; a concrete, two-way fit (\"you have X problem, I've done Y and want to do more of it\") signals real interest."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "behavioral-hr-why-are-you-leaving-looking-2": {
+      "id": "behavioral-hr-why-are-you-leaving-looking-2",
+      "trackId": "behavioral",
+      "topicId": "behavioral-hr",
+      "section": "",
+      "title": "\"Why are you leaving / looking?\"",
+      "body": "Stay **positive and forward-looking** — never trash your current employer (it reads as a red flag and predicts how you'll talk about *them* later). Frame it as moving **toward** something: scope, a kind of problem, growth, technology — not running away. \"I've learned a lot, and I'm looking for [bigger scope / new challenge] that this role offers\" is the shape. Keep it brief; don't air grievances even if they're real.",
+      "probes": [
+        {
+          "question": "How do you answer \"why are you leaving\" without red flags?",
+          "answer": "Frame it as pull, not push: you're seeking greater scope, a new class of problems, growth, or technology that the new role offers — not escaping a bad situation. Speak respectfully about your current employer regardless of reality, because badmouthing them tells the interviewer how you'd later talk about *this* company. Keep it short and positive, then redirect to what excites you about the opportunity in front of you."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "behavioral-hr-strengths-and-weaknesses-3": {
+      "id": "behavioral-hr-strengths-and-weaknesses-3",
+      "trackId": "behavioral",
+      "topicId": "behavioral-hr",
+      "section": "",
+      "title": "\"Strengths and weaknesses\"",
+      "body": "For **strengths**, pick one or two **relevant** to the role and back each with brief evidence — don't just claim \"problem-solver,\" show it. For **weaknesses**, give a **real** one and, crucially, what you're **actively doing** about it — that's what's being tested (self-awareness + growth), not the flaw itself. Avoid the fake humblebrag (\"I'm a perfectionist / I work too hard\") — interviewers see through it. A genuine, owned weakness with a concrete improvement plan lands far better.",
+      "probes": [
+        {
+          "question": "How do you answer \"what's your greatest weakness?\"",
+          "answer": "Name a **real** weakness and pair it immediately with the concrete steps you're taking to improve — the question tests self-awareness and growth mindset, not whether you have flaws. Avoid the transparent humblebrags (\"perfectionist,\" \"work too hard\"); they signal evasiveness. Pick something genuine but not disqualifying for the role, show you've recognized it and have a system to address it, and ideally note the progress you've already made."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "behavioral-hr-where-do-you-see-yourself-in-5-years-4": {
+      "id": "behavioral-hr-where-do-you-see-yourself-in-5-years-4",
+      "trackId": "behavioral",
+      "topicId": "behavioral-hr",
+      "section": "",
+      "title": "\"Where do you see yourself in 5 years?\"",
+      "body": "They're checking **ambition, realism, and fit** — will you grow here and stay a while. Answer with a direction aligned to the role's path (deeper technical mastery, broader scope, mentoring/leading) rather than a rigid title or an unrelated plan. Show you want to **grow with them**. Avoid both extremes: \"I have no idea\" (no drive) and \"I want your job / I'll start my own company\" (poor fit). Tie your growth to delivering value for them along the way.",
+      "probes": [
+        {
+          "question": "What are they really assessing with the 5-year question?",
+          "answer": "Ambition, self-direction, and retention/fit — whether you have a growth trajectory and whether it aligns with what this role and company can offer. Give a direction (deeper expertise, larger scope, technical leadership/mentoring) consistent with the role's path, framed as growing *with* them while delivering value. Avoid \"no idea\" (reads as no drive) and anything that signals you'll leave fast or don't fit (a wildly unrelated plan). It's about trajectory, not a precise title."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "behavioral-hr-salary-current-ctc-and-notice-period-5": {
+      "id": "behavioral-hr-salary-current-ctc-and-notice-period-5",
+      "trackId": "behavioral",
+      "topicId": "behavioral-hr",
+      "section": "",
+      "title": "Salary, current CTC, and notice period",
+      "body": "Handle compensation with preparation, not anxiety. **Research the market range** for the role/level/location beforehand. If pushed early, give a **researched range** (\"based on market and my experience, I'm looking at X–Y\") or politely defer until you understand the role's scope. Be **honest** about current compensation and **notice period** — don't lie (it surfaces in checks). Negotiate from a **written offer**, not in the screening call, and consider the **total** package (base, bonus, equity, growth), not just base. Stay collaborative — it's not adversarial.",
+      "probes": [
+        {
+          "question": "How do you handle the salary expectations question?",
+          "answer": "Come prepared with a researched market range for the role, level, and location. When asked, either give that range with a brief rationale (\"based on market and my experience\") or defer until you've understood the role's scope, which is reasonable early on. Be honest about current pay and notice period — misrepresenting either risks the offer in verification. Save real negotiation for when you have a written offer, evaluate the total package (not just base), and keep the tone collaborative rather than combative."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "behavioral-hr-do-you-have-any-questions-for-us-6": {
+      "id": "behavioral-hr-do-you-have-any-questions-for-us-6",
+      "trackId": "behavioral",
+      "topicId": "behavioral-hr",
+      "section": "",
+      "title": "\"Do you have any questions for us?\"",
+      "body": "**Always say yes** — \"no questions\" signals disinterest. Have 3–4 ready that show seniority and genuine curiosity: the team's biggest current technical challenge, how decisions and disagreements get resolved, what success looks like in the first 6 months, the path from your level to the next. Ask things you actually care about — their answers also help *you* evaluate the role. Avoid questions easily answered by their website, and avoid leading with perks/time-off in early rounds.",
+      "probes": [
+        {
+          "question": "What questions should you ask the interviewer?",
+          "answer": "Always have a few — declining signals disinterest and wastes a chance to evaluate them back. Good ones probe the real work and culture: the team's biggest technical challenge right now, how technical decisions and disagreements are made, what success looks like in the first six months, and the growth path from this level. Pick ones you genuinely care about, since the answers inform your decision too. Skip anything answerable from their careers page, and don't open with perks/leave in early rounds."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
     "cs-core-oop-the-four-pillars-of-oop-0": {
       "id": "cs-core-oop-the-four-pillars-of-oop-0",
       "trackId": "cs-core",
@@ -6990,6 +7210,74 @@
         {
           "question": "Difference between 401 and 403? And which methods are idempotent?",
           "answer": "**401 Unauthorized** means \"I don't know who you are\" — authentication is missing or invalid (log in). **403 Forbidden** means \"I know who you are, but you're not allowed\" — authenticated but lacking permission. **Idempotent** methods produce the same result however many times you repeat them: **GET, PUT, DELETE, HEAD** (and safe ones). **POST is not idempotent** — repeating it can create duplicates, which is why retrying a failed payment POST requires an **idempotency key** to dedupe."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "design-4-fully-worked-designs-google-drive-dropbox-file-sync-and-storage-0": {
+      "id": "design-4-fully-worked-designs-google-drive-dropbox-file-sync-and-storage-0",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "",
+      "title": "Google Drive / Dropbox (file sync & storage)",
+      "body": "**Scope:** upload/download files, **sync** across a user's devices, share. Out of scope: real-time collaborative editing.\n\n**Numbers:** storage-dominated; reads/writes are modest vs the byte volume. Sync events (small metadata) are frequent.\n\n**Core ideas:** split files into **chunks** (e.g. 4 MB) and store them in **object storage**, addressed by **content hash** — which gives **deduplication** (identical chunks stored once) and efficient **delta sync** (only changed chunks transfer). A **metadata DB** holds the file tree, versions, and which chunks compose each file. Each client keeps a local view and reconciles against a **change journal / cursor** (poll or push notifications) to pull only what changed.\n\n**Sync & conflicts:** clients watch the local folder, upload changed chunks, and update metadata; other devices learn via the journal and download deltas. Concurrent edits → **conflict resolution** (last-writer-wins with version history, or \"conflicted copy\").\n\n**Scale & tradeoffs:** object storage for blobs (cheap, elastic) + a CDN for downloads; metadata DB sharded by user. Dedup and delta sync cut bandwidth/storage hugely. Strong-ish consistency on metadata, eventual on propagation. Large-file upload uses **resumable/multipart** uploads.",
+      "probes": [
+        {
+          "question": "How do you sync efficiently and avoid re-uploading whole files?",
+          "answer": "**Chunk** files and address chunks by **content hash**. On a change, the client diffs locally and uploads only the chunks whose hashes changed (**delta sync**), updating the file's chunk list in the metadata DB; other devices pull just those chunks via a change journal/cursor. Content-addressing also gives **dedup** — a chunk already in storage (even from another user) isn't re-uploaded. So a one-line edit in a 1 GB file moves one chunk, not a gigabyte. Add resumable multipart uploads for large files."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "design-4-fully-worked-designs-distributed-message-queue-kafka-style-1": {
+      "id": "design-4-fully-worked-designs-distributed-message-queue-kafka-style-1",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "",
+      "title": "Distributed message queue (Kafka-style)",
+      "body": "**Scope:** a durable, horizontally-scalable queue/log — producers append messages, consumers read them, with ordering and at-least-once delivery.\n\n**Core design:** model it as a **partitioned, append-only log**. A topic is split into **partitions**; each partition is an ordered, immutable sequence persisted to disk (sequential writes = fast). Producers pick a partition (by key for per-key ordering). Each partition is **replicated** across brokers (a leader + followers) for durability; a write is committed once a quorum/ISR has it.\n\n**Consumption:** consumers track their own **offset** per partition (so reads don't delete data — it's a log, not a destructive queue), enabling **replay** and multiple independent consumer groups. Partitions are distributed across a **consumer group** for parallelism (≤ one consumer per partition).\n\n**Guarantees & tradeoffs:** ordering is **per-partition**, not global (the usual compromise). Delivery is at-least-once (commit offset after processing → possible duplicates → idempotent consumers). **Retention** by time/size. More partitions = more parallelism but more overhead and weaker global ordering. Coordination (leader election, membership) needs consensus (Raft/ZK).",
+      "probes": [
+        {
+          "question": "How does a partitioned log give both ordering and scale?",
+          "answer": "By scoping ordering to a **partition**. Each partition is a single append-only, replicated log with a total order; producers route messages with the same key to the same partition, so per-key order is preserved. Scale comes from having **many partitions** spread across brokers and consumed in parallel by a consumer group (one consumer per partition). You trade **global** ordering (which would force a single serial log and kill throughput) for per-partition ordering plus horizontal scale — the standard, pragmatic compromise. Consumers track offsets, so the log is replayable by multiple independent groups."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "design-4-fully-worked-designs-distributed-counter-leaderboard-2": {
+      "id": "design-4-fully-worked-designs-distributed-counter-leaderboard-2",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "",
+      "title": "Distributed counter / leaderboard",
+      "body": "**Scope:** real-time counts and top-N at scale — likes, views, reactions, game scores — read by many, written by many.\n\n**The write problem:** a single row/key for a hot counter becomes a contention hotspot. Spread writes across **N shards** per counter (increment a random shard), and **sum the shards** on read — trading read cost for write throughput. Or buffer increments through a stream (Kafka) and **aggregate** in windows, writing rollups.\n\n**Leaderboard:** a **Redis sorted set** (`ZINCRBY` to update, `ZREVRANGE`/`ZREVRANK` for top-N and rank) gives O(log n) updates and ranked reads in memory. For \"global top-N across billions,\" precompute/approximate and refresh periodically.\n\n**Exact vs approximate:** exact counts need durable aggregation; for **unique** counts at massive scale, **HyperLogLog** estimates cardinality in tiny memory. Dashboards tolerate approximation; billing needs exactness (reconcile from the log).",
+      "probes": [
+        {
+          "question": "How do you build a high-write counter without a hotspot?",
+          "answer": "Don't funnel all increments to one key. **Shard the counter** into N sub-counters and increment a random shard per write, then **sum the shards** at read time — spreading write load across keys/nodes at the cost of a slightly more expensive read. Alternatively, push increments through a **stream** and aggregate in time windows into rollups. For ranked data use a **Redis sorted set**; for huge unique counts use **HyperLogLog**. Match exactness to need: approximate + fast for dashboards, durable aggregation/reconciliation for anything billed."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "design-4-fully-worked-designs-api-gateway-single-entry-point-3": {
+      "id": "design-4-fully-worked-designs-api-gateway-single-entry-point-3",
+      "trackId": "design",
+      "topicId": "design-4-fully-worked-designs",
+      "section": "",
+      "title": "API gateway (single entry point)",
+      "body": "**Scope:** one front door for many backend services — routing, cross-cutting concerns, and protecting the services behind it. (You've built this shape with **YARP**.)\n\n**Responsibilities:** **routing/reverse proxy** to the right service (by path/host/header), **authentication/authorization** (validate the token once at the edge), **rate limiting & throttling** (token bucket in Redis), **TLS termination**, request/response transformation, **aggregation** (fan out to several services, combine — a backend-for-frontend), **caching**, and observability (logging/tracing/metrics for all traffic in one place).\n\n**Reliability:** **circuit breakers** and retries-with-backoff so a failing downstream doesn't cascade; **timeouts** and bulkheads to isolate failures; graceful degradation.\n\n**Scale & tradeoffs:** the gateway is on every request's hot path, so it must be **stateless, horizontally scaled, and HA** (it's a potential single point of failure — run multiple instances behind an LB). It centralizes cross-cutting concerns (huge win) but adds a hop and operational importance — keep its logic thin and fast.",
+      "probes": [
+        {
+          "question": "What does an API gateway do, and what's the risk of adding one?",
+          "answer": "It's the single entry point that handles cross-cutting concerns so services don't each reimplement them: routing/reverse-proxy, auth at the edge, rate limiting, TLS termination, request aggregation (BFF), caching, and centralized observability — plus reliability patterns (circuit breakers, retries, timeouts). The risk is that it sits on **every** request and becomes a **single point of failure** and a latency hop, so it must be stateless, horizontally scaled, and highly available, with its logic kept thin. The payoff — one consistent place for auth/limits/telemetry — usually outweighs the added hop."
         }
       ],
       "followups": [],
@@ -8101,6 +8389,91 @@
       "source": "generated",
       "needsReview": true
     },
+    "tech-devops-containers-vs-vms-and-what-docker-gives-you-0": {
+      "id": "tech-devops-containers-vs-vms-and-what-docker-gives-you-0",
+      "trackId": "tech",
+      "topicId": "tech-devops",
+      "section": "",
+      "title": "Containers vs VMs (and what Docker gives you)",
+      "body": "A **virtual machine** virtualizes hardware and runs a **full guest OS** — strong isolation, but heavy (GBs, slow to boot). A **container** virtualizes the **OS** — it shares the host kernel and packages just your app + its dependencies, isolated via Linux **namespaces** (what a process can see) and **cgroups** (what it can use). So containers are **lightweight** (MBs, start in ms) and dense. **Docker** builds an immutable **image** (layered, from a `Dockerfile`) that runs identically anywhere — solving \"works on my machine\" and making deploys reproducible. Containers share the kernel, so isolation is weaker than a VM's.",
+      "probes": [
+        {
+          "question": "Container vs VM — what's the difference?",
+          "answer": "A VM runs a full guest OS on virtualized hardware (heavy, strong isolation, slow boot); a container shares the host **kernel** and isolates just the app and its dependencies using namespaces + cgroups (lightweight, fast, dense). The tradeoff is isolation strength vs efficiency: VMs isolate better but cost more; containers pack many apps efficiently with slightly weaker isolation (shared kernel). Docker images make a containerized app reproducible across environments — the same artifact runs on a laptop, CI, and prod, eliminating environment drift."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-devops-kubernetes-what-it-gives-you-1": {
+      "id": "tech-devops-kubernetes-what-it-gives-you-1",
+      "trackId": "tech",
+      "topicId": "tech-devops",
+      "section": "",
+      "title": "Kubernetes — what it gives you",
+      "body": "**Kubernetes** orchestrates containers across a cluster. You declare the **desired state** (YAML) and it continuously reconciles reality to match. Key objects: a **Pod** (one or more co-located containers, the smallest unit), a **Deployment** (manages a replica set of pods — rollouts, scaling, self-healing by restarting failed pods), a **Service** (a stable virtual IP/DNS load-balancing across pods, since pods are ephemeral), **Ingress** (HTTP routing in), **ConfigMap/Secret** (config/secrets), and **HPA** (autoscale pods on metrics). The control plane (API server + **etcd**, which uses Raft) stores state; nodes run a kubelet. It gives you self-healing, rolling deploys, scaling, and service discovery declaratively.",
+      "probes": [
+        {
+          "question": "What does Kubernetes actually give you?",
+          "answer": "Declarative orchestration: you specify the desired state (N replicas, this image, these resources) and K8s **reconciles** continuously — restarting crashed pods (**self-healing**), spreading them across nodes, doing **rolling updates** and rollbacks, **autoscaling** on load, and providing **service discovery + load balancing** via Services so clients reach healthy pods despite churn. Pods are ephemeral and get new IPs, so a Service gives a stable address. In short: it automates running, scaling, healing, and connecting containers across a cluster, driven by declarative config rather than manual ops."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-devops-ci-vs-cd-2": {
+      "id": "tech-devops-ci-vs-cd-2",
+      "trackId": "tech",
+      "topicId": "tech-devops",
+      "section": "",
+      "title": "CI vs CD",
+      "body": "**Continuous Integration (CI):** developers merge to a shared branch frequently, and each push triggers an automated pipeline that **builds, runs tests/linters**, and produces an artifact — catching integration problems early. **Continuous Delivery (CD):** every passing build is **automatically prepared for release** and deployed to staging, so production deploy is a one-click/approval away. **Continuous Deployment** goes further — every passing change ships to **production automatically**, no human gate. The whole point: small, frequent, automated, low-risk releases instead of big scary ones, with the pipeline as the quality gate.",
+      "probes": [
+        {
+          "question": "What's the difference between continuous delivery and continuous deployment?",
+          "answer": "Both build on CI (automated build + test on every change). **Continuous Delivery** keeps every passing build **deployable and deployed to staging**, with production release gated by a manual approval — you *can* ship at any time with one click. **Continuous Deployment** removes that human gate: every change that passes the pipeline goes **straight to production automatically**. So delivery = always ready to release (human decides when), deployment = release happens automatically. The shared goal is small, frequent, automated releases that de-risk shipping."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-devops-deployment-strategies-rolling-blue-green-canary-3": {
+      "id": "tech-devops-deployment-strategies-rolling-blue-green-canary-3",
+      "trackId": "tech",
+      "topicId": "tech-devops",
+      "section": "",
+      "title": "Deployment strategies — rolling, blue-green, canary",
+      "body": "How you release without downtime. **Rolling:** replace instances in batches (K8s default) — no extra capacity needed, but old and new run simultaneously during the rollout. **Blue-green:** stand up the new version (\"green\") alongside the old (\"blue\"), then switch all traffic at once — instant cutover and rollback (flip back), but needs **double** the infrastructure. **Canary:** route a **small %** of traffic to the new version, watch metrics/errors, then gradually ramp to 100% — best risk control, catches problems with minimal blast radius, but more complex (traffic splitting + good observability). **Feature flags** decouple deploy from release entirely.",
+      "probes": [
+        {
+          "question": "Blue-green vs canary deployment?",
+          "answer": "**Blue-green** runs two full environments — current (blue) and new (green) — and switches *all* traffic at once when green is verified; cutover and rollback are instant, but you pay for double capacity during the switch. **Canary** shifts a *small fraction* of traffic to the new version, monitors error/latency metrics, and gradually increases to 100% (or rolls back) — minimizing blast radius and catching regressions on real traffic, at the cost of more complex traffic management and strong observability. Blue-green optimizes for clean instant cutover; canary optimizes for risk control via gradual exposure."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
+    "tech-devops-health-checks-observability-and-12-factor-4": {
+      "id": "tech-devops-health-checks-observability-and-12-factor-4",
+      "trackId": "tech",
+      "topicId": "tech-devops",
+      "section": "",
+      "title": "Health checks, observability, and 12-factor",
+      "body": "**Health checks** let the orchestrator manage pods: a **liveness** probe (\"is it alive?\" — restart if not) and a **readiness** probe (\"can it serve traffic yet?\" — keep it out of the LB until yes) prevent routing to dead/warming instances. **Observability** = the three pillars: **logs** (events), **metrics** (time-series — RED/USE), **traces** (a request across services) — feed dashboards and alerts on **SLOs**. The **12-factor** app principles (config in env, stateless processes, disposability, dev/prod parity) make services cloud-native and horizontally scalable. **Infrastructure as Code** (Terraform/Helm) makes environments reproducible and version-controlled.",
+      "probes": [
+        {
+          "question": "Liveness vs readiness probe — why have both?",
+          "answer": "A **liveness** probe answers \"is this process healthy?\" — if it fails, the orchestrator **restarts** the pod (recovers from deadlocks/hangs). A **readiness** probe answers \"is it ready to serve traffic?\" — if it fails, the pod is **removed from the Service's load-balancer pool** but *not* restarted (e.g. still warming up, or a dependency is down). You need both because \"alive\" and \"ready\" differ: a starting or temporarily-overloaded pod is alive but shouldn't receive traffic yet, and restarting it would be wrong. Together they prevent routing requests to dead or not-yet-ready instances."
+        }
+      ],
+      "followups": [],
+      "source": "generated",
+      "needsReview": true
+    },
     "design-4-fully-worked-designs-pastebin-worked-design-0": {
       "id": "design-4-fully-worked-designs-pastebin-worked-design-0",
       "trackId": "design",
@@ -8392,8 +8765,8 @@
     }
   ],
   "stats": {
-    "problems": 234,
-    "concepts": 195,
+    "problems": 238,
+    "concepts": 211,
     "stories": 9
   }
 }
