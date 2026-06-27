@@ -26,7 +26,7 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
   const starred = !!prog?.starred;
 
   return (
-    <div className="rounded-lg border border-border bg-panel p-3.5">
+    <div className="rounded-lg border border-border bg-panel p-3.5 shadow-card transition-colors hover:border-border/70">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           <span className={`rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase ${DIFF_CLS[problem.difficulty]}`}>

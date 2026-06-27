@@ -13,7 +13,7 @@ export default function ConceptCard({ concept, anchor }: { concept: Concept; anc
   const canExplain = !!prog?.canExplain;
 
   return (
-    <div id={anchor ? concept.id : undefined} className="rounded-lg border border-border bg-panel p-4">
+    <div id={anchor ? concept.id : undefined} className="rounded-lg border border-border bg-panel p-4 shadow-card">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           {concept.section && <span className="font-mono text-xs text-muted">{concept.section}</span>}

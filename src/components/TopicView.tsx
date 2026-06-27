@@ -166,8 +166,8 @@ function StoryTopic({ topic }: { topic: Topic }) {
 // ── shared bits ──────────────────────────────────────────────────────────────
 function Header({ title, sub }: { title: string; sub: string }) {
   return (
-    <div className="flex items-baseline gap-3">
-      <h2 className="text-xl font-semibold text-text">{title}</h2>
+    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+      <h2 className="text-2xl font-bold tracking-tight text-text">{title}</h2>
       <span className="text-sm text-muted">{sub}</span>
     </div>
   );

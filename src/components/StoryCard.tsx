@@ -19,7 +19,7 @@ export default function StoryCard({ story }: { story: Story }) {
   const ready = !!prog?.canExplain;
 
   return (
-    <div className="rounded-lg border border-border bg-panel p-4">
+    <div className="rounded-lg border border-border bg-panel p-4 shadow-card">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 flex-col gap-1">
           <div className="flex items-center gap-2">

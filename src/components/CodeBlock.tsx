@@ -42,8 +42,14 @@ export default function CodeBlock({ code, lang = 'csharp', label }: Props) {
       <SyntaxHighlighter
         language={LANG_MAP[lang] ?? 'csharp'}
         style={oneDark}
-        customStyle={{ margin: 0, background: 'transparent', fontSize: '0.8rem', padding: '0.85rem' }}
-        codeTagProps={{ style: { fontFamily: 'ui-monospace, Menlo, Consolas, monospace' } }}
+        customStyle={{
+          margin: 0,
+          background: 'transparent',
+          fontSize: '0.8rem',
+          lineHeight: 1.6,
+          padding: '0.9rem 1rem',
+        }}
+        codeTagProps={{ style: { fontFamily: '"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace' } }}
       >
         {code}
       </SyntaxHighlighter>

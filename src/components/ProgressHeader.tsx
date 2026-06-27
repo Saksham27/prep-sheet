@@ -20,7 +20,10 @@ export default function ProgressHeader() {
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-text">{pct}% DSA cold</span>
           <div className="h-1.5 w-40 overflow-hidden rounded-full bg-panel2">
-            <div className="h-full rounded-full bg-cold transition-all" style={{ width: `${pct}%` }} />
+            <div
+              className="h-full rounded-full transition-all"
+              style={{ width: `${pct}%`, background: 'linear-gradient(90deg, #7c5cff, #a371f7)' }}
+            />
           </div>
         </div>
         <Stat label="cold" value={cold} cls="text-cold" />
