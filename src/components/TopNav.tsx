@@ -16,9 +16,11 @@ interface Props {
   query: string;
   onQuery: (q: string) => void;
   onMenu: () => void;
+  notesOpen: boolean;
+  onNotes: () => void;
 }
 
-export default function TopNav({ view, onView, query, onQuery, onMenu }: Props) {
+export default function TopNav({ view, onView, query, onQuery, onMenu, notesOpen, onNotes }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-border bg-panel px-3 py-2">
       <div className="flex items-center gap-2">
@@ -51,6 +53,15 @@ export default function TopNav({ view, onView, query, onQuery, onMenu }: Props) 
       </nav>
 
       <div className="ml-auto flex items-center gap-2">
+        <button
+          onClick={onNotes}
+          title="Topic notes"
+          className={`rounded-md border px-2 py-1 text-xs transition ${
+            notesOpen ? 'border-accent text-accent' : 'border-border text-muted hover:border-accent hover:text-accent'
+          }`}
+        >
+          📝<span className="hidden sm:inline"> Notes</span>
+        </button>
         <SyncControls />
         <BackupControls />
         <div className="flex items-center">

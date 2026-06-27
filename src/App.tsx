@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard';
 import DueToday from './components/DueToday';
 import DailyPlan from './components/DailyPlan';
 import SearchResults from './components/SearchResults';
+import NotesPanel from './components/NotesPanel';
 
 export default function App() {
   const firstTopic = tracks.length ? topicsForTrack(tracks[0].id)[0]?.id ?? null : null;
@@ -15,6 +16,7 @@ export default function App() {
   const [view, setView] = useState<View>('browse');
   const [query, setQuery] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false); // mobile drawer
+  const [notesOpen, setNotesOpen] = useState(false); // right notes panel
 
   const openTopic = (id: string) => {
     setSelected(id);
@@ -37,6 +39,8 @@ export default function App() {
         query={query}
         onQuery={setQuery}
         onMenu={() => setSidebarOpen((o) => !o)}
+        notesOpen={notesOpen}
+        onNotes={() => setNotesOpen((o) => !o)}
       />
       <div className="relative flex min-h-0 flex-1">
         {/* mobile backdrop */}
@@ -72,6 +76,16 @@ export default function App() {
             </div>
           )}
         </main>
+
+        {/* right notes panel: column on md+, overlay drawer on mobile */}
+        {notesOpen && (
+          <>
+            <div className="absolute inset-0 z-30 bg-black/60 md:hidden" onClick={() => setNotesOpen(false)} />
+            <div className="absolute inset-y-0 right-0 z-40 w-[85%] max-w-sm border-l border-border bg-panel shadow-2xl md:relative md:z-auto md:w-80 md:max-w-none md:shadow-none">
+              <NotesPanel topicId={selected} onClose={() => setNotesOpen(false)} />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
