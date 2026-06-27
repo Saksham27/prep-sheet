@@ -53,10 +53,10 @@ export default function BackupControls() {
   return (
     <div className="flex items-center gap-1">
       <button onClick={exportData} title="Download your progress as a JSON backup" className={btn}>
-        ⬇ Export
+        ⬇<span className="hidden sm:inline"> Export</span>
       </button>
       <button onClick={() => fileRef.current?.click()} title="Restore progress from a backup file" className={btn}>
-        ⬆ Import
+        ⬆<span className="hidden sm:inline"> Import</span>
       </button>
       <input
         ref={fileRef}

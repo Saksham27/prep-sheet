@@ -14,11 +14,13 @@ export default function App() {
   const [selected, setSelected] = useState<string | null>(firstTopic);
   const [view, setView] = useState<View>('browse');
   const [query, setQuery] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false); // mobile drawer
 
   const openTopic = (id: string) => {
     setSelected(id);
     setView('browse');
     setQuery('');
+    setSidebarOpen(false);
   };
 
   const current = selected ? getTopic(selected) : undefined;
@@ -26,9 +28,30 @@ export default function App() {
 
   return (
     <div className="flex h-full flex-col">
-      <TopNav view={view} onView={setView} query={query} onQuery={setQuery} />
-      <div className="flex min-h-0 flex-1">
-        <Sidebar selected={selected} onSelect={openTopic} />
+      <TopNav
+        view={view}
+        onView={(v) => {
+          setView(v);
+          setSidebarOpen(false);
+        }}
+        query={query}
+        onQuery={setQuery}
+        onMenu={() => setSidebarOpen((o) => !o)}
+      />
+      <div className="relative flex min-h-0 flex-1">
+        {/* mobile backdrop */}
+        {sidebarOpen && (
+          <div className="absolute inset-0 z-30 bg-black/60 md:hidden" onClick={() => setSidebarOpen(false)} />
+        )}
+        {/* sidebar: static column on md+, slide-in drawer on mobile */}
+        <div
+          className={`absolute inset-y-0 left-0 z-40 w-72 border-r border-border bg-panel transition-transform duration-200 md:relative md:z-auto md:translate-x-0 ${
+            sidebarOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:shadow-none'
+          }`}
+        >
+          <Sidebar selected={selected} onSelect={openTopic} />
+        </div>
+
         <main className="flex min-w-0 flex-1 flex-col">
           {searching ? (
             <div className="flex-1 overflow-y-auto">

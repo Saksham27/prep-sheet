@@ -14,21 +14,33 @@ interface Props {
   onView: (v: View) => void;
   query: string;
   onQuery: (q: string) => void;
+  onMenu: () => void;
 }
 
-export default function TopNav({ view, onView, query, onQuery }: Props) {
+export default function TopNav({ view, onView, query, onQuery, onMenu }: Props) {
   return (
-    <div className="flex items-center gap-4 border-b border-border bg-panel px-4 py-2">
-      <div className="flex items-baseline gap-2">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-border bg-panel px-3 py-2">
+      <div className="flex items-center gap-2">
+        <button
+          onClick={onMenu}
+          aria-label="Toggle menu"
+          className="rounded-md border border-border p-1.5 text-muted transition hover:text-text md:hidden"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
         <span className="text-sm font-semibold text-text">Mastery Sheet</span>
-        <span className="hidden text-xs text-muted sm:inline">interview-prep · local</span>
       </div>
-      <nav className="flex gap-1">
+
+      <nav className="flex gap-1 overflow-x-auto">
         {TABS.map((t) => (
           <button
             key={t.v}
             onClick={() => onView(t.v)}
-            className={`rounded-md px-2.5 py-1 text-sm transition ${
+            className={`whitespace-nowrap rounded-md px-2.5 py-1 text-sm transition ${
               view === t.v && !query ? 'bg-accent/15 text-accent' : 'text-muted hover:bg-panel2 hover:text-text'
             }`}
           >
@@ -36,14 +48,15 @@ export default function TopNav({ view, onView, query, onQuery }: Props) {
           </button>
         ))}
       </nav>
+
       <div className="ml-auto flex items-center gap-2">
         <BackupControls />
         <div className="flex items-center">
           <input
             value={query}
             onChange={(e) => onQuery(e.target.value)}
-            placeholder="Search all content…"
-            className="w-44 rounded-md border border-border bg-bg px-2.5 py-1 text-sm text-text outline-none transition focus:w-64 focus:border-accent"
+            placeholder="Search…"
+            className="w-28 rounded-md border border-border bg-bg px-2.5 py-1 text-sm text-text outline-none transition focus:w-56 focus:border-accent sm:w-44"
           />
           {query && (
             <button onClick={() => onQuery('')} className="ml-1 text-muted hover:text-text" title="clear search">
