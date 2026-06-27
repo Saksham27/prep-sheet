@@ -1,4 +1,5 @@
 import BackupControls from './BackupControls';
+import SyncControls from './SyncControls';
 
 export type View = 'browse' | 'due' | 'dashboard' | 'plan';
 
@@ -50,6 +51,7 @@ export default function TopNav({ view, onView, query, onQuery, onMenu }: Props) 
       </nav>
 
       <div className="ml-auto flex items-center gap-2">
+        <SyncControls />
         <BackupControls />
         <div className="flex items-center">
           <input
