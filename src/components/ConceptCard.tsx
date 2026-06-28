@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Concept } from '../types';
 import { useProgress } from '../store/progress';
+import { review } from '../lib/scheduler';
 import InlineMd from './InlineMd';
 
 export default function ConceptCard({ concept, anchor }: { concept: Concept; anchor?: boolean }) {
@@ -8,9 +9,17 @@ export default function ConceptCard({ concept, anchor }: { concept: Concept; anc
   const toggleCanExplain = useProgress((s) => s.toggleCanExplain);
   const toggleStar = useProgress((s) => s.toggleStar);
   const setNotes = useProgress((s) => s.setNotes);
+  const patch = useProgress((s) => s.patch);
   const [notesOpen, setNotesOpen] = useState(false);
 
   const canExplain = !!prog?.canExplain;
+
+  // Marking "can explain" seeds a spaced-repetition schedule so it resurfaces in Due Today.
+  const onToggleExplain = () => {
+    const wasOn = !!prog?.canExplain;
+    toggleCanExplain(concept.id);
+    if (!wasOn && !prog?.nextReview) patch(concept.id, review(prog ?? {}, 'good'));
+  };
 
   return (
     <div id={anchor ? concept.id : undefined} className="rounded-lg border border-border bg-panel p-4 shadow-card">
@@ -49,7 +58,7 @@ export default function ConceptCard({ concept, anchor }: { concept: Concept; anc
 
       <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-border pt-3">
         <button
-          onClick={() => toggleCanExplain(concept.id)}
+          onClick={onToggleExplain}
           className={`flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm font-medium transition ${
             canExplain
               ? 'border-good bg-good/15 text-good'
