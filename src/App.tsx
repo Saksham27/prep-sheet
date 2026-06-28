@@ -81,7 +81,7 @@ export default function App() {
         {notesOpen && (
           <>
             <div className="absolute inset-0 z-30 bg-black/60 md:hidden" onClick={() => setNotesOpen(false)} />
-            <div className="absolute inset-y-0 right-0 z-40 w-[85%] max-w-sm border-l border-border bg-panel shadow-2xl md:relative md:z-auto md:w-80 md:max-w-none md:shadow-none">
+            <div className="absolute inset-y-0 right-0 z-40 w-[88%] max-w-md border-l border-border bg-panel shadow-2xl md:relative md:z-auto md:w-[420px] md:max-w-none md:shadow-none">
               <NotesPanel topicId={selected} onClose={() => setNotesOpen(false)} />
             </div>
           </>
