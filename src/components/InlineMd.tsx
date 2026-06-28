@@ -27,7 +27,7 @@ export default function InlineMd({ children, className }: Props) {
                 </code>
               );
             }
-            return <CodeBlock code={text} lang={match?.[1] ?? 'csharp'} />;
+            return <CodeBlock code={text} lang={match?.[1] ?? 'text'} />;
           },
         }}
       >
