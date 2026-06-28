@@ -6,6 +6,7 @@ export const THEMES = [
   { id: 'mocha', name: 'Catppuccin Mocha', dot: '#cba6f7' },
   { id: 'graphite', name: 'Graphite', dot: '#6cb1ff' },
   { id: 'obsidian', name: 'Obsidian (black)', dot: '#4cc4ff' },
+  { id: 'light', name: 'Light', dot: '#2563eb' },
 ] as const;
 
 const KEY = 'prep-theme';

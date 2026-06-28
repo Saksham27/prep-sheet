@@ -60,6 +60,21 @@
   --c-accent: 76 196 255;
 }
 
+:root[data-theme='light'] {
+  color-scheme: light;
+  --c-bg: 244 246 249;
+  --c-panel: 255 255 255;
+  --c-panel2: 237 240 244;
+  --c-border: 214 220 228;
+  --c-muted: 90 101 115;
+  --c-text: 23 30 41;
+  --c-accent: 38 99 235;
+  --c-good: 26 127 55;
+  --c-warn: 154 103 0;
+  --c-cold: 111 66 193;
+  --c-gen: 188 76 0;
+}
+
 html,
 body,
 #root {

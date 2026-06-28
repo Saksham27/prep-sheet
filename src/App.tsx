@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { tracks, topicsForTrack, topic as getTopic } from './lib/content';
 import Sidebar from './components/Sidebar';
 import ProgressHeader from './components/ProgressHeader';
@@ -24,6 +24,37 @@ export default function App() {
     setQuery('');
     setSidebarOpen(false);
   };
+
+  // keyboard shortcuts: / search · j/k prev-next topic · n notes · Esc close
+  useEffect(() => {
+    const flat = tracks.flatMap((t) => topicsForTrack(t.id).map((tp) => tp.id));
+    const onKey = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (e.key === 'Escape') {
+        (document.activeElement as HTMLElement)?.blur?.();
+        setQuery('');
+        setSidebarOpen(false);
+        setNotesOpen(false);
+        return;
+      }
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === '/') {
+        e.preventDefault();
+        document.getElementById('global-search')?.focus();
+      } else if (e.key === 'j' || e.key === 'k') {
+        e.preventDefault();
+        const idx = selected ? flat.indexOf(selected) : -1;
+        const next = e.key === 'j' ? Math.min(flat.length - 1, idx + 1) : Math.max(0, idx - 1);
+        if (flat[next]) openTopic(flat[next]);
+      } else if (e.key === 'n') {
+        e.preventDefault();
+        setNotesOpen((o) => !o);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected]);
 
   const current = selected ? getTopic(selected) : undefined;
   const searching = query.trim().length >= 2;

@@ -68,9 +68,10 @@ export default function TopNav({ view, onView, query, onQuery, onMenu, notesOpen
         <BackupControls />
         <div className="flex items-center">
           <input
+            id="global-search"
             value={query}
             onChange={(e) => onQuery(e.target.value)}
-            placeholder="Search…"
+            placeholder="Search…  /"
             className="w-28 rounded-md border border-border bg-bg px-2.5 py-1 text-sm text-text outline-none transition focus:w-56 focus:border-accent sm:w-44"
           />
           {query && (

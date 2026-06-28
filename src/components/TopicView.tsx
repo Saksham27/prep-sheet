@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { Topic, Difficulty } from '../types';
-import { problemsForTopic, conceptsForTopic, storiesForTopic } from '../lib/content';
+import { problemsForTopic, conceptsForTopic, storiesForTopic, track } from '../lib/content';
+import { trackColor } from '../lib/trackColors';
 import { useProgress, type ProblemStatus } from '../store/progress';
 import ProblemCard from './ProblemCard';
 import ConceptCard from './ConceptCard';
@@ -52,7 +53,7 @@ function ProblemTopic({ topic }: { topic: Topic }) {
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-6">
-      <Header title={topic.title} sub={`${done}/${problems.length} cold · ${solved} solved`} />
+      <Header title={topic.title} sub={`${done}/${problems.length} cold · ${solved} solved`} trackId={topic.trackId} />
 
       {topic.coreIdea && (
         <div className="mt-2 rounded-md border-l-2 border-accent bg-panel/60 px-3 py-2 text-sm">
@@ -138,7 +139,7 @@ function ConceptTopic({ topic }: { topic: Topic }) {
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-6">
-      <Header title={topic.title} sub={`${explained}/${concepts.length} can explain out loud${exSub}`} />
+      <Header title={topic.title} sub={`${explained}/${concepts.length} can explain out loud${exSub}`} trackId={topic.trackId} />
       <div className="mt-4 space-y-3">
         {concepts.map((c) => (
           <ConceptCard key={c.id} concept={c} anchor />
@@ -159,7 +160,7 @@ function StoryTopic({ topic }: { topic: Topic }) {
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-6">
-      <Header title={topic.title} sub={`${ready}/${stories.length} drill-ready`} />
+      <Header title={topic.title} sub={`${ready}/${stories.length} drill-ready`} trackId={topic.trackId} />
       <p className="mt-1 text-sm text-muted">
         Fill the bracketed fields with your real numbers — a story only lands if it's true and in your voice.
       </p>
@@ -173,11 +174,23 @@ function StoryTopic({ topic }: { topic: Topic }) {
 }
 
 // ── shared bits ──────────────────────────────────────────────────────────────
-function Header({ title, sub }: { title: string; sub: string }) {
+function Header({ title, sub, trackId }: { title: string; sub: string; trackId?: string }) {
+  const tr = trackId ? track(trackId) : undefined;
+  const color = trackColor(trackId);
   return (
-    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-      <h2 className="text-2xl font-bold tracking-tight text-text">{title}</h2>
-      <span className="text-sm text-muted">{sub}</span>
+    <div>
+      {tr && (
+        <div className="mb-1.5 flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full" style={{ background: color }} />
+          <span className="text-[11px] font-semibold uppercase tracking-wide" style={{ color }}>
+            {tr.title}
+          </span>
+        </div>
+      )}
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <h2 className="text-2xl font-bold tracking-tight text-text">{title}</h2>
+        <span className="text-sm text-muted">{sub}</span>
+      </div>
     </div>
   );
 }

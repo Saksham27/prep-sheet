@@ -1,24 +1,10 @@
 import { useState } from 'react';
 import { tracks, topicsForTrack, topicCount, topic as getTopic } from '../lib/content';
+import { TRACK_COLOR } from '../lib/trackColors';
 import type { Topic } from '../types';
 import { useProgress, type ItemProgress } from '../store/progress';
 
-// A distinct accent per track for visual separation.
-const TRACK_COLOR: Record<string, string> = {
-  'start-here': '#3fb950',
-  'cs-core': '#58a6ff',
-  dsa: '#f0883e',
-  design: '#d2a8ff',
-  lld: '#56d364',
-  fundamentals: '#79c0ff',
-  security: '#f85149',
-  behavioral: '#e3b341',
-  tech: '#39c5cf',
-  frontend: '#ff7b72',
-  ai: '#bc8cff',
-  sql: '#db61a2',
-  practice: '#d29922',
-};
+const EXPAND_KEY = 'prep-sidebar-expanded';
 
 function doneCount(t: Topic, items: Record<string, ItemProgress>): number {
   if (t.itemKind === 'problem') return t.problemIds.filter((id) => items[id]?.status === 'cold').length;
@@ -34,12 +20,21 @@ interface Props {
 export default function Sidebar({ selected, onSelect }: Props) {
   const items = useProgress((s) => s.items);
   const activeTrackId = selected ? getTopic(selected)?.trackId : tracks[0]?.id;
-  const [expanded, setExpanded] = useState<Set<string>>(() => new Set(activeTrackId ? [activeTrackId] : []));
+  const [expanded, setExpanded] = useState<Set<string>>(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(EXPAND_KEY) || 'null');
+      if (Array.isArray(saved)) return new Set(saved);
+    } catch {
+      /* ignore */
+    }
+    return new Set(activeTrackId ? [activeTrackId] : []);
+  });
 
   const toggle = (id: string) =>
     setExpanded((prev) => {
       const n = new Set(prev);
       n.has(id) ? n.delete(id) : n.add(id);
+      localStorage.setItem(EXPAND_KEY, JSON.stringify([...n]));
       return n;
     });
 
