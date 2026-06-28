@@ -121,7 +121,7 @@ pre,
   @apply mb-0;
 }
 .md code {
-  @apply rounded bg-panel2 px-1.5 py-0.5 text-[0.85em] text-accent;
+  @apply rounded bg-panel2 px-1.5 py-0.5 text-[0.9em] text-accent;
   font-family: theme('fontFamily.mono');
 }
 .md ul {

@@ -45,8 +45,8 @@ export default function CodeBlock({ code, lang = 'csharp', label }: Props) {
         customStyle={{
           margin: 0,
           background: 'transparent',
-          fontSize: '0.8rem',
-          lineHeight: 1.6,
+          fontSize: '0.875rem',
+          lineHeight: 1.65,
           padding: '0.9rem 1rem',
         }}
         codeTagProps={{ style: { fontFamily: '"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace' } }}
