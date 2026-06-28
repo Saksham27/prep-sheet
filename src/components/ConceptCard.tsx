@@ -3,6 +3,7 @@ import type { Concept } from '../types';
 import { useProgress } from '../store/progress';
 import { review } from '../lib/scheduler';
 import InlineMd from './InlineMd';
+import VerifyBadge from './VerifyBadge';
 
 export default function ConceptCard({ concept, anchor }: { concept: Concept; anchor?: boolean }) {
   const prog = useProgress((s) => s.items[concept.id]);
@@ -27,11 +28,7 @@ export default function ConceptCard({ concept, anchor }: { concept: Concept; anc
         <div className="flex min-w-0 flex-wrap items-center gap-2">
           {concept.section && <span className="font-mono text-xs text-muted">{concept.section}</span>}
           <h4 className="font-semibold text-text">{concept.title.replace(/ — overview$/, '')}</h4>
-          {concept.source === 'generated' && (
-            <span className="rounded border border-gen/50 bg-gen/10 px-1.5 py-0.5 text-[10px] font-semibold text-gen">
-              AI-added — verify
-            </span>
-          )}
+          {concept.source === 'generated' && <VerifyBadge id={concept.id} />}
         </div>
         <button
           onClick={() => toggleStar(concept.id)}

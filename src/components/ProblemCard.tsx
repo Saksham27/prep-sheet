@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Problem } from '../types';
 import { useProgress, type ProblemStatus } from '../store/progress';
 import InlineMd from './InlineMd';
+import VerifyBadge from './VerifyBadge';
 
 const STATUSES: { key: ProblemStatus; label: string; cls: string; help: string }[] = [
   { key: 'read', label: 'Read', cls: 'data-[on=true]:bg-accent data-[on=true]:text-bg', help: 'understood the editorial' },
@@ -35,14 +36,7 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
           <h4 className="font-medium text-text">{problem.title}</h4>
           {problem.core && <span title="core (non-negotiable)" className="text-xs text-warn">⭐</span>}
           {problem.revisit && <span title="spaced-repeat weekly" className="text-xs">🔁</span>}
-          {problem.source === 'generated' && !problem.practice && (
-            <span
-              title="AI-added — verify before trusting"
-              className="rounded border border-gen/50 bg-gen/10 px-1.5 py-0.5 text-[10px] font-semibold text-gen"
-            >
-              AI-added — verify
-            </span>
-          )}
+          {problem.source === 'generated' && !problem.practice && <VerifyBadge id={problem.id} />}
           {problem.practice && (
             <span
               title="Extra practice — solve on LeetCode"
@@ -88,9 +82,7 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
         <details className="mt-2 rounded border border-border bg-panel2/40">
           <summary className="flex cursor-pointer items-center gap-2 px-3 py-1.5 text-xs text-accent">
             Solution
-            <span className="rounded border border-gen/50 bg-gen/10 px-1.5 py-0.5 text-[10px] font-semibold text-gen">
-              AI-added — verify
-            </span>
+            <VerifyBadge id={problem.id} />
           </summary>
           <div className="px-3 pb-2">
             <InlineMd>{problem.solution}</InlineMd>
@@ -110,6 +102,7 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
             {s.label}
           </button>
         ))}
+        <Timer />
         <button
           onClick={() => setNotesOpen((v) => !v)}
           className="ml-auto rounded-md px-2 py-1 text-xs text-muted hover:text-text"
@@ -127,6 +120,41 @@ export default function ProblemCard({ problem }: { problem: Problem }) {
         />
       )}
     </div>
+  );
+}
+
+// Lightweight per-problem solve timer — start to time yourself, click again to stop/reset.
+function Timer() {
+  const [secs, setSecs] = useState(0);
+  const [running, setRunning] = useState(false);
+  const ref = useRef<ReturnType<typeof setInterval>>();
+
+  useEffect(() => {
+    if (running) ref.current = setInterval(() => setSecs((s) => s + 1), 1000);
+    return () => clearInterval(ref.current);
+  }, [running]);
+
+  const mmss = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
+  const toggle = () => {
+    if (running) {
+      setRunning(false);
+      setSecs(0);
+    } else {
+      setSecs(0);
+      setRunning(true);
+    }
+  };
+
+  return (
+    <button
+      onClick={toggle}
+      title={running ? 'Stop & reset timer' : 'Start solve timer'}
+      className={`rounded-md border px-2 py-1 text-xs transition ${
+        running ? 'border-accent bg-accent/10 font-mono text-accent' : 'border-border text-muted hover:text-text'
+      }`}
+    >
+      {running ? `⏱ ${mmss}` : '⏱ time'}
+    </button>
   );
 }
 

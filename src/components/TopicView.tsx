@@ -24,6 +24,7 @@ function ProblemTopic({ topic }: { topic: Topic }) {
   const [diff, setDiff] = useState<Set<Difficulty>>(new Set());
   const [stat, setStat] = useState<Set<string>>(new Set());
   const [starOnly, setStarOnly] = useState(false);
+  const [reviewOnly, setReviewOnly] = useState(false);
 
   const filtered = useMemo(
     () =>
@@ -32,9 +33,13 @@ function ProblemTopic({ topic }: { topic: Topic }) {
         const st = items[p.id]?.status ?? 'todo';
         if (stat.size && !stat.has(st)) return false;
         if (starOnly && !items[p.id]?.starred) return false;
+        if (reviewOnly) {
+          const hasAI = !!p.solution || p.source === 'generated';
+          if (!hasAI || items[p.id]?.verified) return false;
+        }
         return true;
       }),
-    [problems, diff, stat, starOnly, items],
+    [problems, diff, stat, starOnly, reviewOnly, items],
   );
 
   const done = problems.filter((p) => items[p.id]?.status === 'cold').length;
@@ -92,12 +97,16 @@ function ProblemTopic({ topic }: { topic: Topic }) {
         <Chip on={starOnly} onClick={() => setStarOnly((v) => !v)}>
           ★ starred
         </Chip>
-        {(diff.size > 0 || stat.size > 0 || starOnly) && (
+        <Chip on={reviewOnly} onClick={() => setReviewOnly((v) => !v)}>
+          needs review
+        </Chip>
+        {(diff.size > 0 || stat.size > 0 || starOnly || reviewOnly) && (
           <button
             onClick={() => {
               setDiff(new Set());
               setStat(new Set());
               setStarOnly(false);
+              setReviewOnly(false);
             }}
             className="ml-1 text-muted hover:text-text"
           >
