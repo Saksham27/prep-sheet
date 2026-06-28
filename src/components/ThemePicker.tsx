@@ -40,7 +40,7 @@ export default function ThemePicker() {
   const active = THEMES.find((t) => t.id === theme) ?? THEMES[0];
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref}>
       <button
         onClick={() => setOpen((o) => !o)}
         title="Theme"
@@ -50,7 +50,7 @@ export default function ThemePicker() {
         <span className="hidden sm:inline">Theme</span>
       </button>
       {open && (
-        <div className="absolute right-0 z-50 mt-1 w-48 overflow-hidden rounded-md border border-border bg-panel shadow-card">
+        <div className="absolute right-2 top-full z-50 mt-1 w-48 overflow-hidden rounded-md border border-border bg-panel shadow-card">
           {THEMES.map((t) => (
             <button
               key={t.id}

@@ -23,7 +23,7 @@ interface Props {
 
 export default function TopNav({ view, onView, query, onQuery, onMenu, notesOpen, onNotes }: Props) {
   return (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-border bg-panel/95 px-3 py-2 shadow-card backdrop-blur">
+    <div className="relative z-50 flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-border bg-panel/95 px-3 py-2 shadow-card backdrop-blur">
       <div className="flex items-center gap-2">
         <button
           onClick={onMenu}
