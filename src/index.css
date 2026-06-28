@@ -4,6 +4,60 @@
 
 :root {
   color-scheme: dark;
+  /* semantic accents — constant across themes (channels: R G B) */
+  --c-good: 63 185 80;
+  --c-warn: 217 165 49;
+  --c-cold: 163 113 247;
+  --c-gen: 224 131 63;
+
+  /* default theme: Indigo Midnight */
+  --c-bg: 11 11 18;
+  --c-panel: 18 19 32;
+  --c-panel2: 27 29 46;
+  --c-border: 38 42 64;
+  --c-muted: 139 143 166;
+  --c-text: 233 233 242;
+  --c-accent: 139 124 255;
+}
+
+:root[data-theme='graphite'] {
+  --c-bg: 10 12 16;
+  --c-panel: 19 22 29;
+  --c-panel2: 27 31 40;
+  --c-border: 42 47 58;
+  --c-muted: 146 156 173;
+  --c-text: 232 237 244;
+  --c-accent: 108 177 255;
+}
+
+:root[data-theme='tokyo'] {
+  --c-bg: 22 22 30;
+  --c-panel: 26 27 38;
+  --c-panel2: 36 40 59;
+  --c-border: 44 47 68;
+  --c-muted: 128 136 168;
+  --c-text: 200 208 240;
+  --c-accent: 122 162 247;
+}
+
+:root[data-theme='mocha'] {
+  --c-bg: 24 24 37;
+  --c-panel: 30 30 46;
+  --c-panel2: 42 43 60;
+  --c-border: 49 50 68;
+  --c-muted: 147 153 178;
+  --c-text: 205 214 244;
+  --c-accent: 203 166 247;
+}
+
+:root[data-theme='obsidian'] {
+  --c-bg: 0 0 0;
+  --c-panel: 12 13 16;
+  --c-panel2: 22 24 29;
+  --c-border: 35 38 45;
+  --c-muted: 139 144 156;
+  --c-text: 237 237 242;
+  --c-accent: 76 196 255;
 }
 
 html,
@@ -19,9 +73,8 @@ body {
   font-size: 14px;
   line-height: 1.55;
   letter-spacing: -0.006em;
-  /* subtle depth */
-  background-image: radial-gradient(1200px 600px at 100% -10%, rgba(108, 177, 255, 0.05), transparent 60%),
-    radial-gradient(900px 500px at -10% 0%, rgba(163, 113, 247, 0.045), transparent 55%);
+  background-image: radial-gradient(1100px 560px at 100% -10%, rgb(var(--c-accent) / 0.06), transparent 60%),
+    radial-gradient(820px 460px at -10% 0%, rgb(var(--c-cold) / 0.05), transparent 55%);
   background-attachment: fixed;
 }
 
@@ -39,23 +92,18 @@ pre,
   font-feature-settings: normal;
 }
 
-/* thin custom scrollbars for the dev-tool feel */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #313742 transparent;
+  scrollbar-color: rgb(var(--c-border)) transparent;
 }
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 *::-webkit-scrollbar-thumb {
-  background: #313742;
+  background: rgb(var(--c-border));
   border-radius: 6px;
   border: 2px solid transparent;
-  background-clip: padding-box;
-}
-*::-webkit-scrollbar-thumb:hover {
-  background: #3d4450;
   background-clip: padding-box;
 }
 

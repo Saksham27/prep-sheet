@@ -1,21 +1,23 @@
 /** @type {import('tailwindcss').Config} */
+const v = (name) => `rgb(var(${name}) / <alpha-value>)`;
+
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        bg: '#0a0c10',
-        panel: '#13161d',
-        panel2: '#1b1f28',
-        border: '#2a2f3a',
-        muted: '#929cad',
-        text: '#e8edf4',
-        accent: '#6cb1ff',
-        good: '#3fb950',
-        warn: '#d9a531',
-        cold: '#a371f7',
-        gen: '#e0833f',
+        bg: v('--c-bg'),
+        panel: v('--c-panel'),
+        panel2: v('--c-panel2'),
+        border: v('--c-border'),
+        muted: v('--c-muted'),
+        text: v('--c-text'),
+        accent: v('--c-accent'),
+        good: v('--c-good'),
+        warn: v('--c-warn'),
+        cold: v('--c-cold'),
+        gen: v('--c-gen'),
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],

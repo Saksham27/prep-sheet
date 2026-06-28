@@ -1,5 +1,6 @@
 import BackupControls from './BackupControls';
 import SyncControls from './SyncControls';
+import ThemePicker from './ThemePicker';
 
 export type View = 'browse' | 'due' | 'dashboard' | 'plan';
 
@@ -62,6 +63,7 @@ export default function TopNav({ view, onView, query, onQuery, onMenu, notesOpen
         >
           📝<span className="hidden sm:inline"> Notes</span>
         </button>
+        <ThemePicker />
         <SyncControls />
         <BackupControls />
         <div className="flex items-center">
