@@ -1,6 +1,7 @@
 import { tracks, topicsForTrack, topicCount, dsaProblems } from '../lib/content';
 import type { Topic } from '../types';
 import { useProgress, type ItemProgress } from '../store/progress';
+import ActivityPanel from './ActivityPanel';
 
 function doneCount(t: Topic, items: Record<string, ItemProgress>): number {
   if (t.itemKind === 'problem') return t.problemIds.filter((id) => items[id]?.status === 'cold').length;
@@ -21,7 +22,11 @@ export default function Dashboard({ onOpenTopic }: { onOpenTopic: (id: string) =
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-6">
-      <h2 className="text-xl font-semibold text-text">Dashboard</h2>
+      <h2 className="text-2xl font-bold tracking-tight text-text">Dashboard</h2>
+
+      <div className="mt-4">
+        <ActivityPanel />
+      </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Stat big={`${probs.length ? Math.round((cold / probs.length) * 100) : 0}%`} label="DSA cold (the real done)" cls="text-cold" />

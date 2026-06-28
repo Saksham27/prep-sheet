@@ -58,18 +58,31 @@ async function gh(path: string, init?: RequestInit): Promise<Response> {
 }
 
 function localPayload(): string {
-  const { items, streak } = useProgress.getState();
+  const { items, streak, activity, dailyGoal } = useProgress.getState();
   return JSON.stringify(
-    { app: 'mastery-sheet', version: 1, updatedAt: getMeta().lastLocalChange || new Date().toISOString(), items, streak },
+    {
+      app: 'mastery-sheet',
+      version: 1,
+      updatedAt: getMeta().lastLocalChange || new Date().toISOString(),
+      items,
+      streak,
+      activity,
+      dailyGoal,
+    },
     null,
     2,
   );
 }
 
 let applyingRemote = false;
-function adoptRemote(remote: { items: any; streak: any }) {
+function adoptRemote(remote: { items: any; streak: any; activity?: any; dailyGoal?: number }) {
   applyingRemote = true;
-  useProgress.setState({ items: remote.items, streak: remote.streak });
+  useProgress.setState({
+    items: remote.items,
+    streak: remote.streak,
+    ...(remote.activity ? { activity: remote.activity } : {}),
+    ...(remote.dailyGoal ? { dailyGoal: remote.dailyGoal } : {}),
+  });
   applyingRemote = false;
   setMeta({ lastSyncedAt: new Date().toISOString() });
 }
@@ -89,6 +102,8 @@ async function findOrCreateGist(): Promise<string> {
 interface RemoteData {
   items: Record<string, unknown>;
   streak: { count: number; lastActive: string | null };
+  activity?: Record<string, number>;
+  dailyGoal?: number;
   updatedAt: string;
 }
 
@@ -102,7 +117,13 @@ export async function pull(): Promise<RemoteData | null> {
   let content: string = file.content;
   if (file.truncated && file.raw_url) content = await (await fetch(file.raw_url)).text();
   const data = JSON.parse(content);
-  return { items: data.items || {}, streak: data.streak || { count: 0, lastActive: null }, updatedAt: data.updatedAt || '' };
+  return {
+    items: data.items || {},
+    streak: data.streak || { count: 0, lastActive: null },
+    activity: data.activity || {},
+    dailyGoal: data.dailyGoal,
+    updatedAt: data.updatedAt || '',
+  };
 }
 
 export async function push(): Promise<void> {

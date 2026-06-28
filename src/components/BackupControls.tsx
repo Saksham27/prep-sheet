@@ -7,13 +7,15 @@ export default function BackupControls() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const exportData = () => {
-    const { items, streak } = useProgress.getState();
+    const { items, streak, activity, dailyGoal } = useProgress.getState();
     const payload = {
       app: 'mastery-sheet',
       version: 1,
       exportedAt: new Date().toISOString(),
       items,
       streak,
+      activity,
+      dailyGoal,
     };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -38,6 +40,8 @@ export default function BackupControls() {
       useProgress.setState({
         items: data.items,
         streak: data.streak ?? { count: 0, lastActive: null },
+        ...(data.activity ? { activity: data.activity } : {}),
+        ...(data.dailyGoal ? { dailyGoal: data.dailyGoal } : {}),
       });
       window.alert(`Imported ${incoming} items.`);
     } catch (err) {

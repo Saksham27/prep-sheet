@@ -35,7 +35,12 @@ export default function SyncControls() {
       const remote = await pull();
       const remoteCount = remote ? Object.keys(remote.items).length : 0;
       if (remote && remoteCount > 0 && window.confirm('Pull the latest cloud copy into this device?')) {
-        useProgress.setState({ items: remote.items as any, streak: remote.streak });
+        useProgress.setState({
+          items: remote.items as any,
+          streak: remote.streak,
+          ...(remote.activity ? { activity: remote.activity } : {}),
+          ...(remote.dailyGoal ? { dailyGoal: remote.dailyGoal } : {}),
+        });
       } else {
         await push();
       }
